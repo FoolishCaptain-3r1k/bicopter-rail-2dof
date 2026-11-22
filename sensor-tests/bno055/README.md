@@ -52,7 +52,7 @@ Pruebas del HTML (Node.js, sin dependencias):
 node --test sensor-tests/bno055/tests/dashboard.test.cjs
 ```
 
-**PASS:** procesamiento de CSV y fragmentos Serial, rechazo de datos corruptos, duplicados, invalidación, caducidad y apertura/cierre mediante puerto simulado. **PARTIAL:** falta comprobar el selector de permisos del navegador y la visualización conectada al ESP32 real; estas pruebas no sustituyen ese ensayo. No se modificó ni recargó el firmware para agregar el HTML.
+**PASS:** procesamiento de CSV y fragmentos Serial, rechazo de datos corruptos, duplicados, invalidación, caducidad y apertura/cierre mediante puerto simulado. **PASS (confirmación del equipo):** el usuario confirmó que el visualizador quedó funcionando con el sensor y dio por cerrada esta fase de verificación. No se modificó ni recargó el firmware para agregar el HTML.
 
 ## Adquisición y validación
 
@@ -87,3 +87,7 @@ Euler se publica como roll, pitch y yaw en grados, giróscopo en grados/s y acel
 - **PASS** carga explícita de `.pio/build/esp32dev/firmware.bin` por COM6: hashes verificados, reset mediante RTS y SUCCESS.
 - **PASS** captura física de 65.01 s en COM6: 632 muestras OK entre 1630 y 64731 ms (63.101 s de muestras válidas), 10.00 Hz efectivos y cero fallos I2C registrados. Una muestra se rechazó por `quaternion_norm` y se publicó como INVALID. Evidencia: consultar [captura resumida](tests/evidence/usb-validation.json). Las capturas Wi-Fi anteriores pertenecen a otra versión y no validan esta revisión.
 - **PARTIAL** movimiento controlado de los tres ejes, identificación eléctrica exacta del breakout y ensayo de desconexión/recuperación pendientes. No se accionaron ESC ni motores.
+
+## Cierre de la fase de sensores
+
+El equipo confirmó el funcionamiento del BNO055 por USB y del visualizador HTML, y autorizó dar por finalizada esta fase y subir los cambios a GitHub. La aceptación del visualizador corresponde a la prueba del usuario; la evidencia de compilación, pruebas automatizadas y captura Serial está registrada arriba. Los ensayos específicos que no se ejecutaron conservan su alcance documentado. El PR #3 queda disponible para revisión.
