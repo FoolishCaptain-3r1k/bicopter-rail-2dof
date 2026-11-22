@@ -1,0 +1,12 @@
+# Worklog 7 (v0.1) | Prev: [[worklog6]]
+- **Estado:** PASS
+- **Invariantes Cubiertos:** `pcb_spec.py`, `drc.py` y PDFs intactos; dimensiones de caja (`108.0 × 104.0 × 62.3 mm <= 200 × 200 × 150 mm`) acopladas DRY a `pcb_spec.py` (`92×88 mm`, 4 standoffs `M3` alineados a `±0.05 mm`); mallas `enclosure_base.stl` y `enclosure_top_shell.stl` cerradas/watertight sin caras degeneradas (`0 mm³` colisión entre `base` y `top_shell` con holgura `0.30 mm`); `SWITCH_KEEP_OUT` (`30×20×24 mm`) con `0 mm³` intersección contra `ESP32_KEEP_OUT`, `PCB`, `LEFT_ESC_KEEP_OUT` y paredes; LiPo 2S externa vía pasacables trasero.
+- **Archivos Modificados:**
+  - `host/pyproject.toml` — agregadas dependencias `trimesh>=4.0` y `manifold3d>=2.5`
+  - `hardware/enclosure/__init__.py` — paquete CAD 3D
+  - `hardware/enclosure/enclosure_spec.py` — especificación paramétrica acoplada a `build_default_board()` y envolventes keep-out
+  - `hardware/enclosure/build_enclosure.py` — constructor CSG (`manifold3d` + `trimesh`), exportador `.stl` y `render_enclosure_preview`
+  - `hardware/tests/test_enclosure.py` — suite `pytest` de estanqueidad, colisiones `0 mm³` y alineación `M3`
+  - `hardware/output/enclosure_base.stl`, `hardware/output/enclosure_top_shell.stl`, `hardware/output/enclosure_preview.png` — artefactos 3D y vista multi-ángulo
+- **Verificación Ejecutada:** `.\host\.venv\Scripts\python.exe -m pytest hardware/tests/test_enclosure.py -q --tb=short` -> `3 passed in 1.82s` (`0 failed`)
+- **Acción Usuario (Human Gate):** Revisar `hardware/output/enclosure_preview.png` y abrir `enclosure_base.stl` + `enclosure_top_shell.stl` en Bambu Studio (orientar `top_shell` apoyada sobre su cara trasera `Y=96` para impresión sin soportes).
