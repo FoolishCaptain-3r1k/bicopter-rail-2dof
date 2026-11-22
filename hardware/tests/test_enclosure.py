@@ -9,10 +9,11 @@ from hardware.enclosure.build_enclosure import (
     box_mesh_from_bounds,
     build_all,
     build_base_mesh,
+    build_engraved_text_manifold,
     build_top_shell_mesh,
     check_intersection_volume,
 )
-from hardware.enclosure.enclosure_spec import build_enclosure_spec
+from hardware.enclosure.enclosure_spec import MIN_REMAINING_WALL_MM, build_enclosure_spec
 from hardware.pcb_spec import build_default_board
 
 
@@ -96,3 +97,31 @@ def test_m3_standoffs_aligned_with_pcb_spec() -> None:
         assert check_intersection_volume(base_mesh, bore_probe) == 0.0, (
             f"M3 pilot bore clogged at ({sx}, {sy})"
         )
+
+
+def test_ergonomic_curves_and_engraved_names_wall_thickness() -> None:
+    """Verify curved finish constants, engraved text volume reduction (> 0 mm^3), and >= 1.6 mm remaining wall."""
+    spec = build_enclosure_spec()
+    assert spec.corner_radius_xy_mm >= 6.0
+    assert spec.profile_fillet_yz_mm >= 4.0
+    assert spec.engrave_depth_mm == 0.6
+
+    remaining_wall = spec.wall_mm - spec.engrave_depth_mm
+    assert remaining_wall >= MIN_REMAINING_WALL_MM, (
+        f"Remaining wall {remaining_wall:.2f} mm < {MIN_REMAINING_WALL_MM:.2f} mm"
+    )
+
+    # Compare volume of top_shell with engraving vs un-engraved control (depth=0.0)
+    top_engraved = build_top_shell_mesh(spec)
+    from dataclasses import replace
+
+    spec_no_engrave = replace(spec, engrave_depth_mm=0.0)
+    top_plain = build_top_shell_mesh(spec_no_engrave)
+
+    removed_vol = float(top_plain.volume) - float(top_engraved.volume)
+    assert removed_vol > 50.0, f"Engraved team names removed insufficient volume: {removed_vol:.2f} mm^3"
+    assert top_engraved.is_watertight and top_engraved.is_volume
+
+    # Verify engraved text manifold itself builds cleanly with positive volume for all 4 names
+    text_man = build_engraved_text_manifold(spec.team_names, depth_mm=spec.engrave_depth_mm, air_overcut_mm=0.0)
+    assert text_man.volume() > 50.0

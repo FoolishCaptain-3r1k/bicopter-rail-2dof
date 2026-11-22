@@ -6,6 +6,18 @@ from dataclasses import dataclass
 
 from hardware.pcb_spec import PcbBoard, build_default_board
 
+CORNER_RADIUS_XY: float = 6.50
+PROFILE_FILLET_YZ: float = 4.50
+BOTTOM_CHAMFER_MM: float = 1.20
+TEAM_NAMES: tuple[str, ...] = (
+    "LEONARDO MONTER",
+    "RENATA BELLO",
+    "ADRIAN RUIZ",
+    "ALONSO MADRIGAL",
+)
+ENGRAVE_DEPTH_MM: float = 0.60
+MIN_REMAINING_WALL_MM: float = 1.60
+
 
 @dataclass(frozen=True)
 class BoundingBox3D:
@@ -57,6 +69,11 @@ class EnclosureSpec:
     front_step_z_outer: float
     slope_y_end: float
     top_deck_z_outer: float
+    corner_radius_xy_mm: float
+    profile_fillet_yz_mm: float
+    bottom_chamfer_mm: float
+    team_names: tuple[str, ...]
+    engrave_depth_mm: float
     switch_hole_diam_mm: float
     switch_center_xy: tuple[float, float]
     usb_slot_x_range: tuple[float, float]
@@ -191,6 +208,11 @@ def build_enclosure_spec(board: PcbBoard | None = None) -> EnclosureSpec:
         front_step_z_outer=38.50,
         slope_y_end=56.00,
         top_deck_z_outer=top_deck_z_outer,
+        corner_radius_xy_mm=CORNER_RADIUS_XY,
+        profile_fillet_yz_mm=PROFILE_FILLET_YZ,
+        bottom_chamfer_mm=BOTTOM_CHAMFER_MM,
+        team_names=TEAM_NAMES,
+        engrave_depth_mm=ENGRAVE_DEPTH_MM,
         switch_hole_diam_mm=12.20,
         switch_center_xy=(sw_cx, sw_cy),
         usb_slot_x_range=(esp_cx - 7.0, esp_cx + 7.0),
