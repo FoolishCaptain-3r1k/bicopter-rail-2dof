@@ -1,0 +1,12 @@
+# Worklog 2 (v0.1) | Prev: [[worklog1]]
+- **Estado:** PASS
+- **Invariantes Cubiertos:** `ESC_LEFT_PIN`/`ESC_RIGHT_PIN` en `LOW` sin PWM; fallo/desconexión de IMU/ToF marca `imu_ok=false`/`tof_ok=false` sin `while(1)`; última muestra `z_mm` válida preservada entre lecturas ToF no bloqueantes; `config.h` extendido sin romper `SensorState` ni `ControlCommand`.
+- **Archivos Modificados:**
+  - `README.md` — URL de clonación y flujo colaborativo (`main` -> `feature/<modulo>` -> PR)
+  - `firmware/platformio.ini` — librerías `Adafruit BNO055`, `VL53L0X`, `VL53L1X`
+  - `firmware/include/config.h` — `TofModel`, `TiltAxis`, `IMU_TILT_AXIS`, `IMU_TILT_SIGN`, `SENSOR_LOOP_HZ`, `TELEMETRY_HZ`, `TOF_TIMING_BUDGET_MS`
+  - `firmware/include/sensors.h` — `scanI2cBus` y clase `SensorManager`
+  - `firmware/src/sensors.cpp` — reset `XSHUT`, auto-detección `VL53L1X`/`VL53L0X` en `0x29`, `BNO055` en `OPERATION_MODE_IMUPLUS`, lectura no bloqueante y `zeroOffsets()`
+  - `firmware/src/main.cpp` — lazo 100 Hz, telemetría CSV 20 Hz, comandos Serial `'z'` y `'s'`
+- **Verificación Ejecutada:** `pio run -d firmware` -> `exit 0` (`SUCCESS`, 0 errores, 0 warnings en `src/`)
+- **Acción Usuario (Human Gate):** Conectar ESP32 + sensores por USB (sin hélices), flashear con `pio run -d firmware -t upload` y validar CSV por monitor serie (`115200`).

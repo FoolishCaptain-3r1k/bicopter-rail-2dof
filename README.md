@@ -10,6 +10,18 @@ Monorepo colaborativo para el banco de pruebas de bicóptero 2-DOF sobre riel ve
 
 ## Inicio rápido
 
+### Clonar y colaborar
+```powershell
+git clone https://github.com/FoolishCaptain-3r1k/bicopter-rail-2dof.git
+cd bicopter-rail-2dof
+```
+
+Flujo mínimo de colaboración:
+1. Actualizar `main`: `git checkout main && git pull origin main`
+2. Crear rama por módulo: `git checkout -b feature/<modulo>`
+3. Desarrollar, verificar compilación/tests y hacer commit atómico.
+4. Subir rama y abrir Pull Request hacia `main`.
+
 ### Firmware
 ```powershell
 pio run -d firmware

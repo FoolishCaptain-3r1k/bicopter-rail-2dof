@@ -28,6 +28,25 @@ constexpr float RAIL_MIN_MM = 0.0f;
 constexpr float RAIL_MAX_MM = 230.0f;
 constexpr uint32_t WATCHDOG_MS = 250;
 
+// Sensor & telemetry configuration
+enum class TofModel : uint8_t {
+    NONE,
+    VL53L0X,
+    VL53L1X
+};
+
+enum class TiltAxis : uint8_t {
+    ROLL,
+    PITCH,
+    YAW
+};
+
+constexpr TiltAxis IMU_TILT_AXIS = TiltAxis::PITCH;
+constexpr float IMU_TILT_SIGN = 1.0f;
+constexpr uint32_t SENSOR_LOOP_HZ = 100;
+constexpr uint32_t TELEMETRY_HZ = 20;
+constexpr uint32_t TOF_TIMING_BUDGET_MS = 20;
+
 // Hardware interface contracts
 struct SensorState {
     float z_mm = 0.0f;
