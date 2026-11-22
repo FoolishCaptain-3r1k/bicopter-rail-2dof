@@ -1,0 +1,15 @@
+# Worklog 1 (v0.1) | Prev: None
+- **Estado:** PASS
+- **Invariantes Cubiertos:** Arranque seguro (`ControlCommand.armed = false`, `esc_left_us = esc_right_us = PWM_MIN_US = 1000`); contratos de pines/I2C/límites en `config.h`; stub serial sin energizar motores; `.gitignore` cubre `.pio/`, `.venv/`, `__pycache__/`, `.env`.
+- **Archivos Modificados:**
+  - `.gitignore` — reglas de exclusión PlatformIO, Python y entorno
+  - `README.md` — estructura del monorepo y comandos de arranque
+  - `docs/WIRING_AND_SAFETY.md` — pinout, GND común, no LiPo en ESP32, pruebas sin hélices, ramas Git
+  - `firmware/platformio.ini` — configuración `esp32dev` Arduino @ 115200
+  - `firmware/include/config.h` — constantes `constexpr` y structs `SensorState`, `ControlCommand`
+  - `firmware/src/main.cpp` — stub seguro de arranque serial
+  - `host/pyproject.toml` — paquete `bicopter-host` (`pyserial`, `numpy`, `matplotlib`, `pytest`)
+  - `host/src/bicopter_host/__init__.py` — paquete base
+  - `host/tests/test_smoke.py` — test smoke de importación
+- **Verificación Ejecutada:** `pio run -d firmware` -> `exit 0` (`SUCCESS`); `.\host\.venv\Scripts\python.exe -m pytest host/tests/test_smoke.py -q --tb=short` -> `1 passed`
+- **Acción Usuario (Human Gate):** Ninguna (opcional: `git log --oneline -n 1` o configurar remoto y `git push -u origin main`)
