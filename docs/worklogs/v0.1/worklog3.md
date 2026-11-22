@@ -1,0 +1,14 @@
+# Worklog 3 (v0.1) | Prev: [[worklog2]]
+- **Estado:** PASS
+- **Invariantes Cubiertos:** PCB 1 capa (`B.Cu`, `92x88 mm <= 94x90 mm`, 0 jumpers, 0 pasivos); ESP32 30 pines con separación `25.40 mm` y `ESP32_VIN` aislado; DRC euclidiano `0` errores (holgura `>= 0.70 mm` entre redes, `>= 1.50 mm` banner-a-redes, potencia `>= 4.00 mm`, señal `>= 1.00 mm`, banner `>= 0.50 mm`, exclusión `M3 >= 6.50 mm`); conectividad 100 % por grafo; exportación `1:1` (`±0.1 mm`) con pads en vista superior y emblema Anáhuac México + 4 nombres espejeados horizontalmente en `pcb_bottom_toner_1to1`.
+- **Archivos Modificados:**
+  - `host/pyproject.toml` — `pythonpath` extendido para tests de `hardware/`
+  - `hardware/__init__.py` — paquete del generador PCB
+  - `hardware/pcb_spec.py` — especificación paramétrica 1 capa (`PcbBoard`, `Pad`, `Trace`, `BannerPrimitive`, `build_default_board`)
+  - `hardware/drc.py` — motor geométrico euclidiano y conectividad por grafo (`run_drc`, `DrcReport`)
+  - `hardware/render.py` — exportador `1:1` en mm a PDF/SVG (`pcb_bottom_toner_1to1`, `pcb_top_assembly_1to1`, `pcb_drill_map`)
+  - `hardware/README.md` — guía de impresión `1:1`, planchado en couché, atacado con $FeCl_3$ y cotas del switch (`30x20x20 mm`)
+  - `hardware/tests/test_pcb_drc.py` — suite `pytest` de DRC, conectividad, aislamiento `VIN`, escala `1:1` y espejeado
+  - `hardware/output/*` — artefactos `1:1` PDF/SVG listos para fabricación
+- **Verificación Ejecutada:** `.\host\.venv\Scripts\python.exe -m pytest hardware/tests/test_pcb_drc.py -q --tb=short` -> `4 passed in 3.64s` (`0 failed`)
+- **Acción Usuario (Human Gate):** Imprimir `hardware/output/pcb_bottom_toner_1to1.pdf` al 100 % en hoja blanca, verificar `50.0 mm` en la regla de calibración y presentar físicamente el ESP32 DevKit V1 antes de planchar en papel couché.

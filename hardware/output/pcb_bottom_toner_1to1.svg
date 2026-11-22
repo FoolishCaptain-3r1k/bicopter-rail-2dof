@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="116.00mm" height="114.00mm" viewBox="0 0 116.00 114.00" data-layer="B.Cu" data-scale="1:1" data-board-width-mm="92.00" data-board-height-mm="88.00" data-ruler-length-mm="50.00" data-banner-mirrored="true">
+  <rect x="0" y="0" width="116.00" height="114.00" fill="#FFFFFF"/>
+  <rect id="board-outline" x="12.000" y="8.000" width="92.000" height="88.000" fill="none" stroke="#000000" stroke-width="0.25"/>
+  <g id="calibration-ruler" data-length-mm="50.0">
+    <line id="calibration-ruler-50mm" x1="12.000" y1="107.000" x2="62.000" y2="107.000" stroke="#000000" stroke-width="0.45"/>
+    <line x1="12.000" y1="105.200" x2="12.000" y2="108.800" stroke="#000000" stroke-width="0.35"/>
+    <line x1="22.000" y1="105.200" x2="22.000" y2="108.800" stroke="#000000" stroke-width="0.35"/>
+    <line x1="32.000" y1="105.200" x2="32.000" y2="108.800" stroke="#000000" stroke-width="0.35"/>
+    <line x1="42.000" y1="105.200" x2="42.000" y2="108.800" stroke="#000000" stroke-width="0.35"/>
+    <line x1="52.000" y1="105.200" x2="52.000" y2="108.800" stroke="#000000" stroke-width="0.35"/>
+    <line x1="62.000" y1="105.200" x2="62.000" y2="108.800" stroke="#000000" stroke-width="0.35"/>
+    <text x="12.000" y="104.400" font-family="monospace" font-size="2.5" fill="#000000">50.0 mm CALIBRATION RULER (1:1)</text>
+  </g>
+  <g id="copper-traces" data-coords="top-view">
+    <line x1="22.500" y1="72.000" x2="22.500" y2="60.000" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="+VBAT_SW"/>
+    <line x1="22.500" y1="60.000" x2="22.500" y2="48.000" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="+VBAT_SW"/>
+    <line x1="30.000" y1="48.000" x2="30.000" y2="54.000" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="30.000" y1="54.000" x2="30.000" y2="60.000" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="30.000" y1="60.000" x2="30.000" y2="72.000" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="30.000" y1="72.000" x2="30.000" y2="76.000" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="30.000" y1="76.000" x2="30.000" y2="81.460" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="30.000" y1="54.000" x2="37.000" y2="54.000" stroke="#000000" stroke-width="4.000" stroke-linecap="round" data-net="GND"/>
+    <line x1="30.000" y1="76.000" x2="37.000" y2="76.000" stroke="#000000" stroke-width="4.000" stroke-linecap="round" data-net="GND"/>
+    <line x1="30.000" y1="81.460" x2="41.500" y2="81.460" stroke="#000000" stroke-width="4.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="41.500" y1="81.460" x2="45.300" y2="81.460" stroke="#000000" stroke-width="1.500" stroke-linecap="round" data-net="GND"/>
+    <line x1="45.300" y1="81.460" x2="70.700" y2="81.460" stroke="#000000" stroke-width="1.500" stroke-linecap="round" data-net="GND"/>
+    <line x1="45.300" y1="66.220" x2="40.500" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="ESC_L_SIG"/>
+    <line x1="40.500" y1="66.220" x2="37.000" y2="62.500" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="ESC_L_SIG"/>
+    <line x1="45.300" y1="68.760" x2="37.000" y2="68.760" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="ESC_R_SIG"/>
+    <line x1="70.700" y1="50.980" x2="75.500" y2="50.980" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="75.500" y1="50.980" x2="79.000" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="79.000" y1="56.060" x2="83.000" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="83.000" y1="56.060" x2="94.000" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="70.700" y1="58.600" x2="83.000" y2="58.600" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SDA"/>
+    <line x1="83.000" y1="58.600" x2="94.000" y2="58.600" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SDA"/>
+    <line x1="70.700" y1="61.140" x2="83.000" y2="61.140" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="TOF_XSHUT"/>
+    <line x1="70.700" y1="81.460" x2="75.500" y2="81.460" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="75.500" y1="81.460" x2="75.500" y2="66.500" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="75.500" y1="66.500" x2="78.320" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="78.320" y1="63.680" x2="83.000" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="83.000" y1="63.680" x2="87.500" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="87.500" y1="63.680" x2="90.000" y2="61.140" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="90.000" y1="61.140" x2="94.000" y2="61.140" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
+    <line x1="70.700" y1="84.000" x2="78.500" y2="84.000" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+    <line x1="78.500" y1="84.000" x2="78.500" y2="68.500" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+    <line x1="78.500" y1="68.500" x2="80.780" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+    <line x1="80.780" y1="66.220" x2="83.000" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+    <line x1="83.000" y1="66.220" x2="89.500" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+    <line x1="89.500" y1="66.220" x2="92.000" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+    <line x1="92.000" y1="63.680" x2="94.000" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+  </g>
+  <g id="artistic-banner" data-mirrored="true">
+    <line x1="86.500" y1="39.000" x2="29.500" y2="39.000" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="74.500" data-raw-x2="17.500"/>
+    <line x1="29.500" y1="39.000" x2="29.500" y2="13.000" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="17.500" data-raw-x2="17.500"/>
+    <line x1="29.500" y1="13.000" x2="86.500" y2="13.000" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="17.500" data-raw-x2="74.500"/>
+    <line x1="86.500" y1="13.000" x2="86.500" y2="39.000" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="74.500" data-raw-x2="74.500"/>
+    <line x1="83.100" y1="23.100" x2="75.900" y2="23.100" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="71.100" data-raw-x2="63.900"/>
+    <line x1="75.900" y1="23.100" x2="75.900" y2="15.900" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="63.900" data-raw-x2="63.900"/>
+    <line x1="75.900" y1="15.900" x2="83.100" y2="15.900" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="63.900" data-raw-x2="71.100"/>
+    <line x1="83.100" y1="15.900" x2="83.100" y2="23.100" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="71.100" data-raw-x2="71.100"/>
+    <line x1="83.100" y1="23.100" x2="75.900" y2="15.900" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="71.100" data-raw-x2="63.900"/>
+    <line x1="83.100" y1="15.900" x2="75.900" y2="23.100" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="71.100" data-raw-x2="63.900"/>
+    <line x1="79.500" y1="23.900" x2="79.500" y2="15.100" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="67.500" data-raw-x2="67.500"/>
+    <line x1="83.900" y1="19.500" x2="75.100" y2="19.500" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="71.900" data-raw-x2="63.100"/>
+    <line x1="70.325" y1="21.200" x2="69.400" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="58.325" data-raw-x2="57.400"/>
+    <line x1="69.400" y1="17.600" x2="68.475" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="57.400" data-raw-x2="56.475"/>
+    <line x1="69.955" y1="19.832" x2="68.845" y2="19.832" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="57.955" data-raw-x2="56.845"/>
+    <line x1="67.725" y1="21.200" x2="67.725" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="55.725" data-raw-x2="55.725"/>
+    <line x1="67.725" y1="17.600" x2="65.875" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="55.725" data-raw-x2="53.875"/>
+    <line x1="65.875" y1="21.200" x2="65.875" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="53.875" data-raw-x2="53.875"/>
+    <line x1="65.125" y1="21.200" x2="64.200" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="53.125" data-raw-x2="52.200"/>
+    <line x1="64.200" y1="17.600" x2="63.275" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="52.200" data-raw-x2="51.275"/>
+    <line x1="64.755" y1="19.832" x2="63.645" y2="19.832" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="52.755" data-raw-x2="51.645"/>
+    <line x1="62.525" y1="21.200" x2="62.525" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="50.525" data-raw-x2="50.525"/>
+    <line x1="60.675" y1="21.200" x2="60.675" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="48.675" data-raw-x2="48.675"/>
+    <line x1="62.525" y1="19.400" x2="60.675" y2="19.400" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="50.525" data-raw-x2="48.675"/>
+    <line x1="59.925" y1="17.600" x2="59.925" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="47.925" data-raw-x2="47.925"/>
+    <line x1="59.925" y1="21.200" x2="58.075" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="47.925" data-raw-x2="46.075"/>
+    <line x1="58.075" y1="21.200" x2="58.075" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="46.075" data-raw-x2="46.075"/>
+    <line x1="57.325" y1="21.200" x2="56.400" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="45.325" data-raw-x2="44.400"/>
+    <line x1="56.400" y1="17.600" x2="55.475" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="44.400" data-raw-x2="43.475"/>
+    <line x1="56.955" y1="19.832" x2="55.845" y2="19.832" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="44.955" data-raw-x2="43.845"/>
+    <line x1="52.875" y1="17.960" x2="54.540" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="40.875" data-raw-x2="42.540"/>
+    <line x1="54.540" y1="17.600" x2="54.725" y2="19.400" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="42.540" data-raw-x2="42.725"/>
+    <line x1="54.725" y1="19.400" x2="54.540" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="42.725" data-raw-x2="42.540"/>
+    <line x1="54.540" y1="21.200" x2="52.875" y2="20.840" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="42.540" data-raw-x2="40.875"/>
+    <line x1="49.525" y1="21.200" x2="49.525" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="37.525" data-raw-x2="37.525"/>
+    <line x1="49.525" y1="17.600" x2="48.600" y2="19.940" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="37.525" data-raw-x2="36.600"/>
+    <line x1="48.600" y1="19.940" x2="47.675" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="36.600" data-raw-x2="35.675"/>
+    <line x1="47.675" y1="17.600" x2="47.675" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="35.675" data-raw-x2="35.675"/>
+    <line x1="46.925" y1="21.200" x2="46.925" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="34.925" data-raw-x2="34.925"/>
+    <line x1="46.925" y1="17.600" x2="45.167" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="34.925" data-raw-x2="33.167"/>
+    <line x1="46.925" y1="19.400" x2="45.445" y2="19.400" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="34.925" data-raw-x2="33.445"/>
+    <line x1="46.925" y1="21.200" x2="45.167" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="34.925" data-raw-x2="33.167"/>
+    <line x1="44.325" y1="21.200" x2="42.475" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="32.325" data-raw-x2="30.475"/>
+    <line x1="44.325" y1="17.600" x2="42.475" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="32.325" data-raw-x2="30.475"/>
+    <line x1="41.447" y1="17.600" x2="40.153" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="29.447" data-raw-x2="28.153"/>
+    <line x1="40.800" y1="21.200" x2="40.800" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="28.800" data-raw-x2="28.800"/>
+    <line x1="41.447" y1="21.200" x2="40.153" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="29.447" data-raw-x2="28.153"/>
+    <line x1="37.275" y1="17.960" x2="38.940" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="25.275" data-raw-x2="26.940"/>
+    <line x1="38.940" y1="17.600" x2="39.125" y2="19.400" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="26.940" data-raw-x2="27.125"/>
+    <line x1="39.125" y1="19.400" x2="38.940" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="27.125" data-raw-x2="26.940"/>
+    <line x1="38.940" y1="21.200" x2="37.275" y2="20.840" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="26.940" data-raw-x2="25.275"/>
+    <line x1="36.525" y1="21.200" x2="36.525" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="24.525" data-raw-x2="24.525"/>
+    <line x1="36.525" y1="17.600" x2="34.675" y2="17.600" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="24.525" data-raw-x2="22.675"/>
+    <line x1="34.675" y1="17.600" x2="34.675" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="22.675" data-raw-x2="22.675"/>
+    <line x1="34.675" y1="21.200" x2="36.525" y2="21.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="22.675" data-raw-x2="24.525"/>
+    <line x1="83.485" y1="26.000" x2="83.485" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="71.485" data-raw-x2="71.485"/>
+    <line x1="83.485" y1="28.500" x2="82.392" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="71.485" data-raw-x2="70.392"/>
+    <line x1="81.855" y1="28.500" x2="81.855" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="69.855" data-raw-x2="69.855"/>
+    <line x1="81.855" y1="26.000" x2="80.762" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="69.855" data-raw-x2="68.762"/>
+    <line x1="81.855" y1="27.250" x2="80.935" y2="27.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="69.855" data-raw-x2="68.935"/>
+    <line x1="81.855" y1="28.500" x2="80.762" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="69.855" data-raw-x2="68.762"/>
+    <line x1="80.225" y1="28.500" x2="80.225" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="68.225" data-raw-x2="68.225"/>
+    <line x1="80.225" y1="26.000" x2="79.075" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="68.225" data-raw-x2="67.075"/>
+    <line x1="79.075" y1="26.000" x2="79.075" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="67.075" data-raw-x2="67.075"/>
+    <line x1="79.075" y1="28.500" x2="80.225" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="67.075" data-raw-x2="68.225"/>
+    <line x1="78.595" y1="28.500" x2="78.595" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="66.595" data-raw-x2="66.595"/>
+    <line x1="78.595" y1="26.000" x2="77.445" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="66.595" data-raw-x2="65.445"/>
+    <line x1="77.445" y1="28.500" x2="77.445" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="65.445" data-raw-x2="65.445"/>
+    <line x1="76.965" y1="28.500" x2="76.390" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="64.965" data-raw-x2="64.390"/>
+    <line x1="76.390" y1="26.000" x2="75.815" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="64.390" data-raw-x2="63.815"/>
+    <line x1="76.735" y1="27.550" x2="76.045" y2="27.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="64.735" data-raw-x2="64.045"/>
+    <line x1="75.335" y1="28.500" x2="75.335" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="63.335" data-raw-x2="63.335"/>
+    <line x1="75.335" y1="26.000" x2="74.300" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="63.335" data-raw-x2="62.300"/>
+    <line x1="74.300" y1="26.000" x2="74.300" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="62.300" data-raw-x2="62.300"/>
+    <line x1="74.300" y1="27.200" x2="75.335" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="62.300" data-raw-x2="63.335"/>
+    <line x1="74.933" y1="27.200" x2="74.185" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="62.933" data-raw-x2="62.185"/>
+    <line x1="73.705" y1="28.500" x2="73.705" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="61.705" data-raw-x2="61.705"/>
+    <line x1="73.705" y1="26.000" x2="72.842" y2="26.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="61.705" data-raw-x2="60.842"/>
+    <line x1="72.842" y1="26.250" x2="72.555" y2="27.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="60.842" data-raw-x2="60.555"/>
+    <line x1="72.555" y1="27.250" x2="72.842" y2="28.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="60.555" data-raw-x2="60.842"/>
+    <line x1="72.842" y1="28.250" x2="73.705" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="60.842" data-raw-x2="61.705"/>
+    <line x1="72.075" y1="28.500" x2="72.075" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="60.075" data-raw-x2="60.075"/>
+    <line x1="72.075" y1="26.000" x2="70.925" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="60.075" data-raw-x2="58.925"/>
+    <line x1="70.925" y1="26.000" x2="70.925" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="58.925" data-raw-x2="58.925"/>
+    <line x1="70.925" y1="28.500" x2="72.075" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="58.925" data-raw-x2="60.075"/>
+    <line x1="68.815" y1="28.500" x2="68.815" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="56.815" data-raw-x2="56.815"/>
+    <line x1="68.815" y1="26.000" x2="68.240" y2="27.625" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="56.815" data-raw-x2="56.240"/>
+    <line x1="68.240" y1="27.625" x2="67.665" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="56.240" data-raw-x2="55.665"/>
+    <line x1="67.665" y1="26.000" x2="67.665" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="55.665" data-raw-x2="55.665"/>
+    <line x1="67.185" y1="28.500" x2="67.185" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="55.185" data-raw-x2="55.185"/>
+    <line x1="67.185" y1="26.000" x2="66.035" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="55.185" data-raw-x2="54.035"/>
+    <line x1="66.035" y1="26.000" x2="66.035" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="54.035" data-raw-x2="54.035"/>
+    <line x1="66.035" y1="28.500" x2="67.185" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="54.035" data-raw-x2="55.185"/>
+    <line x1="65.555" y1="28.500" x2="65.555" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="53.555" data-raw-x2="53.555"/>
+    <line x1="65.555" y1="26.000" x2="64.405" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="53.555" data-raw-x2="52.405"/>
+    <line x1="64.405" y1="28.500" x2="64.405" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="52.405" data-raw-x2="52.405"/>
+    <line x1="63.925" y1="26.000" x2="62.775" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="51.925" data-raw-x2="50.775"/>
+    <line x1="63.350" y1="28.500" x2="63.350" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="51.350" data-raw-x2="51.350"/>
+    <line x1="62.295" y1="28.500" x2="62.295" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="50.295" data-raw-x2="50.295"/>
+    <line x1="62.295" y1="26.000" x2="61.203" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="50.295" data-raw-x2="49.203"/>
+    <line x1="62.295" y1="27.250" x2="61.375" y2="27.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="50.295" data-raw-x2="49.375"/>
+    <line x1="62.295" y1="28.500" x2="61.203" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="50.295" data-raw-x2="49.203"/>
+    <line x1="60.665" y1="28.500" x2="60.665" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="48.665" data-raw-x2="48.665"/>
+    <line x1="60.665" y1="26.000" x2="59.630" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="48.665" data-raw-x2="47.630"/>
+    <line x1="59.630" y1="26.000" x2="59.630" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="47.630" data-raw-x2="47.630"/>
+    <line x1="59.630" y1="27.200" x2="60.665" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="47.630" data-raw-x2="48.665"/>
+    <line x1="60.262" y1="27.200" x2="59.515" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Leonardo Monter" data-raw-x1="48.262" data-raw-x2="47.515"/>
+    <line x1="53.040" y1="28.500" x2="53.040" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="41.040" data-raw-x2="41.040"/>
+    <line x1="53.040" y1="26.000" x2="52.005" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="41.040" data-raw-x2="40.005"/>
+    <line x1="52.005" y1="26.000" x2="52.005" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="40.005" data-raw-x2="40.005"/>
+    <line x1="52.005" y1="27.200" x2="53.040" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="40.005" data-raw-x2="41.040"/>
+    <line x1="52.637" y1="27.200" x2="51.890" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="40.637" data-raw-x2="39.890"/>
+    <line x1="51.410" y1="28.500" x2="51.410" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="39.410" data-raw-x2="39.410"/>
+    <line x1="51.410" y1="26.000" x2="50.317" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="39.410" data-raw-x2="38.317"/>
+    <line x1="51.410" y1="27.250" x2="50.490" y2="27.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="39.410" data-raw-x2="38.490"/>
+    <line x1="51.410" y1="28.500" x2="50.317" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="39.410" data-raw-x2="38.317"/>
+    <line x1="49.780" y1="28.500" x2="49.780" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="37.780" data-raw-x2="37.780"/>
+    <line x1="49.780" y1="26.000" x2="48.630" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="37.780" data-raw-x2="36.630"/>
+    <line x1="48.630" y1="28.500" x2="48.630" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="36.630" data-raw-x2="36.630"/>
+    <line x1="48.150" y1="28.500" x2="47.575" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="36.150" data-raw-x2="35.575"/>
+    <line x1="47.575" y1="26.000" x2="47.000" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="35.575" data-raw-x2="35.000"/>
+    <line x1="47.920" y1="27.550" x2="47.230" y2="27.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="35.920" data-raw-x2="35.230"/>
+    <line x1="46.520" y1="26.000" x2="45.370" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="34.520" data-raw-x2="33.370"/>
+    <line x1="45.945" y1="28.500" x2="45.945" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="33.945" data-raw-x2="33.945"/>
+    <line x1="44.890" y1="28.500" x2="44.315" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="32.890" data-raw-x2="32.315"/>
+    <line x1="44.315" y1="26.000" x2="43.740" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="32.315" data-raw-x2="31.740"/>
+    <line x1="44.660" y1="27.550" x2="43.970" y2="27.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="32.660" data-raw-x2="31.970"/>
+    <line x1="41.630" y1="28.500" x2="41.630" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="29.630" data-raw-x2="29.630"/>
+    <line x1="41.630" y1="26.000" x2="40.710" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="29.630" data-raw-x2="28.710"/>
+    <line x1="40.710" y1="26.000" x2="40.710" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="28.710" data-raw-x2="28.710"/>
+    <line x1="41.630" y1="27.200" x2="40.595" y2="27.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="29.630" data-raw-x2="28.595"/>
+    <line x1="40.595" y1="27.200" x2="40.595" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="28.595" data-raw-x2="28.595"/>
+    <line x1="40.595" y1="28.500" x2="41.630" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="28.595" data-raw-x2="29.630"/>
+    <line x1="40.000" y1="28.500" x2="40.000" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="28.000" data-raw-x2="28.000"/>
+    <line x1="40.000" y1="26.000" x2="38.907" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="28.000" data-raw-x2="26.907"/>
+    <line x1="40.000" y1="27.250" x2="39.080" y2="27.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="28.000" data-raw-x2="27.080"/>
+    <line x1="40.000" y1="28.500" x2="38.907" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="28.000" data-raw-x2="26.907"/>
+    <line x1="38.370" y1="26.000" x2="38.370" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="26.370" data-raw-x2="26.370"/>
+    <line x1="38.370" y1="28.500" x2="37.278" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="26.370" data-raw-x2="25.278"/>
+    <line x1="36.740" y1="26.000" x2="36.740" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="24.740" data-raw-x2="24.740"/>
+    <line x1="36.740" y1="28.500" x2="35.648" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="24.740" data-raw-x2="23.648"/>
+    <line x1="35.110" y1="28.500" x2="35.110" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="23.110" data-raw-x2="23.110"/>
+    <line x1="35.110" y1="26.000" x2="33.960" y2="26.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="23.110" data-raw-x2="21.960"/>
+    <line x1="33.960" y1="26.000" x2="33.960" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="21.960" data-raw-x2="21.960"/>
+    <line x1="33.960" y1="28.500" x2="35.110" y2="28.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Renata Bello" data-raw-x1="21.960" data-raw-x2="23.110"/>
+    <line x1="80.225" y1="35.500" x2="79.650" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="68.225" data-raw-x2="67.650"/>
+    <line x1="79.650" y1="33.000" x2="79.075" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="67.650" data-raw-x2="67.075"/>
+    <line x1="79.995" y1="34.550" x2="79.305" y2="34.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="67.995" data-raw-x2="67.305"/>
+    <line x1="78.595" y1="35.500" x2="78.595" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="66.595" data-raw-x2="66.595"/>
+    <line x1="78.595" y1="33.000" x2="77.733" y2="33.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="66.595" data-raw-x2="65.733"/>
+    <line x1="77.733" y1="33.250" x2="77.445" y2="34.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="65.733" data-raw-x2="65.445"/>
+    <line x1="77.445" y1="34.250" x2="77.733" y2="35.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="65.445" data-raw-x2="65.733"/>
+    <line x1="77.733" y1="35.250" x2="78.595" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="65.733" data-raw-x2="66.595"/>
+    <line x1="76.965" y1="35.500" x2="76.965" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="64.965" data-raw-x2="64.965"/>
+    <line x1="76.965" y1="33.000" x2="75.930" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="64.965" data-raw-x2="63.930"/>
+    <line x1="75.930" y1="33.000" x2="75.930" y2="34.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="63.930" data-raw-x2="63.930"/>
+    <line x1="75.930" y1="34.200" x2="76.965" y2="34.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="63.930" data-raw-x2="64.965"/>
+    <line x1="76.563" y1="34.200" x2="75.815" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="64.563" data-raw-x2="63.815"/>
+    <line x1="75.163" y1="33.000" x2="74.358" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="63.163" data-raw-x2="62.358"/>
+    <line x1="74.760" y1="35.500" x2="74.760" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="62.760" data-raw-x2="62.760"/>
+    <line x1="75.163" y1="35.500" x2="74.358" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="63.163" data-raw-x2="62.358"/>
+    <line x1="73.705" y1="35.500" x2="73.130" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="61.705" data-raw-x2="61.130"/>
+    <line x1="73.130" y1="33.000" x2="72.555" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="61.130" data-raw-x2="60.555"/>
+    <line x1="73.475" y1="34.550" x2="72.785" y2="34.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="61.475" data-raw-x2="60.785"/>
+    <line x1="72.075" y1="35.500" x2="72.075" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="60.075" data-raw-x2="60.075"/>
+    <line x1="72.075" y1="33.000" x2="70.925" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="60.075" data-raw-x2="58.925"/>
+    <line x1="70.925" y1="35.500" x2="70.925" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="58.925" data-raw-x2="58.925"/>
+    <line x1="68.815" y1="35.500" x2="68.815" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="56.815" data-raw-x2="56.815"/>
+    <line x1="68.815" y1="33.000" x2="67.780" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="56.815" data-raw-x2="55.780"/>
+    <line x1="67.780" y1="33.000" x2="67.780" y2="34.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="55.780" data-raw-x2="55.780"/>
+    <line x1="67.780" y1="34.200" x2="68.815" y2="34.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="55.780" data-raw-x2="56.815"/>
+    <line x1="68.412" y1="34.200" x2="67.665" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="56.412" data-raw-x2="55.665"/>
+    <line x1="67.185" y1="33.000" x2="67.185" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="55.185" data-raw-x2="55.185"/>
+    <line x1="67.185" y1="35.500" x2="66.035" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="55.185" data-raw-x2="54.035"/>
+    <line x1="66.035" y1="35.500" x2="66.035" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="54.035" data-raw-x2="54.035"/>
+    <line x1="65.383" y1="33.000" x2="64.578" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="53.383" data-raw-x2="52.578"/>
+    <line x1="64.980" y1="35.500" x2="64.980" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="52.980" data-raw-x2="52.980"/>
+    <line x1="65.383" y1="35.500" x2="64.578" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="53.383" data-raw-x2="52.578"/>
+    <line x1="63.925" y1="33.000" x2="62.775" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="51.925" data-raw-x2="50.775"/>
+    <line x1="62.775" y1="33.000" x2="63.925" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="50.775" data-raw-x2="51.925"/>
+    <line x1="63.925" y1="35.500" x2="62.775" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Adrian Ruiz" data-raw-x1="51.925" data-raw-x2="50.775"/>
+    <line x1="55.485" y1="35.500" x2="54.910" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="43.485" data-raw-x2="42.910"/>
+    <line x1="54.910" y1="33.000" x2="54.335" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="42.910" data-raw-x2="42.335"/>
+    <line x1="55.255" y1="34.550" x2="54.565" y2="34.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="43.255" data-raw-x2="42.565"/>
+    <line x1="53.855" y1="33.000" x2="53.855" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="41.855" data-raw-x2="41.855"/>
+    <line x1="53.855" y1="35.500" x2="52.762" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="41.855" data-raw-x2="40.762"/>
+    <line x1="52.225" y1="35.500" x2="52.225" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="40.225" data-raw-x2="40.225"/>
+    <line x1="52.225" y1="33.000" x2="51.075" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="40.225" data-raw-x2="39.075"/>
+    <line x1="51.075" y1="33.000" x2="51.075" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="39.075" data-raw-x2="39.075"/>
+    <line x1="51.075" y1="35.500" x2="52.225" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="39.075" data-raw-x2="40.225"/>
+    <line x1="50.595" y1="35.500" x2="50.595" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="38.595" data-raw-x2="38.595"/>
+    <line x1="50.595" y1="33.000" x2="49.445" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="38.595" data-raw-x2="37.445"/>
+    <line x1="49.445" y1="35.500" x2="49.445" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="37.445" data-raw-x2="37.445"/>
+    <line x1="47.873" y1="33.000" x2="48.965" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="35.873" data-raw-x2="36.965"/>
+    <line x1="48.965" y1="33.000" x2="48.965" y2="34.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="36.965" data-raw-x2="36.965"/>
+    <line x1="48.965" y1="34.200" x2="47.873" y2="34.300" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="36.965" data-raw-x2="35.873"/>
+    <line x1="47.873" y1="34.300" x2="47.873" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="35.873" data-raw-x2="35.873"/>
+    <line x1="47.873" y1="35.500" x2="48.965" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="35.873" data-raw-x2="36.965"/>
+    <line x1="47.335" y1="35.500" x2="47.335" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="35.335" data-raw-x2="35.335"/>
+    <line x1="47.335" y1="33.000" x2="46.185" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="35.335" data-raw-x2="34.185"/>
+    <line x1="46.185" y1="33.000" x2="46.185" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="34.185" data-raw-x2="34.185"/>
+    <line x1="46.185" y1="35.500" x2="47.335" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="34.185" data-raw-x2="35.335"/>
+    <line x1="44.075" y1="35.500" x2="44.075" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="32.075" data-raw-x2="32.075"/>
+    <line x1="44.075" y1="33.000" x2="43.500" y2="34.625" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="32.075" data-raw-x2="31.500"/>
+    <line x1="43.500" y1="34.625" x2="42.925" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="31.500" data-raw-x2="30.925"/>
+    <line x1="42.925" y1="33.000" x2="42.925" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="30.925" data-raw-x2="30.925"/>
+    <line x1="42.445" y1="35.500" x2="41.870" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="30.445" data-raw-x2="29.870"/>
+    <line x1="41.870" y1="33.000" x2="41.295" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="29.870" data-raw-x2="29.295"/>
+    <line x1="42.215" y1="34.550" x2="41.525" y2="34.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="30.215" data-raw-x2="29.525"/>
+    <line x1="40.815" y1="35.500" x2="40.815" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="28.815" data-raw-x2="28.815"/>
+    <line x1="40.815" y1="33.000" x2="39.953" y2="33.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="28.815" data-raw-x2="27.953"/>
+    <line x1="39.953" y1="33.250" x2="39.665" y2="34.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="27.953" data-raw-x2="27.665"/>
+    <line x1="39.665" y1="34.250" x2="39.953" y2="35.250" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="27.665" data-raw-x2="27.953"/>
+    <line x1="39.953" y1="35.250" x2="40.815" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="27.953" data-raw-x2="28.815"/>
+    <line x1="39.185" y1="35.500" x2="39.185" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="27.185" data-raw-x2="27.185"/>
+    <line x1="39.185" y1="33.000" x2="38.150" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="27.185" data-raw-x2="26.150"/>
+    <line x1="38.150" y1="33.000" x2="38.150" y2="34.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="26.150" data-raw-x2="26.150"/>
+    <line x1="38.150" y1="34.200" x2="39.185" y2="34.200" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="26.150" data-raw-x2="27.185"/>
+    <line x1="38.782" y1="34.200" x2="38.035" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="26.782" data-raw-x2="26.035"/>
+    <line x1="37.383" y1="33.000" x2="36.578" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="25.383" data-raw-x2="24.578"/>
+    <line x1="36.980" y1="35.500" x2="36.980" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="24.980" data-raw-x2="24.980"/>
+    <line x1="37.383" y1="35.500" x2="36.578" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="25.383" data-raw-x2="24.578"/>
+    <line x1="34.832" y1="33.250" x2="35.925" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="22.832" data-raw-x2="23.925"/>
+    <line x1="35.925" y1="33.000" x2="35.925" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="23.925" data-raw-x2="23.925"/>
+    <line x1="35.925" y1="35.500" x2="34.775" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="23.925" data-raw-x2="22.775"/>
+    <line x1="34.775" y1="35.500" x2="34.775" y2="34.300" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="22.775" data-raw-x2="22.775"/>
+    <line x1="35.350" y1="34.300" x2="34.775" y2="34.300" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="23.350" data-raw-x2="22.775"/>
+    <line x1="34.295" y1="35.500" x2="33.720" y2="33.000" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="22.295" data-raw-x2="21.720"/>
+    <line x1="33.720" y1="33.000" x2="33.145" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="21.720" data-raw-x2="21.145"/>
+    <line x1="34.065" y1="34.550" x2="33.375" y2="34.550" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="22.065" data-raw-x2="21.375"/>
+    <line x1="32.665" y1="33.000" x2="32.665" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="20.665" data-raw-x2="20.665"/>
+    <line x1="32.665" y1="35.500" x2="31.572" y2="35.500" stroke="#000000" stroke-width="0.550" stroke-linecap="round" data-label="Alonso Madrigal" data-raw-x1="20.665" data-raw-x2="19.572"/>
+  </g>
+  <g id="copper-pads" data-coords="top-view">
+    <line id="pad-ESP32_EN" x1="44.980" y1="48.440" x2="45.620" y2="48.440" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_EN" data-net="NC_ESP32_L_EN" data-x-mm="33.300" data-y-mm="47.560"/>
+    <circle cx="45.300" cy="48.440" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_EN"/>
+    <line id="pad-ESP32_VP" x1="44.980" y1="50.980" x2="45.620" y2="50.980" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_VP" data-net="NC_ESP32_L_VP" data-x-mm="33.300" data-y-mm="45.020"/>
+    <circle cx="45.300" cy="50.980" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_VP"/>
+    <line id="pad-ESP32_VN" x1="44.980" y1="53.520" x2="45.620" y2="53.520" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_VN" data-net="NC_ESP32_L_VN" data-x-mm="33.300" data-y-mm="42.480"/>
+    <circle cx="45.300" cy="53.520" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_VN"/>
+    <line id="pad-ESP32_D34" x1="44.980" y1="56.060" x2="45.620" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D34" data-net="NC_ESP32_L_D34" data-x-mm="33.300" data-y-mm="39.940"/>
+    <circle cx="45.300" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D34"/>
+    <line id="pad-ESP32_D35" x1="44.980" y1="58.600" x2="45.620" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D35" data-net="NC_ESP32_L_D35" data-x-mm="33.300" data-y-mm="37.400"/>
+    <circle cx="45.300" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D35"/>
+    <line id="pad-ESP32_D32" x1="44.980" y1="61.140" x2="45.620" y2="61.140" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D32" data-net="NC_ESP32_L_D32" data-x-mm="33.300" data-y-mm="34.860"/>
+    <circle cx="45.300" cy="61.140" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D32"/>
+    <line id="pad-ESP32_D33" x1="44.980" y1="63.680" x2="45.620" y2="63.680" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D33" data-net="NC_ESP32_L_D33" data-x-mm="33.300" data-y-mm="32.320"/>
+    <circle cx="45.300" cy="63.680" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D33"/>
+    <line id="pad-ESP32_D25" x1="44.980" y1="66.220" x2="45.620" y2="66.220" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D25" data-net="ESC_L_SIG" data-x-mm="33.300" data-y-mm="29.780"/>
+    <circle cx="45.300" cy="66.220" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D25"/>
+    <line id="pad-ESP32_D26" x1="44.980" y1="68.760" x2="45.620" y2="68.760" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D26" data-net="ESC_R_SIG" data-x-mm="33.300" data-y-mm="27.240"/>
+    <circle cx="45.300" cy="68.760" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D26"/>
+    <line id="pad-ESP32_D27" x1="44.980" y1="71.300" x2="45.620" y2="71.300" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D27" data-net="NC_ESP32_L_D27" data-x-mm="33.300" data-y-mm="24.700"/>
+    <circle cx="45.300" cy="71.300" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D27"/>
+    <line id="pad-ESP32_D14" x1="44.980" y1="73.840" x2="45.620" y2="73.840" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D14" data-net="NC_ESP32_L_D14" data-x-mm="33.300" data-y-mm="22.160"/>
+    <circle cx="45.300" cy="73.840" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D14"/>
+    <line id="pad-ESP32_D12" x1="44.980" y1="76.380" x2="45.620" y2="76.380" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D12" data-net="NC_ESP32_L_D12" data-x-mm="33.300" data-y-mm="19.620"/>
+    <circle cx="45.300" cy="76.380" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D12"/>
+    <line id="pad-ESP32_D13" x1="44.980" y1="78.920" x2="45.620" y2="78.920" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D13" data-net="NC_ESP32_L_D13" data-x-mm="33.300" data-y-mm="17.080"/>
+    <circle cx="45.300" cy="78.920" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D13"/>
+    <line id="pad-ESP32_GND_L" x1="44.980" y1="81.460" x2="45.620" y2="81.460" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_GND_L" data-net="GND" data-x-mm="33.300" data-y-mm="14.540"/>
+    <circle cx="45.300" cy="81.460" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_GND_L"/>
+    <line id="pad-ESP32_VIN" x1="44.980" y1="84.000" x2="45.620" y2="84.000" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_VIN" data-net="ESP32_VIN" data-x-mm="33.300" data-y-mm="12.000"/>
+    <circle cx="45.300" cy="84.000" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_VIN"/>
+    <line id="pad-ESP32_D23" x1="70.380" y1="48.440" x2="71.020" y2="48.440" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D23" data-net="NC_ESP32_R_D23" data-x-mm="58.700" data-y-mm="47.560"/>
+    <circle cx="70.700" cy="48.440" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D23"/>
+    <line id="pad-ESP32_D22" x1="70.380" y1="50.980" x2="71.020" y2="50.980" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D22" data-net="I2C_SCL" data-x-mm="58.700" data-y-mm="45.020"/>
+    <circle cx="70.700" cy="50.980" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D22"/>
+    <line id="pad-ESP32_TX0" x1="70.380" y1="53.520" x2="71.020" y2="53.520" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_TX0" data-net="NC_ESP32_R_TX0" data-x-mm="58.700" data-y-mm="42.480"/>
+    <circle cx="70.700" cy="53.520" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_TX0"/>
+    <line id="pad-ESP32_RX0" x1="70.380" y1="56.060" x2="71.020" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_RX0" data-net="NC_ESP32_R_RX0" data-x-mm="58.700" data-y-mm="39.940"/>
+    <circle cx="70.700" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_RX0"/>
+    <line id="pad-ESP32_D21" x1="70.380" y1="58.600" x2="71.020" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D21" data-net="I2C_SDA" data-x-mm="58.700" data-y-mm="37.400"/>
+    <circle cx="70.700" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D21"/>
+    <line id="pad-ESP32_D19" x1="70.380" y1="61.140" x2="71.020" y2="61.140" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D19" data-net="TOF_XSHUT" data-x-mm="58.700" data-y-mm="34.860"/>
+    <circle cx="70.700" cy="61.140" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D19"/>
+    <line id="pad-ESP32_D18" x1="70.380" y1="63.680" x2="71.020" y2="63.680" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D18" data-net="NC_ESP32_R_D18" data-x-mm="58.700" data-y-mm="32.320"/>
+    <circle cx="70.700" cy="63.680" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D18"/>
+    <line id="pad-ESP32_D5" x1="70.380" y1="66.220" x2="71.020" y2="66.220" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D5" data-net="NC_ESP32_R_D5" data-x-mm="58.700" data-y-mm="29.780"/>
+    <circle cx="70.700" cy="66.220" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D5"/>
+    <line id="pad-ESP32_TX2" x1="70.380" y1="68.760" x2="71.020" y2="68.760" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_TX2" data-net="NC_ESP32_R_TX2" data-x-mm="58.700" data-y-mm="27.240"/>
+    <circle cx="70.700" cy="68.760" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_TX2"/>
+    <line id="pad-ESP32_RX2" x1="70.380" y1="71.300" x2="71.020" y2="71.300" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_RX2" data-net="NC_ESP32_R_RX2" data-x-mm="58.700" data-y-mm="24.700"/>
+    <circle cx="70.700" cy="71.300" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_RX2"/>
+    <line id="pad-ESP32_D4" x1="70.380" y1="73.840" x2="71.020" y2="73.840" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D4" data-net="NC_ESP32_R_D4" data-x-mm="58.700" data-y-mm="22.160"/>
+    <circle cx="70.700" cy="73.840" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D4"/>
+    <line id="pad-ESP32_D2" x1="70.380" y1="76.380" x2="71.020" y2="76.380" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D2" data-net="NC_ESP32_R_D2" data-x-mm="58.700" data-y-mm="19.620"/>
+    <circle cx="70.700" cy="76.380" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D2"/>
+    <line id="pad-ESP32_D15" x1="70.380" y1="78.920" x2="71.020" y2="78.920" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_D15" data-net="NC_ESP32_R_D15" data-x-mm="58.700" data-y-mm="17.080"/>
+    <circle cx="70.700" cy="78.920" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_D15"/>
+    <line id="pad-ESP32_GND_R" x1="70.380" y1="81.460" x2="71.020" y2="81.460" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_GND_R" data-net="GND" data-x-mm="58.700" data-y-mm="14.540"/>
+    <circle cx="70.700" cy="81.460" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_GND_R"/>
+    <line id="pad-ESP32_3V3" x1="70.380" y1="84.000" x2="71.020" y2="84.000" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="ESP32_3V3" data-net="3V3" data-x-mm="58.700" data-y-mm="12.000"/>
+    <circle cx="70.700" cy="84.000" r="0.450" fill="#FFFFFF" data-drill-guide="ESP32_3V3"/>
+    <circle id="pad-ESC_L_VBAT" cx="22.500" cy="48.000" r="2.600" fill="#000000" data-pad="ESC_L_VBAT" data-net="+VBAT_SW" data-x-mm="10.500" data-y-mm="48.000"/>
+    <circle cx="22.500" cy="48.000" r="0.800" fill="#FFFFFF" data-drill-guide="ESC_L_VBAT"/>
+    <circle id="pad-ESC_R_VBAT" cx="22.500" cy="60.000" r="2.600" fill="#000000" data-pad="ESC_R_VBAT" data-net="+VBAT_SW" data-x-mm="10.500" data-y-mm="36.000"/>
+    <circle cx="22.500" cy="60.000" r="0.800" fill="#FFFFFF" data-drill-guide="ESC_R_VBAT"/>
+    <circle id="pad-BAT_VBAT_IN" cx="22.500" cy="72.000" r="2.600" fill="#000000" data-pad="BAT_VBAT_IN" data-net="+VBAT_SW" data-x-mm="10.500" data-y-mm="24.000"/>
+    <circle cx="22.500" cy="72.000" r="0.800" fill="#FFFFFF" data-drill-guide="BAT_VBAT_IN"/>
+    <circle id="pad-ESC_L_GND_PWR" cx="30.000" cy="48.000" r="2.600" fill="#000000" data-pad="ESC_L_GND_PWR" data-net="GND" data-x-mm="18.000" data-y-mm="48.000"/>
+    <circle cx="30.000" cy="48.000" r="0.800" fill="#FFFFFF" data-drill-guide="ESC_L_GND_PWR"/>
+    <circle id="pad-ESC_R_GND_PWR" cx="30.000" cy="60.000" r="2.600" fill="#000000" data-pad="ESC_R_GND_PWR" data-net="GND" data-x-mm="18.000" data-y-mm="36.000"/>
+    <circle cx="30.000" cy="60.000" r="0.800" fill="#FFFFFF" data-drill-guide="ESC_R_GND_PWR"/>
+    <circle id="pad-BAT_GND_IN" cx="30.000" cy="72.000" r="2.600" fill="#000000" data-pad="BAT_GND_IN" data-net="GND" data-x-mm="18.000" data-y-mm="24.000"/>
+    <circle cx="30.000" cy="72.000" r="0.800" fill="#FFFFFF" data-drill-guide="BAT_GND_IN"/>
+    <circle id="pad-ESC_L_GND_SIG" cx="37.000" cy="54.000" r="1.300" fill="#000000" data-pad="ESC_L_GND_SIG" data-net="GND" data-x-mm="25.000" data-y-mm="42.000"/>
+    <circle cx="37.000" cy="54.000" r="0.500" fill="#FFFFFF" data-drill-guide="ESC_L_GND_SIG"/>
+    <circle id="pad-ESC_L_SIG" cx="37.000" cy="62.500" r="1.300" fill="#000000" data-pad="ESC_L_SIG" data-net="ESC_L_SIG" data-x-mm="25.000" data-y-mm="33.500"/>
+    <circle cx="37.000" cy="62.500" r="0.500" fill="#FFFFFF" data-drill-guide="ESC_L_SIG"/>
+    <circle id="pad-ESC_R_SIG" cx="37.000" cy="68.760" r="1.300" fill="#000000" data-pad="ESC_R_SIG" data-net="ESC_R_SIG" data-x-mm="25.000" data-y-mm="27.240"/>
+    <circle cx="37.000" cy="68.760" r="0.500" fill="#FFFFFF" data-drill-guide="ESC_R_SIG"/>
+    <circle id="pad-ESC_R_GND_SIG" cx="37.000" cy="76.000" r="1.300" fill="#000000" data-pad="ESC_R_GND_SIG" data-net="GND" data-x-mm="25.000" data-y-mm="20.000"/>
+    <circle cx="37.000" cy="76.000" r="0.500" fill="#FFFFFF" data-drill-guide="ESC_R_GND_SIG"/>
+    <line id="pad-J_TOF_SCL" x1="82.680" y1="56.060" x2="83.320" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_SCL" data-net="I2C_SCL" data-x-mm="71.000" data-y-mm="39.940"/>
+    <circle cx="83.000" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_SCL"/>
+    <line id="pad-J_TOF_SDA" x1="82.680" y1="58.600" x2="83.320" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_SDA" data-net="I2C_SDA" data-x-mm="71.000" data-y-mm="37.400"/>
+    <circle cx="83.000" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_SDA"/>
+    <line id="pad-J_TOF_XSHUT" x1="82.680" y1="61.140" x2="83.320" y2="61.140" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_XSHUT" data-net="TOF_XSHUT" data-x-mm="71.000" data-y-mm="34.860"/>
+    <circle cx="83.000" cy="61.140" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_XSHUT"/>
+    <line id="pad-J_TOF_GND" x1="82.680" y1="63.680" x2="83.320" y2="63.680" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_GND" data-net="GND" data-x-mm="71.000" data-y-mm="32.320"/>
+    <circle cx="83.000" cy="63.680" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_GND"/>
+    <line id="pad-J_TOF_3V3" x1="82.680" y1="66.220" x2="83.320" y2="66.220" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_3V3" data-net="3V3" data-x-mm="71.000" data-y-mm="29.780"/>
+    <circle cx="83.000" cy="66.220" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_3V3"/>
+    <line id="pad-J_IMU_SCL" x1="93.680" y1="56.060" x2="94.320" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_SCL" data-net="I2C_SCL" data-x-mm="82.000" data-y-mm="39.940"/>
+    <circle cx="94.000" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_SCL"/>
+    <line id="pad-J_IMU_SDA" x1="93.680" y1="58.600" x2="94.320" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_SDA" data-net="I2C_SDA" data-x-mm="82.000" data-y-mm="37.400"/>
+    <circle cx="94.000" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_SDA"/>
+    <line id="pad-J_IMU_GND" x1="93.680" y1="61.140" x2="94.320" y2="61.140" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_GND" data-net="GND" data-x-mm="82.000" data-y-mm="34.860"/>
+    <circle cx="94.000" cy="61.140" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_GND"/>
+    <line id="pad-J_IMU_3V3" x1="93.680" y1="63.680" x2="94.320" y2="63.680" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_3V3" data-net="3V3" data-x-mm="82.000" data-y-mm="32.320"/>
+    <circle cx="94.000" cy="63.680" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_3V3"/>
+  </g>
+  <g id="mounting-holes">
+    <circle id="M3_BL" cx="18.000" cy="90.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="18.000" cy="90.000" r="0.45" fill="#000000"/>
+    <circle id="M3_BR" cx="98.000" cy="90.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="98.000" cy="90.000" r="0.45" fill="#000000"/>
+    <circle id="M3_TL" cx="18.000" cy="14.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="18.000" cy="14.000" r="0.45" fill="#000000"/>
+    <circle id="M3_TR" cx="98.000" cy="14.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="98.000" cy="14.000" r="0.45" fill="#000000"/>
+  </g>
+</svg>

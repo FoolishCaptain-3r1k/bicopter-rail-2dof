@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="116.00mm" height="114.00mm" viewBox="0 0 116.00 114.00" data-layer="DrillMap" data-scale="1:1">
+  <rect x="0" y="0" width="116.00" height="114.00" fill="#FFFFFF"/>
+  <rect id="board-outline" x="12.000" y="8.000" width="92.000" height="88.000" fill="none" stroke="#000000" stroke-width="0.30"/>
+  <g id="drill-holes">
+    <circle cx="45.300" cy="48.440" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_EN" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="48.440" x2="45.750" y2="48.440" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="47.990" x2="45.300" y2="48.890" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="50.980" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_VP" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="50.980" x2="45.750" y2="50.980" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="50.530" x2="45.300" y2="51.430" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="53.520" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_VN" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="53.520" x2="45.750" y2="53.520" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="53.070" x2="45.300" y2="53.970" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D34" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="56.060" x2="45.750" y2="56.060" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="55.610" x2="45.300" y2="56.510" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D35" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="58.600" x2="45.750" y2="58.600" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="58.150" x2="45.300" y2="59.050" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="61.140" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D32" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="61.140" x2="45.750" y2="61.140" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="60.690" x2="45.300" y2="61.590" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="63.680" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D33" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="63.680" x2="45.750" y2="63.680" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="63.230" x2="45.300" y2="64.130" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="66.220" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D25" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="66.220" x2="45.750" y2="66.220" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="65.770" x2="45.300" y2="66.670" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="68.760" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D26" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="68.760" x2="45.750" y2="68.760" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="68.310" x2="45.300" y2="69.210" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="71.300" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D27" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="71.300" x2="45.750" y2="71.300" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="70.850" x2="45.300" y2="71.750" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="73.840" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D14" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="73.840" x2="45.750" y2="73.840" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="73.390" x2="45.300" y2="74.290" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="76.380" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D12" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="76.380" x2="45.750" y2="76.380" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="75.930" x2="45.300" y2="76.830" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="78.920" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D13" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="78.920" x2="45.750" y2="78.920" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="78.470" x2="45.300" y2="79.370" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="81.460" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_GND_L" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="81.460" x2="45.750" y2="81.460" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="81.010" x2="45.300" y2="81.910" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="45.300" cy="84.000" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_VIN" data-drill-mm="0.90"/>
+    <line x1="44.850" y1="84.000" x2="45.750" y2="84.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="45.300" y1="83.550" x2="45.300" y2="84.450" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="48.440" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D23" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="48.440" x2="71.150" y2="48.440" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="47.990" x2="70.700" y2="48.890" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="50.980" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D22" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="50.980" x2="71.150" y2="50.980" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="50.530" x2="70.700" y2="51.430" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="53.520" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_TX0" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="53.520" x2="71.150" y2="53.520" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="53.070" x2="70.700" y2="53.970" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_RX0" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="56.060" x2="71.150" y2="56.060" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="55.610" x2="70.700" y2="56.510" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D21" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="58.600" x2="71.150" y2="58.600" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="58.150" x2="70.700" y2="59.050" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="61.140" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D19" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="61.140" x2="71.150" y2="61.140" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="60.690" x2="70.700" y2="61.590" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="63.680" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D18" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="63.680" x2="71.150" y2="63.680" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="63.230" x2="70.700" y2="64.130" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="66.220" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D5" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="66.220" x2="71.150" y2="66.220" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="65.770" x2="70.700" y2="66.670" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="68.760" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_TX2" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="68.760" x2="71.150" y2="68.760" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="68.310" x2="70.700" y2="69.210" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="71.300" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_RX2" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="71.300" x2="71.150" y2="71.300" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="70.850" x2="70.700" y2="71.750" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="73.840" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D4" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="73.840" x2="71.150" y2="73.840" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="73.390" x2="70.700" y2="74.290" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="76.380" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D2" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="76.380" x2="71.150" y2="76.380" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="75.930" x2="70.700" y2="76.830" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="78.920" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_D15" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="78.920" x2="71.150" y2="78.920" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="78.470" x2="70.700" y2="79.370" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="81.460" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_GND_R" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="81.460" x2="71.150" y2="81.460" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="81.010" x2="70.700" y2="81.910" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="70.700" cy="84.000" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESP32_3V3" data-drill-mm="0.90"/>
+    <line x1="70.250" y1="84.000" x2="71.150" y2="84.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="70.700" y1="83.550" x2="70.700" y2="84.450" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="22.500" cy="48.000" r="0.800" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_L_VBAT" data-drill-mm="1.60"/>
+    <line x1="21.700" y1="48.000" x2="23.300" y2="48.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="22.500" y1="47.200" x2="22.500" y2="48.800" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="22.500" cy="60.000" r="0.800" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_R_VBAT" data-drill-mm="1.60"/>
+    <line x1="21.700" y1="60.000" x2="23.300" y2="60.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="22.500" y1="59.200" x2="22.500" y2="60.800" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="22.500" cy="72.000" r="0.800" fill="none" stroke="#000000" stroke-width="0.22" data-hole="BAT_VBAT_IN" data-drill-mm="1.60"/>
+    <line x1="21.700" y1="72.000" x2="23.300" y2="72.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="22.500" y1="71.200" x2="22.500" y2="72.800" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="30.000" cy="48.000" r="0.800" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_L_GND_PWR" data-drill-mm="1.60"/>
+    <line x1="29.200" y1="48.000" x2="30.800" y2="48.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="30.000" y1="47.200" x2="30.000" y2="48.800" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="30.000" cy="60.000" r="0.800" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_R_GND_PWR" data-drill-mm="1.60"/>
+    <line x1="29.200" y1="60.000" x2="30.800" y2="60.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="30.000" y1="59.200" x2="30.000" y2="60.800" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="30.000" cy="72.000" r="0.800" fill="none" stroke="#000000" stroke-width="0.22" data-hole="BAT_GND_IN" data-drill-mm="1.60"/>
+    <line x1="29.200" y1="72.000" x2="30.800" y2="72.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="30.000" y1="71.200" x2="30.000" y2="72.800" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="37.000" cy="54.000" r="0.500" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_L_GND_SIG" data-drill-mm="1.00"/>
+    <line x1="36.500" y1="54.000" x2="37.500" y2="54.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="37.000" y1="53.500" x2="37.000" y2="54.500" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="37.000" cy="62.500" r="0.500" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_L_SIG" data-drill-mm="1.00"/>
+    <line x1="36.500" y1="62.500" x2="37.500" y2="62.500" stroke="#000000" stroke-width="0.15"/>
+    <line x1="37.000" y1="62.000" x2="37.000" y2="63.000" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="37.000" cy="68.760" r="0.500" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_R_SIG" data-drill-mm="1.00"/>
+    <line x1="36.500" y1="68.760" x2="37.500" y2="68.760" stroke="#000000" stroke-width="0.15"/>
+    <line x1="37.000" y1="68.260" x2="37.000" y2="69.260" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="37.000" cy="76.000" r="0.500" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_R_GND_SIG" data-drill-mm="1.00"/>
+    <line x1="36.500" y1="76.000" x2="37.500" y2="76.000" stroke="#000000" stroke-width="0.15"/>
+    <line x1="37.000" y1="75.500" x2="37.000" y2="76.500" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="83.000" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_SCL" data-drill-mm="0.90"/>
+    <line x1="82.550" y1="56.060" x2="83.450" y2="56.060" stroke="#000000" stroke-width="0.15"/>
+    <line x1="83.000" y1="55.610" x2="83.000" y2="56.510" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="83.000" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_SDA" data-drill-mm="0.90"/>
+    <line x1="82.550" y1="58.600" x2="83.450" y2="58.600" stroke="#000000" stroke-width="0.15"/>
+    <line x1="83.000" y1="58.150" x2="83.000" y2="59.050" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="83.000" cy="61.140" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_XSHUT" data-drill-mm="0.90"/>
+    <line x1="82.550" y1="61.140" x2="83.450" y2="61.140" stroke="#000000" stroke-width="0.15"/>
+    <line x1="83.000" y1="60.690" x2="83.000" y2="61.590" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="83.000" cy="63.680" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_GND" data-drill-mm="0.90"/>
+    <line x1="82.550" y1="63.680" x2="83.450" y2="63.680" stroke="#000000" stroke-width="0.15"/>
+    <line x1="83.000" y1="63.230" x2="83.000" y2="64.130" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="83.000" cy="66.220" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_3V3" data-drill-mm="0.90"/>
+    <line x1="82.550" y1="66.220" x2="83.450" y2="66.220" stroke="#000000" stroke-width="0.15"/>
+    <line x1="83.000" y1="65.770" x2="83.000" y2="66.670" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="94.000" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_SCL" data-drill-mm="0.90"/>
+    <line x1="93.550" y1="56.060" x2="94.450" y2="56.060" stroke="#000000" stroke-width="0.15"/>
+    <line x1="94.000" y1="55.610" x2="94.000" y2="56.510" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="94.000" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_SDA" data-drill-mm="0.90"/>
+    <line x1="93.550" y1="58.600" x2="94.450" y2="58.600" stroke="#000000" stroke-width="0.15"/>
+    <line x1="94.000" y1="58.150" x2="94.000" y2="59.050" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="94.000" cy="61.140" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_GND" data-drill-mm="0.90"/>
+    <line x1="93.550" y1="61.140" x2="94.450" y2="61.140" stroke="#000000" stroke-width="0.15"/>
+    <line x1="94.000" y1="60.690" x2="94.000" y2="61.590" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="94.000" cy="63.680" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_3V3" data-drill-mm="0.90"/>
+    <line x1="93.550" y1="63.680" x2="94.450" y2="63.680" stroke="#000000" stroke-width="0.15"/>
+    <line x1="94.000" y1="63.230" x2="94.000" y2="64.130" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="18.000" cy="90.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.30" data-hole="M3_BL" data-drill-mm="3.20"/>
+    <circle cx="98.000" cy="90.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.30" data-hole="M3_BR" data-drill-mm="3.20"/>
+    <circle cx="18.000" cy="14.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.30" data-hole="M3_TL" data-drill-mm="3.20"/>
+    <circle cx="98.000" cy="14.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.30" data-hole="M3_TR" data-drill-mm="3.20"/>
+  </g>
+  <text x="12.000" y="108.000" font-family="monospace" font-size="2.4" fill="#000000">DRILL LEGEND: Headers=0.9mm (39x) | ESC Sig=1.0mm (4x) | Power=1.6mm (6x) | M3=3.2mm (4x)</text>
+</svg>
