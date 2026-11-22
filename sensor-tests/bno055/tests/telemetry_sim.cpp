@@ -11,6 +11,8 @@ int main(){
     jsonLine(out,sizeof(out),s,301,true,"IMUPLUS",0x28,0);assert(std::strstr(out,"\"valid\":false")&&std::strstr(out,"\"data\":null"));
     jsonLine(out,sizeof(out),s,150,true,"IMUPLUS",0x28,0);assert(std::strstr(out,"\"valid\":true")&&std::strstr(out,"\"roll\":10.00"));
     s.qw=0;assert(!finiteSample(s));s.qw=1;s.valid=false;assert(!fresh(s,150));
+    s.gy=std::nanf("");assert(std::strcmp(invalidReason(s),"gy")==0);s.gy=0;
+    s.qw=0;assert(std::strcmp(invalidReason(s),"quaternion_norm")==0);s.qw=1;
     csvLine(out,sizeof(out),s,false);assert(std::strstr(out,"NA,NA,NA")&&std::strstr(out,"INVALID"));
     std::cout<<"PASS: axes, serialization, invalid and stale states\n";
 }

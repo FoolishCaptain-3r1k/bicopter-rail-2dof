@@ -1,6 +1,16 @@
 # BNO055: diagnóstico independiente por Serial y Wi-Fi
 
-Proyecto PlatformIO para ESP32 DevKit y BNO055. No incluye VL53, ESC, PWM ni control de motores. Usa la biblioteca Adafruit BNO055 1.6.4 y Arduino ESP32. El módulo físico del equipo y sus niveles eléctricos aún deben confirmarse.
+Proyecto PlatformIO para ESP32 DevKit y módulo **GY-BNO055**. No incluye VL53, ESC, PWM ni control de motores. Usa la biblioteca Adafruit BNO055 1.6.4 y Arduino ESP32. El cableado GPIO21/22 y ADD a GND, junto con la detección `0x28` en IMUPLUS, fueron confirmados por el equipo; aún se debe comprobar la ficha eléctrica del breakout concreto.
+
+## Diagnóstico I2C actual (predeterminado)
+
+El entorno `esp32dev` compila con `BNO_DIAG_MODE=1`, `BNO_ENABLE_WIFI=0`, adquisición y Serial objetivo **10 Hz**, I2C **100 kHz**. En VS Code abrir `sensor-tests/bno055` como proyecto PlatformIO, seleccionar `env:esp32dev`, ejecutar **Build** y luego **Upload** solo con ESP32 + GY-BNO055 conectados y cableado verificado. Abrir **Monitor** a 115200. Equivalentes desde la raíz: `pio run -d sensor-tests/bno055 -e esp32dev`, `pio run -d sensor-tests/bno055 -e esp32dev -t upload` y `pio device monitor -b 115200`.
+
+La salida informa `CHIP address=0x28 id=0xA0`, modo, reloj y si usa STOP entre selección de registro y lectura. Por muestra imprime `STATUS system=... selftest=... error=...` y `RAW Euler=... accel=... gyro=... quat=... norm=...`, además del CSV habitual. En este modo `accel` es **aceleración total**, incluida la gravedad; en modo dashboard `VECTOR_LINEARACCEL` elimina gravedad mediante fusión. `I2C_FAIL reg=... phase=write/read` identifica el registro y el tramo fallido. `INVALID reason=...` identifica un error del sistema, una transacción I2C, una variable no finita o `quaternion_norm` fuera de 0.5–1.5. Una muestra fallida nunca aparece como `OK`; el programa reintenta iniciar cada 2 s.
+
+La lectura del Chip ID se realiza al iniciar, no antes de cada muestra. El diagnóstico configura el modo con escrituras I2C directas y usa STOP por defecto (`BNO_I2C_RESTART=0`) al leer registros; `1` permite comparar repeated-start en otra compilación. La biblioteca Adafruit usa repeated-start en sus lecturas internas y no propaga el fallo de `readLen()` a `getVector()`/`getQuat()`, motivo por el que el modo diagnóstico comprueba cada transacción directamente. El reloj queda en 100 kHz hasta medir resultados físicos; `BNO_I2C_HZ=50000UL` es una comparación posterior si continúan los fallos tras revisar alimentación, tierra y pull-ups. **Compilar no demuestra que STOP o 50 kHz solucionen el problema.**
+
+Para recuperar el dashboard, seleccionar `env:esp32dev_wifi` (`BNO_DIAG_MODE=0`, `BNO_ENABLE_WIFI=1`) y compilar/cargar esa configuración. Conserva la adquisición objetivo de 50 Hz, Serial a 20 Hz y consulta web a 10 Hz. Las dos variantes compilan; el comportamiento físico Wi-Fi/I2C requiere nueva prueba.
 
 ## Cableado y primera prueba
 
@@ -13,7 +23,7 @@ pio run -d sensor-tests/bno055
 powershell -NoProfile -ExecutionPolicy Bypass -File sensor-tests/bno055/tests/run_native.ps1
 ```
 
-Solo tras autorizar y verificar la sesión física: `pio run -d sensor-tests/bno055 -t upload` y `pio device monitor -b 115200`. El ESP32 anuncia `Bicopter-IMU-Test`, la contraseña de **prueba pública** `BicopterIMU2026!`, la IP del AP y el estado HTTP. Conectar el teléfono/PC a esa red y abrir la IP mostrada (normalmente `http://192.168.4.1/`). No necesita internet ni CDN. Para usar otra contraseña, definir `BNO_AP_PASSWORD` como build flag **local** de 8–63 caracteres; no subir credenciales privadas al repositorio. El código usa WPA2 mediante `WiFi.softAP` con contraseña. `BNO_USE_NDOF=0` selecciona IMUPLUS; cambiar el flag a `1` y recompilar solo para ensayos posteriores.
+En el entorno `esp32dev_wifi`, el ESP32 anuncia `Bicopter-IMU-Test`, la contraseña de **prueba pública** `BicopterIMU2026!`, la IP del AP y el estado HTTP. Conectar el teléfono/PC a esa red y abrir la IP mostrada (normalmente `http://192.168.4.1/`). No necesita internet ni CDN. Para usar otra contraseña, definir `BNO_AP_PASSWORD` como build flag **local** de 8–63 caracteres; no subir credenciales privadas al repositorio. El código usa WPA2 mediante `WiFi.softAP` con contraseña. `BNO_USE_NDOF=0` selecciona IMUPLUS; cambiar el flag a `1` y recompilar solo para ensayos posteriores.
 
 ## Lecturas y convenciones
 
@@ -29,6 +39,7 @@ La página tiene orientación numérica, vista esquemática de roll/pitch, ejes 
 
 ## Evidencia de software
 
-- **PASS** `pio run -d sensor-tests/bno055`: `SUCCESS`; RAM 13.9 % (45568/327680 B), flash 61.1 % (801113/1310720 B).
-- **PASS** `tests/run_native.ps1`: `PASS: axes, serialization, invalid and stale states`.
-- Sin carga ni validación física en esta entrega.
+- **PASS** `pio run -d sensor-tests/bno055 -e esp32dev`: `SUCCESS`; RAM 6.7 %, flash 22.3 %.
+- **PASS** `pio run -d sensor-tests/bno055 -e esp32dev_wifi`: `SUCCESS`; RAM 13.9 %, flash 61.2 %.
+- **PASS** `tests/run_native.ps1`: `PASS: axes, serialization, invalid and stale states`, incluidas razones `gy` y `quaternion_norm`.
+- **PARTIAL** sin nueva lectura física tras este cambio; el fallo `i2cWriteReadNonStop Error -1` y la persistencia de `INVALID` requieren repetir la prueba en el ESP32.

@@ -21,12 +21,15 @@ inline void mapEuler(float heading_x, float roll_y, float pitch_z, ImuSample& s)
     s.yaw = heading_x;
 }
 
-inline bool finiteSample(const ImuSample& s) {
+inline const char* invalidReason(const ImuSample& s) {
     const float v[] = {s.roll,s.pitch,s.yaw,s.gx,s.gy,s.gz,s.ax,s.ay,s.az,s.qw,s.qx,s.qy,s.qz};
-    for (float x : v) if (!std::isfinite(x)) return false;
+    const char* names[] = {"roll","pitch","yaw","gx","gy","gz","ax","ay","az","qw","qx","qy","qz"};
+    for (unsigned i=0;i<sizeof(v)/sizeof(v[0]);++i) if (!std::isfinite(v[i])) return names[i];
     const float norm = s.qw*s.qw+s.qx*s.qx+s.qy*s.qy+s.qz*s.qz;
-    return norm > 0.5f && norm < 1.5f;
+    if (!std::isfinite(norm) || norm <= 0.5f || norm >= 1.5f) return "quaternion_norm";
+    return nullptr;
 }
+inline bool finiteSample(const ImuSample& s) { return invalidReason(s)==nullptr; }
 
 inline bool fresh(const ImuSample& s, uint32_t now, uint32_t max_age_ms = 200) {
     return s.valid && s.seq != 0 && static_cast<uint32_t>(now - s.ts_ms) <= max_age_ms;
