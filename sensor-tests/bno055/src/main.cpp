@@ -63,7 +63,12 @@ if(!candidate->begin(BNO_USE_NDOF?OPERATION_MODE_NDOF:OPERATION_MODE_IMUPLUS))co
 sensor=candidate;activeAddress=addr;portENTER_CRITICAL(&sampleMux);connected=true;latest.valid=false;portEXIT_CRITICAL(&sampleMux);Serial.printf("# BNO055 I2C=0x%02X mode=%s\n",addr,modeName);return true;}Serial.println("# ERROR BNO055 not initialized at 0x28/0x29");++errors;return false;}
 void acquire(){if(!sensor)return;ImuSample s;
 #if BNO_DIAG_MODE
-if(!diagnostic::sample(activeAddress,s)){invalidate();return;}
+const diagnostic::SampleResult result=diagnostic::sample(activeAddress,s);
+if(result!=diagnostic::SampleResult::Valid){
+    if(result==diagnostic::SampleResult::CommunicationFailure)invalidate();
+    else{portENTER_CRITICAL(&sampleMux);latest.valid=false;portEXIT_CRITICAL(&sampleMux);++errors;}
+    return;
+}
 #else
 const auto e=sensor->getVector(Adafruit_BNO055::VECTOR_EULER);const auto g=sensor->getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);const auto a=sensor->getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);const auto q=sensor->getQuat();mapEuler(e.x(),e.y(),e.z(),s);s.gx=g.x();s.gy=g.y();s.gz=g.z();s.ax=a.x();s.ay=a.y();s.az=a.z();s.qw=q.w();s.qx=q.x();s.qy=q.y();s.qz=q.z();sensor->getCalibration(&s.cal_sys,&s.cal_gyro,&s.cal_accel,&s.cal_mag);s.ts_ms=millis();const char* reason=invalidReason(s);if(reason){Serial.printf("# INVALID reason=%s\n",reason);invalidate();return;}s.valid=true;
 #endif

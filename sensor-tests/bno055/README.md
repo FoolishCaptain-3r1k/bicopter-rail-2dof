@@ -42,4 +42,12 @@ La página tiene orientación numérica, vista esquemática de roll/pitch, ejes 
 - **PASS** `pio run -d sensor-tests/bno055 -e esp32dev`: `SUCCESS`; RAM 6.7 %, flash 22.3 %.
 - **PASS** `pio run -d sensor-tests/bno055 -e esp32dev_wifi`: `SUCCESS`; RAM 13.9 %, flash 61.2 %.
 - **PASS** `tests/run_native.ps1`: `PASS: axes, serialization, invalid and stale states`, incluidas razones `gy` y `quaternion_norm`.
-- **PARTIAL** sin nueva lectura física tras este cambio; el fallo `i2cWriteReadNonStop Error -1` y la persistencia de `INVALID` requieren repetir la prueba en el ESP32.
+- **PARTIAL** la aceptación completa del sensor y del dashboard requiere movimiento controlado, observación prolongada y una prueba Wi-Fi independiente.
+
+## Verificación en COM6 (22 de noviembre de 2026)
+
+Se compiló desde cero `env:esp32dev` y PlatformIO cargó `.pio/build/esp32dev/firmware.bin` por COM6; esptool verificó los hashes y terminó en `SUCCESS`. El monitor a 115200 mostró `diagnostic=1 wifi=0 I2C=100000`, Chip ID `0xA0` en `0x28`, `system=5`, autoprueba `0x0F` y error `0`.
+
+La primera observación expuso una dirección equivocada en el propio diagnóstico: `0x3B` es `UNIT_SEL`, no `SYS_ERR`; las direcciones correctas de Adafruit son `SELFTEST=0x36`, `SYS_STAT=0x39` y `SYS_ERR=0x3A`. Después de corregirlas, el cuaternión seguía temporalmente en cero. Se restituyó el reset e inicio de modo que utiliza la biblioteca y se dejó de reiniciar por una muestra inválida sin fallo I2C. Tras el arranque aparecieron lecturas `OK` con norma `1.0000`, por ejemplo a `7056 ms`: roll `-2.50°`, pitch `1.12°`, yaw `359.94°`, aceleración total `(-0.42,-0.20,10.17) m/s²`. Los timestamps de muestras consecutivas rondaron 109–110 ms, aproximadamente 9.1 Hz en esta observación. Los NACK `code=2` durante el reset se observaron antes de la recuperación del Chip ID; no se atribuyen a muestras válidas.
+
+**Alcance:** se observó el módulo estacionario durante alrededor de 20 s. Esta evidencia confirma carga, enlace I2C y muestras válidas en ese intervalo; faltan prueba de ejes en movimiento, estabilidad prolongada, tasa objetivo exacta y reactivación Wi-Fi. No se conectaron motores ni ESC.
