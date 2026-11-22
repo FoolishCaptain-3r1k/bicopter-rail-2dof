@@ -41,17 +41,44 @@ pio device monitor -b 115200
 
 Seleccionar el puerto con la opción `-p` si PlatformIO no lo encuentra. No cargar esta prueba en un ESP32 todavía conectado a ESC o motores: este programa no genera pulsos PWM y `LOW`/alta impedancia no equivale a una consigna segura para cualquier ESC.
 
-Salida esperada: `DETECTED model=...`, `READY model=...` y líneas `DATA model=... distance_mm=... status=OK` cada ~500 ms. Los errores tienen prefijo `ERROR`: ausencia o pérdida de respuesta I2C, identificador desconocido, inicialización fallida, timeout o rango inválido. Ante pérdida/timeout se intenta detectar de nuevo cada ~2 s; una línea `DATA` solo se emite para una lectura considerada válida por la librería.
+Salida esperada: `DETECTED model=...`, `READY model=...` y una tabla CSV a 115200 baudios:
+
+```text
+ts_ms,model,distance_raw_mm,distance_filtrada_mm,status
+1234,VL53L0X,101,NA,OK_WARMUP
+1334,VL53L0X,99,NA,OK_WARMUP
+1434,VL53L0X,100,100.00,OK_FILTERED
+```
+
+El tiempo `ts_ms` se toma tras la lectura. El periodo nominal es **100 ms** y el timing budget configurado es **50 ms**; el programa comprueba que el periodo sea al menos tan largo como el budget y que la librería acepte este último. La cadencia real y la duración de lectura requieren medición en hardware. `OK_WARMUP` indica que aún faltan lecturas para la mediana de tres y `distance_filtrada_mm=NA`. `OK_FILTERED` indica una lectura válida incorporada al filtro. Una lectura inválida produce `INVALID_RANGE`, un timeout `TIMEOUT` y una pérdida I2C `I2C_LOST`, siempre con valor filtrado `NA`. Las líneas de diagnóstico de inicialización empiezan por `ERROR`. Ante pérdida/timeout se intenta detectar de nuevo cada ~2 s.
+
+## Filtro y ajuste
+
+El filtro aplica primero una **mediana móvil de 3 lecturas válidas** y luego una **EMA**: `y[n] = α·mediana[n] + (1−α)·y[n−1]`. La primera EMA se inicializa con la primera mediana completa. `α = 0.4` se configura en `platformio.ini` mediante `-DVL53_EMA_ALPHA=0.4f`; cambiarlo a un valor `>0` y `<=1` y recompilar. Un valor menor suaviza más pero responde más lento; `1.0` conserva solo la mediana. Tras rango inválido, timeout, pérdida I2C o reinicialización, el filtro se reinicia: hacen falta tres lecturas **nuevas y válidas** antes de volver a mostrar un valor filtrado.
+
+Comparación a 100 ms nominales con la señal simulada `100, 100, 100, 200, 200, 200` mm: la lectura sin filtrar salta a **200 mm** en la cuarta muestra; la mediana+EMA produce **100, 140, 164 mm** en las muestras cuarta a sexta. El cambio aparece tras la segunda muestra del nuevo nivel, aproximadamente **100 ms después** del primer salto raw, y la EMA continúa acercándose a 200 mm. Un pico aislado `1000` mm entre lecturas de `100` mm deja la salida filtrada en `100` mm. Son resultados simulados, no mediciones del VL53L0X. El retardo real depende de la cadencia efectiva, de la lectura I2C y del blanco; comparar columnas raw/filtrada y timestamps en el banco antes de ajustar `α` o el periodo.
+
+Las pruebas del filtro C++ real, sin hardware, se ejecutan en Windows con Visual Studio C++ Build Tools:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File sensor-tests/vl53/tests/run_filter_sim.ps1
+```
 
 ## Criterios de aceptación en banco
 
 - **PASS de software:** `pio run -d sensor-tests/vl53` termina con `SUCCESS`. Esto no confirma el sensor físico.
-- **PASS físico:** referencia exacta del módulo y niveles documentados; un único modelo identificado; al menos 10 líneas `DATA ... status=OK` consecutivas; con un blanco mate a 100 mm y 200 mm medidos desde el sensor, las medianas de 10 lecturas en cada posición difieren en el sentido correcto y quedan dentro de ±30 mm de cada referencia. Registrar modelo, módulo, alimentación, distancia de referencia, medianas y errores.
+- **PASS físico:** referencia exacta del módulo y niveles documentados; un único modelo identificado; al menos 10 líneas `OK_FILTERED` consecutivas; con un blanco mate a 100 mm y 200 mm medidos desde el sensor, las medianas de 10 lecturas **raw** en cada posición difieren en el sentido correcto y quedan dentro de ±30 mm de cada referencia. Comparar también la dispersión y el retardo de la columna filtrada frente a raw. Registrar modelo, módulo, alimentación, distancia de referencia, medianas, timestamps y errores.
 - **FAIL:** modelo desconocido, `ERROR` persistente, lecturas ausentes, incoherentes o fuera del criterio anterior. Detener la prueba y revisar cableado, nivel I2C, alimentación y ficha del módulo antes de repetir. No inferir compatibilidad por compilación o ACK en `0x29`.
 
-## Evidencia de esta entrega
+## Evidencia de la versión inicial del PR #2
 
 - **PASS:** rama `feature/vl53-test` basada en `main` `0d15505`; `pio run -d sensor-tests/vl53` terminó en `SUCCESS` con PlatformIO Espressif32 `7.1.3`, Arduino y librerías Pololu `1.3.1` para ambos modelos.
 - **PASS:** `pio run -d firmware` terminó en `SUCCESS`; el proyecto principal no fue modificado.
 - **PARTIAL:** la detección por registro, el manejo de errores y las distancias se compilaron, pero no se ejecutaron en ESP32.
 - **BLOCKED:** modelo físico, esquema eléctrico del módulo, carga y criterios de banco pendientes de identificación del módulo y sesión física autorizada. No se conectó hardware ni se energizaron motores.
+
+## Evidencia de la actualización del filtro
+
+- **PASS:** `powershell -NoProfile -ExecutionPolicy Bypass -File sensor-tests/vl53/tests/run_filter_sim.ps1` ejecutó el mismo filtro C++ con señales simuladas de ruido, pico, escalón y fallo: `PASS: noise, spike, step, sensor failure simulations`.
+- **PASS:** `pio run -d sensor-tests/vl53` terminó en `SUCCESS` con periodo configurado a 100 ms, timing budget a 50 ms y `α = 0.4`.
+- **PARTIAL:** no se ha medido la cadencia, precisión ni retardo con un ESP32 y VL53 reales. No se cargó firmware ni se conectaron ESC o motores.
