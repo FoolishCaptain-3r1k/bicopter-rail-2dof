@@ -1,6 +1,6 @@
 # BNO055: prueba independiente por USB Serial
 
-Proyecto PlatformIO/Arduino para ESP32 DevKit y GY-BNO055. El único entorno es `esp32dev`: sin Wi-Fi, AP, WebServer, Adafruit, filtros digitales externos ni control de motores. La interfaz de computadora se implementará después; esta prueba entrega diagnóstico y CSV por USB a **115200 baudios**.
+Proyecto PlatformIO/Arduino para ESP32 DevKit y GY-BNO055. El único entorno es `esp32dev`: sin Wi-Fi, AP, WebServer, Adafruit, filtros digitales externos ni control de motores. Esta prueba entrega diagnóstico y CSV por USB a **115200 baudios** y dispone de un [visualizador HTML local](dashboard.html).
 
 ## Cableado
 
@@ -28,6 +28,31 @@ powershell -NoProfile -ExecutionPolicy Bypass -File sensor-tests/bno055/tests/ru
 ```
 
 El antiguo entorno `esp32dev_wifi` fue retirado. La rama conserva su nombre para continuar el PR #3 existente. No se necesita conectarse a ninguna red.
+
+## Visualizador HTML por USB
+
+1. Cargar el firmware `esp32dev` y cerrar el monitor Serial de PlatformIO, Arduino o cualquier otra aplicación que use COM6.
+2. Abrir [dashboard.html](dashboard.html) en **Chrome o Edge de escritorio**.
+3. Pulsar **Conectar ESP32** y seleccionar COM6 / Silicon Labs CP210x. El navegador solicita permiso para el puerto; la página usa 115200 baudios. Abrir el puerto puede reiniciar el ESP32: esperar su arranque.
+4. Observar roll, pitch, yaw, vista esquemática, gráfica de los últimos 20 s, giro, aceleración total, calibración y diagnóstico. Pulsar **Desconectar** antes de volver a cargar firmware o abrir otro monitor.
+
+Es un único HTML sin bibliotecas, CDN, Wi-Fi ni servidor en el ESP32. Solo lee el puerto; no envía comandos. Requiere Web Serial y un contexto permitido por el navegador. Si abrir el archivo directamente no habilita el botón, servirlo en localhost desde la raíz:
+
+```powershell
+py -3 -m http.server 8000 --bind 127.0.0.1 --directory sensor-tests/bno055
+```
+
+Abrir `http://localhost:8000/dashboard.html` en Chrome/Edge y dejar esa terminal abierta. El servidor solo entrega el HTML; el acceso USB lo realiza el navegador mediante [Web Serial](https://developer.chrome.com/docs/capabilities/serial/).
+
+Una línea INVALID o un fallo I2C oculta los valores actuales. Si no llega una muestra nueva durante 500 ms, muestra **Sin muestra reciente** y atenúa la vista; la gráfica conserva solo el historial de los últimos 20 s. Los duplicados de timestamp consecutivos se ignoran. El firmware sigue aplicando su límite propio de 200 ms antes de publicar OK. La vista es ilustrativa y no remapea ejes ni corrige el montaje. Yaw puede saltar de 360 a 0 grados y derivar en IMUPLUS.
+
+Pruebas del HTML (Node.js, sin dependencias):
+
+```powershell
+node --test sensor-tests/bno055/tests/dashboard.test.cjs
+```
+
+**PASS:** procesamiento de CSV y fragmentos Serial, rechazo de datos corruptos, duplicados, invalidación, caducidad y apertura/cierre mediante puerto simulado. **PARTIAL:** falta comprobar el selector de permisos del navegador y la visualización conectada al ESP32 real; estas pruebas no sustituyen ese ensayo. No se modificó ni recargó el firmware para agregar el HTML.
 
 ## Adquisición y validación
 
