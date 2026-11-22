@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-11-22T00:59:17",
+  "port": "COM6",
+  "baud": 115200,
+  "duration_s": 65.01,
+  "valid_samples": 632,
+  "invalid_csv": 1,
+  "i2c_failures": [],
+  "invalid_reasons": [
+    "# INVALID reason=quaternion_norm"
+  ],
+  "boot": [
+    "# BNO055 USB_ONLY mode=IMUPLUS I2C=100000 timeout_ms=50 STOP_between_register_and_read=1",
+    "# CHIP address=0x28 id=0xA0",
+    "# BNO055 I2C=0x28 mode=IMUPLUS"
+  ],
+  "first_ok": [
+    1630,
+    -2.75,
+    1.19,
+    360.0,
+    -0.06,
+    -0.12,
+    -0.06,
+    -0.52,
+    -0.23,
+    10.21
+  ],
+  "last_ok": [
+    64731,
+    -2.75,
+    1.19,
+    0.0,
+    0.06,
+    0.06,
+    0.0,
+    -0.47,
+    -0.25,
+    10.17
+  ],
+  "controlled_axis_movement": false,
+  "valid_span_ms": 63101,
+  "effective_hz": 9.999841523906118
+}

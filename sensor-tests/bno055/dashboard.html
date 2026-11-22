@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BNO055 · USB</title>
+<style>
+:root{color-scheme:dark;font-family:Segoe UI,system-ui,sans-serif;background:#0b1220;color:#e8eef9}*{box-sizing:border-box}body{margin:0;padding:32px}main{max-width:1120px;margin:auto}header,.toolbar,.row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}h1{font-size:32px;letter-spacing:-1px;margin:8px 0}h2{font-size:16px;margin:0 0 18px}p,small{color:#a7b7cc;line-height:1.6}.eyebrow{color:#65dfcf;font-size:12px;letter-spacing:2px}button{border:1px solid #344861;border-radius:9px;padding:11px 18px;background:#203149;color:inherit;cursor:pointer;font:inherit}button.primary{background:#65dfcf;color:#09241f;border-color:#65dfcf;font-weight:600}button:disabled{opacity:.4;cursor:default}.toolbar{margin:24px 0}.pill{padding:8px 12px;border-radius:30px;background:#213149;color:#bdccdf;font-size:13px}.pill.good{background:#153b35;color:#7fe2ba}.pill.bad{background:#452831;color:#ffb0b7}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card,section{background:#131f30;border:1px solid #26364d;border-radius:14px;padding:22px}.value{font:500 44px ui-monospace,Consolas,monospace;margin:12px 0}.unit{font-size:20px;color:#96aac4}.roll{color:#65dfcf}.pitch{color:#83b6ff}.yaw{color:#e3acff}.layout{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin:16px 0}.scene{height:180px;display:grid;place-items:center;perspective:600px;overflow:hidden}.board{width:145px;height:95px;border:2px solid #8ff5e5;border-radius:10px;background:#21776c;display:grid;place-items:center;transform-style:preserve-3d;font-weight:700;color:white;box-shadow:0 15px 40px #0006}.board:before{content:'↑';position:absolute;top:2px;font-size:26px}.muted{opacity:.25}canvas{width:100%;height:200px;display:block}.legend{display:flex;gap:16px;font-size:12px}dl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0}dt{color:#98abc4;font-size:13px}dd{margin:5px 0 0;font:14px ui-monospace,monospace}.log{margin-top:16px}pre{white-space:pre-wrap;overflow-wrap:anywhere;height:140px;overflow:auto;font:12px/1.6 Consolas,monospace;color:#a9bfd9;margin-bottom:0}#message{min-height:26px}footer{font-size:12px;color:#98abc4;margin:22px 0}@media(max-width:720px){body{padding:18px}.layout{grid-template-columns:1fr}.cards{gap:8px}.card{padding:14px}.value{font-size:27px}dl{grid-template-columns:1fr}}
+</style>
+<main>
+<header><div><div class="eyebrow">BICOPTER / SENSOR LAB</div><h1>BNO055 <span class="unit">/ USB Serial</span></h1><p>Orientación en vivo · IMUPLUS · sin filtros externos</p></div><span class="pill" id="state" role="status">Desconectado</span></header>
+<div class="toolbar"><div><button class="primary" id="connect">Conectar ESP32</button> <button id="disconnect" disabled>Desconectar</button></div><small>115200 baudios · selecciona COM6 / CP210x</small></div>
+<p id="message" aria-live="polite">Cierra el monitor de PlatformIO antes de conectar. El puerto se usa desde una sola aplicación.</p>
+<div class="cards">
+<div class="card"><span class="roll">ROLL</span><div class="value"><span id="roll">—</span><span class="unit">°</span></div><small>Rotación sobre X del sensor</small></div>
+<div class="card"><span class="pitch">PITCH</span><div class="value"><span id="pitch">—</span><span class="unit">°</span></div><small>Rotación sobre Y del sensor</small></div>
+<div class="card"><span class="yaw">YAW</span><div class="value"><span id="yaw">—</span><span class="unit">°</span></div><small>Referencia relativa; puede derivar</small></div>
+</div>
+<div class="layout"><section><h2>Orientación esquemática</h2><div class="scene"><div class="board muted" id="board">BNO055</div></div><small>Vista ilustrativa. Confirma montaje y signos con movimientos controlados.</small></section>
+<section><div class="row"><h2>Últimos 20 segundos</h2><div class="legend"><span class="roll">Roll</span><span class="pitch">Pitch</span><span class="yaw">Yaw</span></div></div><canvas id="plot" aria-label="Historial de roll, pitch y yaw en grados"></canvas><small>Valores directos en grados. Los saltos de yaw entre 0 y 360° no se unen.</small></section></div>
+<section><h2>Lectura actual</h2><dl><div><dt>Giróscopo X / Y / Z · °/s</dt><dd id="gyro">—</dd></div><div><dt>Aceleración total X / Y / Z · m/s²</dt><dd id="accel">—</dd></div><div><dt>Calibración sistema / giro / accel / mag · 0–3</dt><dd id="cal">—</dd></div><div><dt>Timestamp ESP32 / tasa recibida / edad</dt><dd id="timing">—</dd></div><div><dt>Muestras OK / inválidas o corruptas / fallos I²C</dt><dd id="counts">0 / 0 / 0</dd></div></dl></section>
+<section class="log"><div class="row"><h2>Diagnóstico Serial</h2><button id="clear">Limpiar registro</button></div><pre id="log" aria-label="Mensajes de diagnóstico"></pre></section>
+<footer>Solo lectura por USB. No envía comandos al ESP32. Sin conexión de red ni dependencias externas.</footer>
+</main>
+<script id="protocol">
+// Kept independent of the DOM for tests against the firmware CSV protocol.
+function parseLine(line) {
+  line=line.trim();
+  if (!line || line.startsWith('#') || line.startsWith('ts_ms,')) return {kind:'log',line};
+  const p=line.split(',');
+  if (p.length!==15 || !/^\d+$/.test(p[0])) return {kind:'log',line};
+  if (p[14]==='INVALID') return {kind:'invalid'};
+  const v=p.slice(0,14).map(x=>x.trim()==='' ? NaN : Number(x));
+  if (p[14]!=='OK' || !v.every(Number.isFinite) || !Number.isInteger(v[0]) || v[0]>0xffffffff ||
+      !v.slice(10).every(x=>Number.isInteger(x)&&x>=0&&x<=3)) return {kind:'invalid'};
+  return {kind:'sample',ts:v[0],roll:v[1],pitch:v[2],yaw:v[3],gyro:v.slice(4,7),accel:v.slice(7,10),cal:v.slice(10)};
+}
+function lineBuffer(onLine) {
+  let pending='';
+  return chunk=>{
+    pending+=chunk;
+    let i;
+    while ((i=pending.indexOf('\n'))>=0) {onLine(pending.slice(0,i).replace(/\r$/,''));pending=pending.slice(i+1);}
+    if (pending.length>4096) {pending='';onLine('# INPUT oversized line discarded');}
+  };
+}
+</script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+let port=null,reader=null,reading=null,stopping=false,last=null,lastAt=0,history=[],arrivals=[],ok=0,bad=0,i2c=0,logs=[];
+function state(text,style=''){ $('state').textContent=text;$('state').className='pill '+style; }
+function log(line){if(!line)return;logs.push(line);logs=logs.slice(-80);$('log').textContent=logs.join('\n');$('log').scrollTop=$('log').scrollHeight;}
+function blank(){for(const id of ['roll','pitch','yaw','gyro','accel','cal','timing'])$(id).textContent='—';$('board').classList.add('muted');}
+function counts(){$('counts').textContent=`${ok} / ${bad} / ${i2c}`;}
+function receive(line){
+  const data=parseLine(line),now=performance.now();
+  if(data.kind==='log'){
+    if(line.includes('I2C_FAIL')){i2c++;last=null;blank();state('Fallo I²C','bad');}
+    if(line.includes('# INVALID') || line.includes('# ERROR')){last=null;blank();state('Lectura inválida','bad');}
+    // RAW and STATUS arrive at 10 Hz: CSV drives the display; keep the log useful.
+    if(!line.startsWith('# RAW')&&!line.startsWith('# STATUS'))log(line);
+    counts();return;
+  }
+  if(data.kind==='invalid'){bad++;last=null;history.push({at:now,gap:true});blank();state('Lectura inválida','bad');counts();return;}
+  // Repeated timestamps are not new readings. A decreasing timestamp denotes a reset/wrap.
+  if(last && data.ts===last.ts)return;
+  if(last && data.ts<last.ts){history=[];arrivals=[];log('# Reinicio o vuelta del timestamp ESP32');}
+  last=data;lastAt=now;ok++;arrivals.push(now);arrivals=arrivals.filter(t=>t>=now-2000);
+  history.push({...data,at:now});history=history.filter(s=>s.at>=now-20000).slice(-500);
+  for(const id of ['roll','pitch','yaw'])$(id).textContent=data[id].toFixed(2);
+  $('gyro').textContent=data.gyro.map(v=>v.toFixed(2)).join(' / ');
+  $('accel').textContent=data.accel.map(v=>v.toFixed(2)).join(' / ');
+  $('cal').textContent=data.cal.join(' / ');
+  $('board').classList.remove('muted');
+  $('board').style.transform=`rotateX(${data.pitch}deg) rotateY(${data.roll}deg) rotateZ(${-data.yaw}deg)`;
+  state('Recibiendo · OK','good');counts();
+}
+async function readPort(){
+  const decoder=new TextDecoder(),feed=lineBuffer(receive);
+  try{
+    reader=port.readable.getReader();
+    while(!stopping){const {value,done}=await reader.read();if(done)break;feed(decoder.decode(value,{stream:true}));}
+  }catch(e){if(!stopping){log('# USB: '+e.message);$('message').textContent='Se perdió la conexión USB. Revisa el cable y vuelve a conectar.';}}
+  finally{
+    if(reader){reader.releaseLock();reader=null;}
+    try{await port.close();}catch(e){log('# Cierre USB: '+e.message);}
+    port=null;last=null;blank();state('Desconectado');$('connect').disabled=false;$('disconnect').disabled=true;
+  }
+}
+$('connect').onclick=async()=>{
+  $('connect').disabled=true;
+  try{
+    port=await navigator.serial.requestPort();
+    await port.open({baudRate:115200});
+    stopping=false;last=null;history=[];arrivals=[];ok=bad=i2c=0;counts();blank();
+    state('Esperando lecturas');$('message').textContent='USB conectado. El ESP32 puede reiniciarse al abrir el puerto; espera el arranque del BNO055.';
+    $('disconnect').disabled=false;reading=readPort();
+  }catch(e){port=null;$('connect').disabled=false;$('message').textContent=e.name==='NotFoundError'?'Selección cancelada.':`No se pudo abrir el puerto: ${e.message}. Cierra otros monitores y vuelve a intentar.`;}
+};
+$('disconnect').onclick=async()=>{ $('disconnect').disabled=true;stopping=true;if(reader)await reader.cancel();if(reading)await reading; };
+$('clear').onclick=()=>{logs=[];$('log').textContent='';};
+if(!('serial' in navigator)||!window.isSecureContext){$('connect').disabled=true;$('message').textContent='Abre este HTML en Chrome o Edge de escritorio. Si Web Serial no está disponible, usa http://localhost (consulta el README).';}
+setInterval(()=>{
+  const now=performance.now();
+  if(last){
+    if(now-lastAt>500){blank();state('Sin muestra reciente','bad');}
+    else{const hz=arrivals.length>1?(arrivals.length-1)*1000/(arrivals.at(-1)-arrivals[0]):0;$('timing').textContent=`${last.ts} ms / ${hz.toFixed(1)} Hz / ${Math.round(now-lastAt)} ms`;}
+  }
+  history=history.filter(s=>s.at>=now-20000).slice(-500);
+  const c=$('plot'),dpr=window.devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;
+  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
+  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  const y=v=>h-22-(v+180)/540*(h-38);
+  ctx.font='11px monospace';ctx.strokeStyle='#293a51';ctx.fillStyle='#91a6c2';
+  for(const v of [-180,0,180,360]){ctx.beginPath();ctx.moveTo(38,y(v));ctx.lineTo(w,y(v));ctx.stroke();ctx.fillText(v+'°',0,y(v)+4);}
+  for(const [key,color] of [['roll','#65dfcf'],['pitch','#83b6ff'],['yaw','#e3acff']]){
+    ctx.strokeStyle=color;ctx.lineWidth=1.6;ctx.beginPath();let prev=null;
+    for(const s of history){if(s.gap){prev=null;continue;}const x=38+(s.at-(now-20000))/20000*(w-38);
+      if(!prev||s.at-prev.at>500||Math.abs(s[key]-prev[key])>180)ctx.moveTo(x,y(s[key]));else ctx.lineTo(x,y(s[key]));prev=s;
+    }ctx.stroke();
+  }
+},100);
+</script>
+</html>
