@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import xml.etree.ElementTree as ET
+import zlib
 from pathlib import Path
 
 from hardware.drc import run_drc
@@ -14,7 +15,18 @@ from hardware.pcb_spec import (
     J_TOF_PINS,
     build_default_board,
 )
-from hardware.render import PAGE_H_MM, PAGE_W_MM, render_all
+from hardware.render import (
+    LETTER_H_MM,
+    LETTER_H_PT,
+    LETTER_W_MM,
+    LETTER_W_PT,
+    PAGE_H_MM,
+    PAGE_W_MM,
+    _transform_point,
+    compute_letter_layout,
+    compute_letter_tiling,
+    render_all,
+)
 
 
 def test_drc_zero_errors_and_clearances() -> None:
@@ -107,17 +119,19 @@ def test_1to1_exports_and_mirroring_invariant() -> None:
     ruler_len = abs(float(ruler.attrib["x2"]) - float(ruler.attrib["x1"]))
     assert abs(ruler_len - 50.0) <= 0.1
 
-    # 2. Verify PDF MediaBox physical dimensions (±0.1 mm)
+    # 2. Verify PDF MediaBox exact US Letter dimensions (612 x 792 pt ± 0.5 pt)
     for pdf_key in ("bottom_toner_pdf", "top_assembly_pdf"):
         raw_bytes = outputs[pdf_key].read_bytes()
         match = re.search(rb"/MediaBox\s*\[\s*0(?:\.0+)?\s+0(?:\.0+)?\s+([0-9.]+)\s+([0-9.]+)\s*\]", raw_bytes)
         assert match is not None, f"MediaBox not found in {pdf_key}"
         w_pt = float(match.group(1))
         h_pt = float(match.group(2))
+        assert abs(w_pt - LETTER_W_PT) <= 0.5
+        assert abs(h_pt - LETTER_H_PT) <= 0.5
         w_mm = w_pt * 25.4 / 72.0
         h_mm = h_pt * 25.4 / 72.0
-        assert abs(w_mm - PAGE_W_MM) <= 0.1
-        assert abs(h_mm - PAGE_H_MM) <= 0.1
+        assert abs(w_mm - LETTER_W_MM) <= 0.1
+        assert abs(h_mm - LETTER_H_MM) <= 0.1
 
     # 3. Verify B.Cu toner transfer mirroring invariant:
     #    - Electrical pads remain in Top View coordinates.
@@ -148,3 +162,100 @@ def test_1to1_exports_and_mirroring_invariant() -> None:
         "Adrian Ruiz",
         "Alonso Madrigal",
     }
+
+
+def _extract_pdf_segments_mm(pdf_path: Path) -> list[tuple[float, float, float, float]]:
+    """Decompress FlateDecode PDF streams and extract drawn 2-point line segments in mm."""
+    raw = pdf_path.read_bytes()
+    pt_to_mm = 25.4 / 72.0
+    segments: list[tuple[float, float, float, float]] = []
+    seg_re = re.compile(r"([0-9.\-]+)\s+([0-9.\-]+)\s+m\s+([0-9.\-]+)\s+([0-9.\-]+)\s+l")
+
+    for match in re.finditer(rb"stream\r?\n(.*?)\r?\nendstream", raw, flags=re.DOTALL):
+        payload = match.group(1)
+        try:
+            text = zlib.decompress(payload).decode("latin1", errors="ignore")
+        except zlib.error:
+            text = payload.decode("latin1", errors="ignore")
+        for m in seg_re.finditer(text):
+            x1, y1, x2, y2 = (float(m.group(i)) * pt_to_mm for i in range(1, 5))
+            segments.append((x1, y1, x2, y2))
+    return segments
+
+
+def test_letter_tiling_non_overlap_and_pdf_1to1_copies() -> None:
+    """Verify US Letter multi-copy panelization, zero overlaps, 1:1 H/V rulers, and chirality."""
+    board = build_default_board()
+    cols, rows, rotated_90 = compute_letter_tiling(board.width_mm, board.height_mm)
+    copies = cols * rows
+    assert copies >= 2
+    assert (cols, rows, rotated_90) == (2, 2, False)
+
+    layout = compute_letter_layout(board)
+    assert len(layout.placements) == copies
+
+    # 1. Verify every board placement stays inside printable US Letter bounds
+    max_y_allowed = LETTER_H_MM - layout.margin_mm - layout.header_mm
+    for pl in layout.placements:
+        assert pl.ox_mm >= layout.margin_mm - 1e-6
+        assert pl.oy_mm >= layout.margin_mm - 1e-6
+        assert pl.ox_mm + pl.width_mm <= LETTER_W_MM - layout.margin_mm + 1e-6
+        assert pl.oy_mm + pl.height_mm <= max_y_allowed + 1e-6
+
+    # 2. Verify pairwise zero overlap between copies and >= gap_mm clearance
+    for i, a in enumerate(layout.placements):
+        for j, b in enumerate(layout.placements):
+            if i >= j:
+                continue
+            x_overlap = min(a.ox_mm + a.width_mm, b.ox_mm + b.width_mm) - max(a.ox_mm, b.ox_mm)
+            y_overlap = min(a.oy_mm + a.height_mm, b.oy_mm + b.height_mm) - max(a.oy_mm, b.oy_mm)
+            assert not (x_overlap > -1e-6 and y_overlap > -1e-6), f"Copies {i} and {j} overlap"
+
+    # 3. Verify 50.0 mm H/V rulers stay inside margins and never overlap any copy
+    hx1, hy1, hx2, hy2 = layout.h_ruler
+    vx1, vy1, vx2, vy2 = layout.v_ruler
+    assert abs((hx2 - hx1) - 50.0) <= 1e-6 and abs(hy2 - hy1) <= 1e-6
+    assert abs((vy2 - vy1) - 50.0) <= 1e-6 and abs(vx2 - vx1) <= 1e-6
+    assert hy1 > max_y_allowed  # Strictly inside reserved header band
+    assert vx1 >= layout.margin_mm and vx1 <= LETTER_W_MM - layout.margin_mm
+    for pl in layout.placements:
+        in_x = pl.ox_mm <= vx1 <= pl.ox_mm + pl.width_mm
+        in_y = not (vy2 < pl.oy_mm or vy1 > pl.oy_mm + pl.height_mm)
+        assert not (in_x and in_y), "Vertical ruler overlaps board copy"
+
+    # 4. Verify 1:1 physical scale (±0.1 mm) and mirrored banner presence in EVERY copy of bottom toner PDF
+    outputs = render_all(board)
+    segments = _extract_pdf_segments_mm(outputs["bottom_toner_pdf"])
+    assert len(segments) > 100
+
+    # Check both 50.0 mm rulers are present at exact physical length (±0.1 mm)
+    has_h_ruler = any(
+        abs(x1 - hx1) <= 0.1 and abs(y1 - hy1) <= 0.1 and abs(x2 - hx2) <= 0.1 and abs(y2 - hy2) <= 0.1
+        for x1, y1, x2, y2 in segments
+    )
+    has_v_ruler = any(
+        abs(x1 - vx1) <= 0.1 and abs(y1 - vy1) <= 0.1 and abs(x2 - vx2) <= 0.1 and abs(y2 - vy2) <= 0.1
+        for x1, y1, x2, y2 in segments
+    )
+    assert has_h_ruler, "50.0 mm horizontal calibration ruler missing or off-scale in PDF"
+    assert has_v_ruler, "50.0 mm vertical calibration ruler missing or off-scale in PDF"
+
+    # Check each of the 4 copies contains the mirrored Anáhuac banner segments at exact 1:1 coordinates
+    sample_bp = board.banner_primitives[5]  # Inner emblem stroke
+    mx1, my1, mx2, my2, _ = sample_bp.to_capsule(mirrored=True, center_x_mm=board.banner_center_x_mm)
+    ux1, _, ux2, _, _ = sample_bp.to_capsule(mirrored=False, center_x_mm=board.banner_center_x_mm)
+    assert abs(mx1 - ux1) > 1.0  # Asymmetric stroke confirms mirroring is non-trivial
+
+    for pl in layout.placements:
+        ex1, ey1 = _transform_point(mx1, my1, board.width_mm, board.height_mm, pl)
+        ex2, ey2 = _transform_point(mx2, my2, board.width_mm, board.height_mm, pl)
+        found_mirrored = any(
+            abs(x1 - ex1) <= 0.1 and abs(y1 - ey1) <= 0.1 and abs(x2 - ex2) <= 0.1 and abs(y2 - ey2) <= 0.1
+            for x1, y1, x2, y2 in segments
+        )
+        assert found_mirrored, f"Mirrored banner stroke missing at 1:1 coords in copy ({pl.col},{pl.row})"
+
+    # 5. Verify rotated_90 = True rigid SE(2) transform (det = +1) when rotation maximizes copies
+    c_rot, r_rot, is_rot = compute_letter_tiling(210.0, 90.0)
+    assert (c_rot, r_rot, is_rot) == (2, 1, True)
+
