@@ -41,16 +41,3 @@ inline int csvLine(char* out, size_t n, const ImuSample& s, bool current) {
         static_cast<unsigned long>(s.ts_ms),s.roll,s.pitch,s.yaw,s.gx,s.gy,s.gz,s.ax,s.ay,s.az,
         s.cal_sys,s.cal_gyro,s.cal_accel,s.cal_mag);
 }
-
-inline int jsonLine(char* out, size_t n, const ImuSample& s, uint32_t now, bool connected, const char* mode, uint8_t address, uint32_t errors) {
-    const uint32_t age = s.seq ? static_cast<uint32_t>(now-s.ts_ms) : 0;
-    const bool ok = connected && fresh(s,now);
-    const char* status = !connected ? "DISCONNECTED" : (ok ? "OK" : "STALE_OR_INVALID");
-    const int head = std::snprintf(out,n,"{\"status\":\"%s\",\"valid\":%s,\"ts_ms\":%lu,\"age_ms\":%lu,\"mode\":\"%s\",\"i2c\":\"0x%02X\",\"hz\":%.1f,\"errors\":%lu,\"data\":",
-        status,ok?"true":"false",static_cast<unsigned long>(s.ts_ms),static_cast<unsigned long>(age),mode,address,s.hz,static_cast<unsigned long>(errors));
-    if (head < 0 || static_cast<size_t>(head) >= n) return -1;
-    const int tail = ok ? std::snprintf(out+head,n-head,"{\"roll\":%.2f,\"pitch\":%.2f,\"yaw\":%.2f,\"gx\":%.2f,\"gy\":%.2f,\"gz\":%.2f,\"ax\":%.2f,\"ay\":%.2f,\"az\":%.2f,\"qw\":%.4f,\"qx\":%.4f,\"qy\":%.4f,\"qz\":%.4f,\"cal\":[%u,%u,%u,%u]}}",
-        s.roll,s.pitch,s.yaw,s.gx,s.gy,s.gz,s.ax,s.ay,s.az,s.qw,s.qx,s.qy,s.qz,s.cal_sys,s.cal_gyro,s.cal_accel,s.cal_mag)
-        : std::snprintf(out+head,n-head,"null}");
-    return tail < 0 || static_cast<size_t>(tail) >= n-head ? -1 : head+tail;
-}

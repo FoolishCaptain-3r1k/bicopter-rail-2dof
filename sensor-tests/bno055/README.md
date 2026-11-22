@@ -1,58 +1,64 @@
-# BNO055: diagnóstico independiente por Serial y Wi-Fi
+# BNO055: prueba independiente por USB Serial
 
-Proyecto PlatformIO para ESP32 DevKit y módulo **GY-BNO055**. No incluye VL53, ESC, PWM ni control de motores. Usa la biblioteca Adafruit BNO055 1.6.4 y Arduino ESP32. El cableado GPIO21/22 y ADD a GND, junto con la detección `0x28` en IMUPLUS, fueron confirmados por el equipo; aún se debe comprobar la ficha eléctrica del breakout concreto.
+Proyecto PlatformIO/Arduino para ESP32 DevKit y GY-BNO055. El único entorno es `esp32dev`: sin Wi-Fi, AP, WebServer, Adafruit, filtros digitales externos ni control de motores. La interfaz de computadora se implementará después; esta prueba entrega diagnóstico y CSV por USB a **115200 baudios**.
 
-## Diagnóstico I2C actual (predeterminado)
+## Cableado
 
-El entorno `esp32dev` compila con `BNO_DIAG_MODE=1`, `BNO_ENABLE_WIFI=0`, adquisición y Serial objetivo **10 Hz**, I2C **100 kHz**. En VS Code abrir `sensor-tests/bno055` como proyecto PlatformIO, seleccionar `env:esp32dev`, ejecutar **Build** y luego **Upload** solo con ESP32 + GY-BNO055 conectados y cableado verificado. Abrir **Monitor** a 115200. Equivalentes desde la raíz: `pio run -d sensor-tests/bno055 -e esp32dev`, `pio run -d sensor-tests/bno055 -e esp32dev -t upload` y `pio device monitor -b 115200`.
+Con USB desconectado, verificar la ficha del breakout concreto: alimentación admitida, regulador y pull-ups. Si acepta alimentación y bus de 3.3 V:
 
-La salida informa `CHIP address=0x28 id=0xA0`, modo, reloj y si usa STOP entre selección de registro y lectura. En el modo diagnóstico, por muestra imprime `STATUS system=... selftest=... error=...` y `RAW Euler=... accel=... gyro=... quat=... norm=...`, además del CSV habitual. Ambas variantes leen **aceleración total**, incluida la gravedad. `I2C_FAIL reg=... phase=write/read` identifica el registro y el tramo fallido. `INVALID reason=...` identifica un error del sistema, una transacción I2C, una variable no finita o `quaternion_norm` fuera de 0.5–1.5. Una muestra fallida nunca aparece como `OK`; el programa reintenta iniciar cada 2 s tras una pérdida de comunicación.
+| ESP32 | GY-BNO055 |
+| --- | --- |
+| 3V3 | VCC/VIN compatible con 3.3 V |
+| GND | GND |
+| GPIO21 | SDA |
+| GPIO22 | SCL |
+| GND | ADD/ADR, para dirección 0x28 |
 
-La lectura del Chip ID se realiza al iniciar, no antes de cada muestra. El diagnóstico configura el modo con escrituras I2C directas y usa STOP por defecto (`BNO_I2C_RESTART=0`) al leer registros; `1` permite comparar repeated-start en otra compilación. La biblioteca Adafruit usa repeated-start en sus lecturas internas y no propaga el fallo de `readLen()` a `getVector()`/`getQuat()`, motivo por el que el modo diagnóstico comprueba cada transacción directamente. El reloj queda en 100 kHz hasta medir resultados físicos; `BNO_I2C_HZ=50000UL` es una comparación posterior si continúan los fallos tras revisar alimentación, tierra y pull-ups. **Compilar no demuestra que STOP o 50 kHz solucionen el problema.**
+No aplicar 5 V a los GPIO. Revisar continuidad de GND y ausencia de cortos antes de conectar USB. Mantener LiPo, ESC, motores y hélices desconectados. Esta prueba usa **100 kHz** aunque el bus del firmware principal tenga otra configuración. Ver [seguridad](../../docs/WIRING_AND_SAFETY.md). La referencia y ficha eléctrica exacta del breakout siguen pendientes de registrar.
 
-Para usar el dashboard, seleccionar `env:esp32dev_wifi` (`BNO_DIAG_MODE=0`, `BNO_ENABLE_WIFI=1`) y compilar/cargar esa configuración. Reutiliza la misma inicialización y lectura I2C directa del diagnóstico, con STOP entre selección de registro y lectura a 100 kHz; reduce únicamente el detalle de las líneas de depuración. Ambas variantes tienen adquisición y Serial objetivo de 10 Hz; la página consulta la API a 10 Hz. No se aplica ningún filtro.
+## Compilar, cargar y observar desde VS Code
 
-## Cableado y primera prueba
-
-Con USB desconectado, identificar el fabricante y referencia exacta del breakout. Consultar su ficha para confirmar alimentación, pull-ups de SDA/SCL y conversión de niveles. Solo si el módulo acepta **3.3 V de alimentación y bus I2C de 3.3 V** conectar: ESP32 `3V3 → VCC/VIN`, `GND → GND`, `GPIO21 → SDA`, `GPIO22 → SCL`. Para dirección `0x28`, conectar `ADR/ADD → GND` únicamente si el fabricante lo especifica; `0x29` se detecta como alternativa, pero puede chocar con un VL53 futuro. No aplicar 5 V a GPIO del ESP32. Verificar continuidad de GND y ausencia de cortos antes de conectar USB. Mantener ESC, motores, hélices y LiPo desconectados. Consultar [seguridad](../../docs/WIRING_AND_SAFETY.md).
-
-En VS Code con PlatformIO, abrir este repositorio y seleccionar `sensor-tests/bno055` como proyecto. Desde PowerShell en la raíz:
+Abrir `sensor-tests/bno055` como proyecto PlatformIO, seleccionar `env:esp32dev`, ejecutar **Build**, **Upload** y **Monitor**. Cerrar otros monitores que ocupen COM6. Equivalentes desde la raíz:
 
 ```powershell
-pio run -d sensor-tests/bno055
+pio run -d sensor-tests/bno055 -e esp32dev
+pio run -d sensor-tests/bno055 -e esp32dev -t upload --upload-port COM6
+pio device monitor --port COM6 --baud 115200
 powershell -NoProfile -ExecutionPolicy Bypass -File sensor-tests/bno055/tests/run_native.ps1
 ```
 
-En el entorno `esp32dev_wifi`, el ESP32 anuncia `Bicopter-IMU-Test`, la contraseña de **prueba pública** `BicopterIMU2026!`, la IP del AP y el estado HTTP. Conectar el teléfono/PC a esa red y abrir la IP mostrada (normalmente `http://192.168.4.1/`). No necesita internet ni CDN. Para usar otra contraseña, definir `BNO_AP_PASSWORD` como build flag **local** de 8–63 caracteres; no subir credenciales privadas al repositorio. El código usa WPA2 mediante `WiFi.softAP` con contraseña. `BNO_USE_NDOF=0` selecciona IMUPLUS; cambiar el flag a `1` y recompilar solo para ensayos posteriores.
+El antiguo entorno `esp32dev_wifi` fue retirado. La rama conserva su nombre para continuar el PR #3 existente. No se necesita conectarse a ninguna red.
 
-## Lecturas y convenciones
+## Adquisición y validación
 
-Los registros entregan Euler `heading/yaw`, `roll`, `pitch` en grados, giróscopo en °/s y aceleración total en m/s². Se publican en el marco **del sensor**, sin remapeo de montaje. Euler y cuaternión provienen de la fusión interna; la aceleración total incluye gravedad. El cuaternión se muestra como `w,x,y,z` y evita la singularidad de Euler. En IMUPLUS no hay norte magnético absoluto, así que yaw puede derivar. Los cuatro niveles de calibración van de 0 a 3; el magnético puede permanecer bajo en IMUPLUS.
+- I2C a 100 kHz, timeout explícito de **50 ms por transacción**, STOP entre selección de registro y lectura. El timeout individual no es una garantía del tiempo total de adquisición.
+- Espera inicial de 700 ms antes de acceder al sensor. Tras reset por software, espera de 650 ms seguida de sondeo del Chip ID con límite de 1200 ms. El reset y la configuración pueden bloquear durante ese intervalo: este es un diagnóstico independiente, no un lazo de control.
+- Detecta Chip ID `0xA0` en `0x28`; también admite `0x29` como alternativa, sin VL53 conectado. Inicializa IMUPLUS con escrituras directas; no comprueba Chip ID antes de cada muestra.
+- Una ráfaga de 32 bytes desde `0x08` hasta `0x27` contiene acelerómetro, magnetómetro (no usado), giróscopo, Euler y cuaternión. Estado, autoprueba, error y calibración se leen por separado. Las lecturas se convierten a unidades físicas, sin mediana, EMA ni Kalman. La fusión interna IMUPLUS permanece activa.
+- Adquisición y CSV a 10 Hz objetivo. Se imprime `STATUS system=... selftest=... error=...` y `RAW Euler=... accel=... gyro=... quat=... norm=...`. El campo `norm` representa la norma al cuadrado.
+- `I2C_FAIL reg=... phase=...` identifica la transacción fallida. `INVALID reason=...` identifica error del sistema, variable no finita o norma al cuadrado fuera de `(0.5,1.5)`. Una transacción incompleta invalida toda la muestra. Los fallos de comunicación provocan reinicialización tras 2 s; una muestra inválida sin fallo de comunicación no reinicia el chip.
+- El CSV solo marca `OK` para una muestra válida, nueva y con edad no mayor de 200 ms. En otro caso imprime `NA` e `INVALID`; nunca reutiliza una muestra anterior como nueva.
 
-Serial a 115200 publica la cabecera `ts_ms,roll_deg,pitch_deg,yaw_deg,gx_dps,gy_dps,gz_dps,ax_ms2,ay_ms2,az_ms2,cal_sys,cal_gyro,cal_accel,cal_mag,status` a 10 Hz objetivo. Solo marca `OK` si hay una muestra nueva y reciente; de lo contrario publica `INVALID` con `NA`. La adquisición intenta 10 Hz y el navegador consulta `/api/imu` a 10 Hz. La API entrega `data:null` si la muestra es inválida, caducó (>200 ms) o el sensor se desconectó. Ante pérdida I2C reintenta inicialización cada 2 s. La frecuencia efectiva se calcula con timestamps.
+Cabecera CSV:
 
-La página tiene orientación numérica, vista esquemática de roll/pitch, ejes de giro/aceleración, calibración y diagnóstico. La vista no representa una actitud absoluta del bicóptero: verificar el montaje y los signos antes de usarla como referencia. El servidor HTTP corre en núcleo 0 y las lecturas I2C en el bucle del núcleo 1, con intercambio breve de una copia de datos. RAM estática de compilación: consultar resultado de PlatformIO; la página reside en flash y no hay librerías web externas.
+```text
+ts_ms,roll_deg,pitch_deg,yaw_deg,gx_dps,gy_dps,gz_dps,ax_ms2,ay_ms2,az_ms2,cal_sys,cal_gyro,cal_accel,cal_mag,status
+```
 
-## Aceptación física pendiente
+Euler se publica como roll, pitch y yaw en grados, giróscopo en grados/s y aceleración **total**, incluida gravedad, en m/s². El cuaternión se imprime W/X/Y/Z en el diagnóstico RAW. No hay remapeo de montaje. En IMUPLUS yaw puede derivar porque no tiene referencia magnética absoluta. Los niveles de calibración son 0–3; el magnetómetro no participa en IMUPLUS.
 
-**PASS final** si el módulo y niveles están documentados, se detecta en `0x28` o `0x29`, Serial y web muestran lecturas nuevas durante al menos 60 s, la orientación cambia coherentemente al girar el sensor en cada eje, la calibración se informa, y las tasas medidas se aproximan a 10 Hz sin muestras caducadas persistentes. Probar recuperación ante desconexión del sensor solo con USB apagado. **FAIL** si hay datos `OK` caducados, ejes incoherentes o fallos persistentes. Registrar modelo del breakout, dirección, capturas, tiempos y errores. La respuesta controlada de los tres ejes y la consulta HTTP física siguen pendientes.
+## Criterios de aceptación
 
-## Evidencia de software
+**PASS:** Chip ID y modo correctos, estado sin error, lecturas nuevas por al menos 60 s, sin errores de comunicación durante la adquisición estable; roll, pitch y yaw responden coherentemente al girar cada eje de forma controlada. Registrar tasa real y comprobar invalidación/recuperación ante pérdida del sensor, cambiando el cableado solo con USB desconectado.
 
-- **PASS** `pio run -d sensor-tests/bno055 -e esp32dev`: `SUCCESS`; RAM 6.7 %, flash 22.3 %.
-- **PASS** `pio run -d sensor-tests/bno055 -e esp32dev_wifi`: `SUCCESS`; RAM 13.9 %, flash 61.2 %.
-- **PASS** `tests/run_native.ps1`: `PASS: axes, serialization, invalid and stale states`, incluidas razones `gy` y `quaternion_norm`.
-- **PASS** se cargó `.pio/build/esp32dev_wifi/firmware.bin` en COM6; esptool verificó el hash y terminó en `SUCCESS`.
-- **PARTIAL** se observó el sensor por Serial más de 60 s en ambas variantes. La prueba controlada de roll, pitch y yaw, la ficha eléctrica del breakout y la respuesta HTTP del dashboard siguen pendientes.
+**FAIL:** errores persistentes, datos corruptos publicados como OK, muestras caducadas reutilizadas, cuaternión inválido persistente o signos/ejes incoherentes.
 
-## Verificación en COM6 (22 de noviembre de 2026)
+**PARTIAL:** compila y entrega datos, pero faltan movimientos controlados, comprobación eléctrica o ensayo de recuperación. Una captura Serial no demuestra que una caída de alimentación haya sido la causa del problema previo.
 
-Se compiló desde cero `env:esp32dev` y PlatformIO cargó `.pio/build/esp32dev/firmware.bin` por COM6; esptool verificó los hashes y terminó en `SUCCESS`. El monitor a 115200 mostró `diagnostic=1 wifi=0 I2C=100000`, Chip ID `0xA0` en `0x28`, `system=5`, autoprueba `0x0F` y error `0`.
+## Evidencia de esta revisión
 
-La primera observación expuso una dirección equivocada en el propio diagnóstico: `0x3B` es `UNIT_SEL`, no `SYS_ERR`; las direcciones correctas de Adafruit son `SELFTEST=0x36`, `SYS_STAT=0x39` y `SYS_ERR=0x3A`. Después de corregirlas, el cuaternión seguía temporalmente en cero. Se restituyó el reset e inicio de modo que utiliza la biblioteca y se dejó de reiniciar por una muestra inválida sin fallo I2C. Tras el arranque aparecieron lecturas `OK` con norma `1.0000`, por ejemplo a `7056 ms`: roll `-2.50°`, pitch `1.12°`, yaw `359.94°`, aceleración total `(-0.42,-0.20,10.17) m/s²`. Los timestamps de muestras consecutivas rondaron 109–110 ms, aproximadamente 9.1 Hz en esta observación. Los NACK `code=2` durante el reset se observaron antes de la recuperación del Chip ID; no se atribuyen a muestras válidas.
-
-**Nueva observación diagnóstica:** captura Serial de 75 s: 677 muestras válidas entre `940` y `74766 ms` (73.8 s), 50 fallos `I2C_FAIL reg=0x00 phase=write code=2` durante el reinicio del chip. La captura resumida no separó los fallos anteriores y posteriores a la primera muestra válida. Los valores observados cubrieron roll `-58.94` a `25.50°`, pitch `-21.12` a `33.62°` y yaw `0` a `359.94°`; esos cambios no constituyen una prueba de movimiento controlado ni validan los signos de los ejes.
-
-**Variante Wi-Fi:** se compiló y cargó `env:esp32dev_wifi` por COM6; esptool verificó el hash y terminó en `SUCCESS`. Captura Serial de 65 s después de abrir el puerto: `AP=Bicopter-IMU-Test ... IP=192.168.4.1 status=OK`, `HTTP server ready port=80`, Chip ID `0xA0` en `0x28`, 581 líneas `OK`, cuatro `INVALID` iniciales y 48 `I2C_FAIL` de reinicio antes de la primera muestra válida. No hubo fallos I2C después de esa primera muestra en la captura; las muestras válidas abarcaron `1039` a `64654 ms` (63.6 s), cerca de 9.1 Hz. El PC solo detectó su red `MeshMR1` durante el escaneo, por lo que no se comprobó una petición real a `/api/imu` ni la actualización visual del dashboard. La publicación del AP y el inicio del servidor solo quedaron verificados por Serial.
-
-**Estado:** PASS compilación, pruebas nativas, carga y telemetría Serial sostenida; PARTIAL estabilidad I2C por los NACK durante reset y falta de ensayo controlado de ejes; BLOCKED verificación HTTP física desde este PC mientras el AP no sea visible. No se conectaron motores ni ESC.
+- **PASS** compilación `esp32dev`: SUCCESS, RAM 21896 bytes (6.7 %), flash 290641 bytes (22.2 %). Dependencia detectada: únicamente Wire.
+- **PASS** pruebas nativas: `PASS: axes, serialization, invalid and stale states`. Verifican conversión de ejes, CSV, valores no finitos, norma de cuaternión y caducidad; no simulan un bus I2C real.
+- **PASS** carga explícita de `.pio/build/esp32dev/firmware.bin` por COM6: hashes verificados, reset mediante RTS y SUCCESS.
+- **PASS** captura física de 65.01 s en COM6: 632 muestras OK entre 1630 y 64731 ms (63.101 s de muestras válidas), 10.00 Hz efectivos y cero fallos I2C registrados. Una muestra se rechazó por `quaternion_norm` y se publicó como INVALID. Evidencia: consultar [captura resumida](tests/evidence/usb-validation.json). Las capturas Wi-Fi anteriores pertenecen a otra versión y no validan esta revisión.
+- **PARTIAL** movimiento controlado de los tres ejes, identificación eléctrica exacta del breakout y ensayo de desconexión/recuperación pendientes. No se accionaron ESC ni motores.

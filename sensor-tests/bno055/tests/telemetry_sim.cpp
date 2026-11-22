@@ -8,8 +8,6 @@ int main(){
     s.gx=1.25f;s.gy=-2;s.gz=3;s.ax=0.1f;s.ay=0.2f;s.az=0.3f;s.seq=1;s.ts_ms=100;s.valid=true;
     assert(finiteSample(s));assert(fresh(s,299));assert(!fresh(s,301));
     char out[640];csvLine(out,sizeof(out),s,true);assert(std::strstr(out,"100,10.00,-5.00,30.00,1.25")!=nullptr);
-    jsonLine(out,sizeof(out),s,301,true,"IMUPLUS",0x28,0);assert(std::strstr(out,"\"valid\":false")&&std::strstr(out,"\"data\":null"));
-    jsonLine(out,sizeof(out),s,150,true,"IMUPLUS",0x28,0);assert(std::strstr(out,"\"valid\":true")&&std::strstr(out,"\"roll\":10.00"));
     s.qw=0;assert(!finiteSample(s));s.qw=1;s.valid=false;assert(!fresh(s,150));
     s.gy=std::nanf("");assert(std::strcmp(invalidReason(s),"gy")==0);s.gy=0;
     s.qw=0;assert(std::strcmp(invalidReason(s),"quaternion_norm")==0);s.qw=1;

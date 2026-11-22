@@ -1,7 +1,6 @@
 #pragma once
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_BNO055.h>
 #include "telemetry.h"
 
 #ifndef BNO_I2C_RESTART
@@ -26,39 +25,44 @@ inline bool read(uint8_t addr,uint8_t reg,uint8_t* out,uint8_t length){
     return true;
 }
 inline bool configure(uint8_t addr,bool ndof){
-    if(!write(addr,Adafruit_BNO055::BNO055_OPR_MODE_ADDR,0x00))return false;
+    if(!write(addr,0x3D,0x00))return false;
     delay(25);
-    if(!write(addr,Adafruit_BNO055::BNO055_SYS_TRIGGER_ADDR,0x20))return false;
-    delay(30);
+    if(!write(addr,0x3F,0x20))return false;
+    delay(650); // BNO055 reset-to-config time; poll with a bounded deadline below.
     const uint32_t start=millis();uint8_t id=0;
     while(static_cast<uint32_t>(millis()-start)<1200){
-        if(read(addr,Adafruit_BNO055::BNO055_CHIP_ID_ADDR,&id,1)&&id==0xA0)break;
+        if(read(addr,0x00,&id,1)&&id==0xA0)break;
         delay(10);
     }
     if(id!=0xA0){Serial.println("# INVALID reason=chip_reset_timeout");return false;}
     delay(50);
-    if(!write(addr,Adafruit_BNO055::BNO055_PWR_MODE_ADDR,0x00))return false;
+    if(!write(addr,0x3E,0x00))return false;
     delay(10);
-    if(!write(addr,Adafruit_BNO055::BNO055_PAGE_ID_ADDR,0x00)||
-       !write(addr,Adafruit_BNO055::BNO055_SYS_TRIGGER_ADDR,0x00))return false;
+    if(!write(addr,0x07,0x00)||
+       !write(addr,0x3F,0x00))return false;
     delay(10);
-    if(!write(addr,Adafruit_BNO055::BNO055_OPR_MODE_ADDR,ndof?0x0C:0x08))return false;
+    if(!write(addr,0x3D,ndof?0x0C:0x08))return false;
     delay(30);
     return true;
 }
 inline int16_t word(const uint8_t* b,int i){return static_cast<int16_t>(static_cast<uint16_t>(b[i])|(static_cast<uint16_t>(b[i+1])<<8));}
 enum class SampleResult { Valid, Invalid, CommunicationFailure };
 inline SampleResult sample(uint8_t addr,ImuSample& s,bool verbose=true){
-    uint8_t status[3],cal,e[6],accel[6],gyro[6],q[8];
-    // Status registers are read separately to preserve their documented addresses.
-    if(!read(addr,Adafruit_BNO055::BNO055_SYS_STAT_ADDR,&status[0],1)||
-       !read(addr,Adafruit_BNO055::BNO055_SELFTEST_RESULT_ADDR,&status[1],1)||
-       !read(addr,Adafruit_BNO055::BNO055_SYS_ERR_ADDR,&status[2],1)||!read(addr,0x35,&cal,1)||
-       !read(addr,0x1A,e,6)||!read(addr,0x08,accel,6)||!read(addr,0x14,gyro,6)||!read(addr,0x20,q,8)){
+    uint8_t status[3],cal,frame[32];
+    // BNO055 register map: status read separately; burst 0x08..0x27 includes
+    // accel, magnetometer (unused), gyro, Euler and quaternion. No host filtering.
+    if(!read(addr,0x39,&status[0],1)||
+       !read(addr,0x36,&status[1],1)||
+       !read(addr,0x3A,&status[2],1)||!read(addr,0x35,&cal,1)||
+       !read(addr,0x08,frame,sizeof(frame))){
         Serial.println("# INVALID reason=i2c_transaction");return SampleResult::CommunicationFailure;
     }
     if(verbose)Serial.printf("# STATUS system=%u selftest=0x%02X error=%u\n",status[0],status[1],status[2]);
     if(status[2]!=0){Serial.printf("# INVALID reason=system_error code=%u\n",status[2]);return SampleResult::Invalid;}
+    const uint8_t* accel=frame;
+    const uint8_t* gyro=frame+12;
+    const uint8_t* e=frame+18;
+    const uint8_t* q=frame+24;
     mapEuler(word(e,0)/16.0f,word(e,2)/16.0f,word(e,4)/16.0f,s);
     s.ax=word(accel,0)/100.0f;s.ay=word(accel,2)/100.0f;s.az=word(accel,4)/100.0f;
     s.gx=word(gyro,0)/16.0f;s.gy=word(gyro,2)/16.0f;s.gz=word(gyro,4)/16.0f;
