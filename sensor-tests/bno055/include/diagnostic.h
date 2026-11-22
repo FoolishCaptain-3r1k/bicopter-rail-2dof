@@ -48,7 +48,7 @@ inline bool configure(uint8_t addr,bool ndof){
 }
 inline int16_t word(const uint8_t* b,int i){return static_cast<int16_t>(static_cast<uint16_t>(b[i])|(static_cast<uint16_t>(b[i+1])<<8));}
 enum class SampleResult { Valid, Invalid, CommunicationFailure };
-inline SampleResult sample(uint8_t addr,ImuSample& s){
+inline SampleResult sample(uint8_t addr,ImuSample& s,bool verbose=true){
     uint8_t status[3],cal,e[6],accel[6],gyro[6],q[8];
     // Status registers are read separately to preserve their documented addresses.
     if(!read(addr,Adafruit_BNO055::BNO055_SYS_STAT_ADDR,&status[0],1)||
@@ -57,7 +57,7 @@ inline SampleResult sample(uint8_t addr,ImuSample& s){
        !read(addr,0x1A,e,6)||!read(addr,0x08,accel,6)||!read(addr,0x14,gyro,6)||!read(addr,0x20,q,8)){
         Serial.println("# INVALID reason=i2c_transaction");return SampleResult::CommunicationFailure;
     }
-    Serial.printf("# STATUS system=%u selftest=0x%02X error=%u\n",status[0],status[1],status[2]);
+    if(verbose)Serial.printf("# STATUS system=%u selftest=0x%02X error=%u\n",status[0],status[1],status[2]);
     if(status[2]!=0){Serial.printf("# INVALID reason=system_error code=%u\n",status[2]);return SampleResult::Invalid;}
     mapEuler(word(e,0)/16.0f,word(e,2)/16.0f,word(e,4)/16.0f,s);
     s.ax=word(accel,0)/100.0f;s.ay=word(accel,2)/100.0f;s.az=word(accel,4)/100.0f;
@@ -67,7 +67,7 @@ inline SampleResult sample(uint8_t addr,ImuSample& s){
     s.ts_ms=millis();
     const char* reason=invalidReason(s);
     const float norm=s.qw*s.qw+s.qx*s.qx+s.qy*s.qy+s.qz*s.qz;
-    Serial.printf("# RAW Euler=%.2f,%.2f,%.2f accel=%.2f,%.2f,%.2f gyro=%.2f,%.2f,%.2f quat=%.4f,%.4f,%.4f,%.4f norm=%.4f\n",
+    if(verbose)Serial.printf("# RAW Euler=%.2f,%.2f,%.2f accel=%.2f,%.2f,%.2f gyro=%.2f,%.2f,%.2f quat=%.4f,%.4f,%.4f,%.4f norm=%.4f\n",
         s.roll,s.pitch,s.yaw,s.ax,s.ay,s.az,s.gx,s.gy,s.gz,s.qw,s.qx,s.qy,s.qz,norm);
     if(reason){Serial.printf("# INVALID reason=%s\n",reason);return SampleResult::Invalid;}
     s.valid=true;return SampleResult::Valid;
