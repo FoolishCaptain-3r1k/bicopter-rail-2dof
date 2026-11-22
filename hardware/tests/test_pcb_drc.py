@@ -25,6 +25,7 @@ from hardware.render import (
     _transform_point,
     compute_letter_layout,
     compute_letter_tiling,
+    get_top_assembly_label_boxes,
     render_all,
 )
 
@@ -258,4 +259,59 @@ def test_letter_tiling_non_overlap_and_pdf_1to1_copies() -> None:
     # 5. Verify rotated_90 = True rigid SE(2) transform (det = +1) when rotation maximizes copies
     c_rot, r_rot, is_rot = compute_letter_tiling(210.0, 90.0)
     assert (c_rot, r_rot, is_rot) == (2, 1, True)
+
+
+def test_top_assembly_labels_no_overlap() -> None:
+    """Verify 0 label-to-label overlaps, >= 0.25 mm pad clearance, board bounds, and ESP32 outline clearance."""
+    board = build_default_board()
+    boxes = get_top_assembly_label_boxes(board)
+    assert len(boxes) >= len(board.pads) + 4  # All pads + J_TOF/J_IMU headers + 2 notes
+
+    # (a) 0 pairwise label bounding-box intersections
+    for i, a in enumerate(boxes):
+        for j, b in enumerate(boxes):
+            if i >= j:
+                continue
+            x_overlap = min(a.x_max_mm, b.x_max_mm) - max(a.x_min_mm, b.x_min_mm)
+            y_overlap = min(a.y_max_mm, b.y_max_mm) - max(a.y_min_mm, b.y_min_mm)
+            assert not (x_overlap > 0.0 and y_overlap > 0.0), (
+                f"Label overlap between {a.text!r} ({a.x_min_mm},{a.y_min_mm},{a.x_max_mm},{a.y_max_mm}) "
+                f"and {b.text!r} ({b.x_min_mm},{b.y_min_mm},{b.x_max_mm},{b.y_max_mm})"
+            )
+
+    # (b) 0 collisions between labels and THT pad circles (clearance >= 0.25 mm)
+    for lb in boxes:
+        for pad in board.pads:
+            pad_r = pad.drill_mm / 2.0 + 0.45
+            closest_x = max(lb.x_min_mm, min(pad.x_mm, lb.x_max_mm))
+            closest_y = max(lb.y_min_mm, min(pad.y_mm, lb.y_max_mm))
+            dist = ((pad.x_mm - closest_x) ** 2 + (pad.y_mm - closest_y) ** 2) ** 0.5
+            clearance = dist - pad_r
+            assert clearance >= 0.25, (
+                f"Label {lb.text!r} too close to pad {pad.name}: clearance {clearance:.3f} mm < 0.25 mm"
+            )
+
+    # (c) All labels inside board bounds & never touching the blue ESP32 outline (31.5..60.5, 3.0..51.5)
+    esp_x1, esp_x2, esp_y1, esp_y2 = 31.5, 60.5, 3.0, 51.5
+    for lb in boxes:
+        assert lb.x_min_mm >= 0.0 and lb.x_max_mm <= board.width_mm, f"Label {lb.text!r} out of X bounds"
+        assert lb.y_min_mm >= 0.0 and lb.y_max_mm <= board.height_mm, f"Label {lb.text!r} out of Y bounds"
+
+        # Check label box does not cross any of the 4 blue ESP32 outline edges
+        overlaps_y = not (lb.y_max_mm < esp_y1 or lb.y_min_mm > esp_y2)
+        overlaps_x = not (lb.x_max_mm < esp_x1 or lb.x_min_mm > esp_x2)
+        if overlaps_y:
+            assert not (lb.x_min_mm <= esp_x1 <= lb.x_max_mm), f"Label {lb.text!r} touches ESP32 left border"
+            assert not (lb.x_min_mm <= esp_x2 <= lb.x_max_mm), f"Label {lb.text!r} touches ESP32 right border"
+        if overlaps_x:
+            assert not (lb.y_min_mm <= esp_y1 <= lb.y_max_mm), f"Label {lb.text!r} touches ESP32 bottom border"
+            assert not (lb.y_min_mm <= esp_y2 <= lb.y_max_mm), f"Label {lb.text!r} touches ESP32 top border"
+
+    # Verify ESP32 right row (D23..3V3) sits inside the ESP32 outline (ha="right")
+    esp32_right_texts = {"D23", "D22", "TX0", "RX0", "D21", "D19", "D18", "D5", "TX2", "RX2", "D4", "D2", "D15", "GND_R", "3V3"}
+    right_boxes = [lb for lb in boxes if lb.text in esp32_right_texts and lb.category == "pin" and lb.anchor_x_mm < 60.5]
+    assert len(right_boxes) == 15
+    for lb in right_boxes:
+        assert lb.ha == "right"
+        assert lb.x_min_mm > esp_x1 and lb.x_max_mm < 58.70
 

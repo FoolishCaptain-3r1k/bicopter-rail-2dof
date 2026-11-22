@@ -54,6 +54,228 @@ class LetterLayout:
     v_ruler: tuple[float, float, float, float]  # (x1, y1, x2, y2)
 
 
+@dataclass(frozen=True)
+class LabelBox:
+    """Bounding box and placement metadata for one Top Assembly label (board coordinates in mm)."""
+
+    x_min_mm: float
+    y_min_mm: float
+    x_max_mm: float
+    y_max_mm: float
+    text: str
+    anchor_x_mm: float
+    anchor_y_mm: float
+    ha: str  # "left", "center", "right"
+    va: str  # "bottom", "center", "top"
+    fontsize_pt: float
+    color: str = "#000000"
+    category: str = "pin"  # "pin", "header", "callout", "note"
+    callout_target: tuple[float, float] | None = None
+    draw_bg: bool = False
+
+
+def _make_label_box(
+    text: str,
+    anchor_x_mm: float,
+    anchor_y_mm: float,
+    ha: str,
+    va: str,
+    fontsize_pt: float,
+    color: str = "#000000",
+    category: str = "pin",
+    callout_target: tuple[float, float] | None = None,
+    draw_bg: bool = False,
+) -> LabelBox:
+    """Estimate conservative monospace bounding box (mm) from font size and alignment."""
+    char_h_mm = fontsize_pt * (25.4 / 72.0)
+    char_w_mm = char_h_mm * 0.66
+    line_h_mm = char_h_mm * 1.18
+    lines = text.split("\n")
+    max_chars = max(len(line) for line in lines)
+    box_w = max_chars * char_w_mm + 0.20
+    box_h = len(lines) * line_h_mm + 0.14
+
+    if ha == "left":
+        x_min, x_max = anchor_x_mm, anchor_x_mm + box_w
+    elif ha == "right":
+        x_min, x_max = anchor_x_mm - box_w, anchor_x_mm
+    else:
+        x_min, x_max = anchor_x_mm - box_w / 2.0, anchor_x_mm + box_w / 2.0
+
+    if va == "bottom":
+        y_min, y_max = anchor_y_mm, anchor_y_mm + box_h
+    elif va == "top":
+        y_min, y_max = anchor_y_mm - box_h, anchor_y_mm
+    else:
+        y_min, y_max = anchor_y_mm - box_h / 2.0, anchor_y_mm + box_h / 2.0
+
+    return LabelBox(
+        x_min_mm=round(x_min, 3),
+        y_min_mm=round(y_min, 3),
+        x_max_mm=round(x_max, 3),
+        y_max_mm=round(y_max, 3),
+        text=text,
+        anchor_x_mm=round(anchor_x_mm, 3),
+        anchor_y_mm=round(anchor_y_mm, 3),
+        ha=ha,
+        va=va,
+        fontsize_pt=fontsize_pt,
+        color=color,
+        category=category,
+        callout_target=callout_target,
+        draw_bg=draw_bg,
+    )
+
+
+def get_top_assembly_label_boxes(board: PcbBoard) -> list[LabelBox]:
+    """Generate non-overlapping Top Assembly label boxes consumed by both SVG and PDF renderers."""
+    boxes: list[LabelBox] = []
+
+    left_power_text = {
+        "ESC_L_VBAT": "ESC_L\n+VBAT",
+        "ESC_R_VBAT": "ESC_R\n+VBAT",
+        "BAT_VBAT_IN": "BAT\n+VBAT",
+        "ESC_L_GND_PWR": "ESC_L\nGND P",
+        "ESC_R_GND_PWR": "ESC_R\nGND P",
+        "BAT_GND_IN": "BAT\nGND",
+    }
+    left_sig_layout = {
+        "ESC_L_GND_SIG": ("ESC_L\nGND S", 26.20, 45.40, -1.05),
+        "ESC_L_SIG": ("ESC_L\nPWM", 26.20, 36.90, -1.05),
+        "ESC_R_SIG": ("ESC_R\nPWM", 26.20, 23.85, 1.05),
+        "ESC_R_GND_SIG": ("ESC_R\nGND S", 26.20, 16.60, 1.05),
+    }
+
+    for pad in board.pads:
+        if pad.component == "ESP32":
+            # Left row inside ESP32 outline (ha="left"), right row inside ESP32 outline (ha="right")
+            if pad.x_mm < board.banner_center_x_mm:
+                boxes.append(
+                    _make_label_box(
+                        text=pad.pin_label,
+                        anchor_x_mm=pad.x_mm + 1.40,
+                        anchor_y_mm=pad.y_mm,
+                        ha="left",
+                        va="center",
+                        fontsize_pt=3.9,
+                        color="#000000",
+                        category="pin",
+                    )
+                )
+            else:
+                boxes.append(
+                    _make_label_box(
+                        text=pad.pin_label,
+                        anchor_x_mm=pad.x_mm - 1.40,
+                        anchor_y_mm=pad.y_mm,
+                        ha="right",
+                        va="center",
+                        fontsize_pt=3.9,
+                        color="#000000",
+                        category="pin",
+                    )
+                )
+        elif pad.name in left_power_text:
+            # Centered below each power pad in 2 compact lines (5.0 pt) with callout to pad edge
+            boxes.append(
+                _make_label_box(
+                    text=left_power_text[pad.name],
+                    anchor_x_mm=pad.x_mm,
+                    anchor_y_mm=pad.y_mm - 6.00,
+                    ha="center",
+                    va="center",
+                    fontsize_pt=4.9,
+                    color="#000000",
+                    category="callout",
+                    callout_target=(pad.x_mm, pad.y_mm - (pad.drill_mm / 2.0 + 0.50)),
+                    draw_bg=True,
+                )
+            )
+        elif pad.name in left_sig_layout:
+            text, lx, ly, dy_target = left_sig_layout[pad.name]
+            boxes.append(
+                _make_label_box(
+                    text=text,
+                    anchor_x_mm=lx,
+                    anchor_y_mm=ly,
+                    ha="center",
+                    va="center",
+                    fontsize_pt=4.8,
+                    color="#000000",
+                    category="callout",
+                    callout_target=(pad.x_mm, pad.y_mm - dy_target),
+                    draw_bg=True,
+                )
+            )
+        elif pad.component in ("J_TOF", "J_IMU"):
+            boxes.append(
+                _make_label_box(
+                    text=pad.pin_label,
+                    anchor_x_mm=pad.x_mm + 1.45,
+                    anchor_y_mm=pad.y_mm,
+                    ha="left",
+                    va="center",
+                    fontsize_pt=4.0,
+                    color="#000000",
+                    category="pin",
+                )
+            )
+
+    # J_TOF and J_IMU headers cleanly positioned above pin 1
+    boxes.append(
+        _make_label_box(
+            text="J_TOF",
+            anchor_x_mm=71.00,
+            anchor_y_mm=42.80,
+            ha="center",
+            va="bottom",
+            fontsize_pt=5.2,
+            color="#003399",
+            category="header",
+        )
+    )
+    boxes.append(
+        _make_label_box(
+            text="J_IMU",
+            anchor_x_mm=82.00,
+            anchor_y_mm=42.80,
+            ha="center",
+            va="bottom",
+            fontsize_pt=5.2,
+            color="#003399",
+            category="header",
+        )
+    )
+
+    # Reserved top/bottom assembly notes (strictly outside ESP32 outline & banner frame)
+    boxes.append(
+        _make_label_box(
+            text="ESP32 USB (BORDE INFERIOR)",
+            anchor_x_mm=46.00,
+            anchor_y_mm=1.35,
+            ha="center",
+            va="center",
+            fontsize_pt=5.0,
+            color="#003399",
+            category="note",
+        )
+    )
+    boxes.append(
+        _make_label_box(
+            text="GY-BNO055: PUENTE ADD-GND (0x28) | SWITCH 30x20x20 mm +VBAT",
+            anchor_x_mm=46.00,
+            anchor_y_mm=53.80,
+            ha="center",
+            va="center",
+            fontsize_pt=4.8,
+            color="#990000",
+            category="note",
+        )
+    )
+
+    return boxes
+
+
 def compute_letter_tiling(
     board_w_mm: float,
     board_h_mm: float,
@@ -561,38 +783,53 @@ def export_top_assembly_svg(board: PcbBoard, out_path: Path) -> Path:
         f'  <rect id="esp32-usb" x="{usb_x:.3f}" y="{usb_y:.3f}" width="8.000" height="5.500" '
         f'fill="#E6EEF8" stroke="#003399" stroke-width="0.35"/>'
     )
-    lines.append(
-        f'  <text x="{_svg_x(46.0):.3f}" y="{_svg_y(2.5, board.height_mm):.3f}" '
-        f'text-anchor="middle" font-family="monospace" font-size="2.1" fill="#003399">'
-        f'ESP32 USB (BORDE INFERIOR)</text>'
-    )
 
-    # Pads and explicit pin labels
-    lines.append('  <g id="assembly-pads-and-labels">')
+    # Pads
+    lines.append('  <g id="assembly-pads">')
     for pad in board.pads:
         cx, cy = _svg_x(pad.x_mm), _svg_y(pad.y_mm, board.height_mm)
         lines.append(
             f'    <circle cx="{cx:.3f}" cy="{cy:.3f}" r="{pad.drill_mm / 2.0 + 0.45:.3f}" '
             f'fill="none" stroke="#000000" stroke-width="0.25"/>'
         )
-        lines.append(
-            f'    <text x="{cx + 1.6:.3f}" y="{cy + 0.6:.3f}" font-family="monospace" '
-            f'font-size="1.65" fill="#000000">{pad.name} ({pad.pin_label})</text>'
-        )
     lines.append("  </g>")
 
-    # Mandatory hardware notes: GY-BNO055 ADD->GND bridge and External Switch (30x20x20 mm)
-    lines.append('  <g id="assembly-notes">')
-    lines.append(
-        f'    <text x="{_svg_x(58.0):.3f}" y="{_svg_y(53.0, board.height_mm):.3f}" '
-        f'font-family="monospace" font-size="2.0" fill="#B00000">'
-        f'NOTA GY-BNO055: PUENTE ADD-GND OBLIGATORIO (ADDR 0x28)</text>'
-    )
-    lines.append(
-        f'    <text x="{_svg_x(2.0):.3f}" y="{_svg_y(53.0, board.height_mm):.3f}" '
-        f'font-family="monospace" font-size="2.0" fill="#005500">'
-        f'SWITCH EXTERNO (30x20x20 mm) EN SERIE CON +VBAT -&gt; BAT_VBAT_IN | VIN AISLADO</text>'
-    )
+    # Non-overlapping labels driven by get_top_assembly_label_boxes(board)
+    ha_to_anchor = {"left": "start", "center": "middle", "right": "end"}
+    lines.append('  <g id="assembly-labels">')
+    for lb in get_top_assembly_label_boxes(board):
+        font_mm = lb.fontsize_pt * (25.4 / 72.0)
+        if lb.callout_target is not None:
+            tx, ty = lb.callout_target
+            box_cx = (lb.x_min_mm + lb.x_max_mm) / 2.0
+            box_cy = lb.y_max_mm if ty > lb.y_max_mm else lb.y_min_mm
+            lines.append(
+                f'    <line x1="{_svg_x(box_cx):.3f}" y1="{_svg_y(box_cy, board.height_mm):.3f}" '
+                f'x2="{_svg_x(tx):.3f}" y2="{_svg_y(ty, board.height_mm):.3f}" '
+                f'stroke="#555555" stroke-width="0.18"/>'
+            )
+        if lb.draw_bg:
+            bx_bg = _svg_x(lb.x_min_mm)
+            by_bg = _svg_y(lb.y_max_mm, board.height_mm)
+            lines.append(
+                f'    <rect x="{bx_bg:.3f}" y="{by_bg:.3f}" '
+                f'width="{lb.x_max_mm - lb.x_min_mm:.3f}" height="{lb.y_max_mm - lb.y_min_mm:.3f}" '
+                f'fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>'
+            )
+        text_lines = lb.text.split("\n")
+        ax_svg = _svg_x(lb.anchor_x_mm)
+        y_center_mm = (lb.y_min_mm + lb.y_max_mm) / 2.0
+        line_step_mm = font_mm * 1.15
+        first_y_mm = y_center_mm + ((len(text_lines) - 1) / 2.0) * line_step_mm
+        anchor_attr = ha_to_anchor.get(lb.ha, "start")
+        for idx, sub in enumerate(text_lines):
+            escaped = sub.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            sy = _svg_y(first_y_mm - idx * line_step_mm, board.height_mm)
+            lines.append(
+                f'    <text x="{ax_svg:.3f}" y="{sy:.3f}" text-anchor="{anchor_attr}" '
+                f'dominant-baseline="central" font-family="monospace" '
+                f'font-size="{font_mm:.3f}" fill="{lb.color}">{escaped}</text>'
+            )
     lines.append("  </g>")
 
     lines.append("</svg>")
@@ -643,7 +880,7 @@ def _draw_top_instance(ax: plt.Axes, board: PcbBoard, pl: BoardPlacement) -> Non
             solid_capstyle="round",
         )
 
-    # ESP32 outline and USB side indicator
+    # ESP32 outline
     if pl.rotated_90:
         ex, ey = _transform_point(31.5, 51.5, bw, bh, pl)
         ew, eh = 48.5, 29.0
@@ -662,33 +899,44 @@ def _draw_top_instance(ax: plt.Axes, board: PcbBoard, pl: BoardPlacement) -> Non
         )
     )
 
-    ux, uy = _transform_point(46.0, 1.2, bw, bh, pl)
-    ax.text(ux, uy, "ESP32 USB (BORDE INFERIOR)", fontsize=5.2, ha="center", va="center", rotation=rot_deg, color="#003399")
-    nx, ny = _transform_point(46.0, 53.0, bw, bh, pl)
-    ax.text(
-        nx,
-        ny,
-        "GY-BNO055: PUENTE ADD-GND (0x28) | SWITCH 30x20x20 mm +VBAT",
-        fontsize=4.8,
-        ha="center",
-        va="center",
-        rotation=rot_deg,
-        color="#990000",
-    )
-
+    # Pads
     for pad in board.pads:
         cx, cy = _transform_point(pad.x_mm, pad.y_mm, bw, bh, pl)
         ax.add_patch(
             mpatches.Circle(
                 (cx, cy),
-                radius=pad.drill_mm / 2.0 + 0.4,
+                radius=pad.drill_mm / 2.0 + 0.45,
                 fill=False,
                 edgecolor="black",
                 linewidth=0.25 * pt_per_mm,
             )
         )
-        lx, ly = _transform_point(pad.x_mm + 1.2, pad.y_mm - 0.3, bw, bh, pl)
-        ax.text(lx, ly, pad.pin_label, fontsize=4.0, family="monospace", rotation=rot_deg)
+
+    # Non-overlapping labels driven by get_top_assembly_label_boxes(board)
+    for lb in get_top_assembly_label_boxes(board):
+        if lb.callout_target is not None:
+            tx, ty = lb.callout_target
+            box_cx = (lb.x_min_mm + lb.x_max_mm) / 2.0
+            box_cy = lb.y_max_mm if ty > lb.y_max_mm else lb.y_min_mm
+            cx1, cy1 = _transform_point(box_cx, box_cy, bw, bh, pl)
+            cx2, cy2 = _transform_point(tx, ty, bw, bh, pl)
+            ax.plot([cx1, cx2], [cy1, cy2], color="#555555", linewidth=0.18 * pt_per_mm, zorder=6)
+
+        lx, ly = _transform_point(lb.anchor_x_mm, lb.anchor_y_mm, bw, bh, pl)
+        bbox_kw = {"facecolor": "white", "edgecolor": "none", "alpha": 0.9, "pad": 0.4} if lb.draw_bg else None
+        ax.text(
+            lx,
+            ly,
+            lb.text,
+            fontsize=lb.fontsize_pt,
+            ha=lb.ha,
+            va=lb.va,
+            family="monospace",
+            color=lb.color,
+            rotation=rot_deg,
+            bbox=bbox_kw,
+            zorder=7,
+        )
 
 
 def export_top_assembly_pdf(board: PcbBoard, out_path: Path) -> Path:

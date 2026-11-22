@@ -276,109 +276,140 @@
   </g>
   <rect id="esp32-outline" x="43.500" y="44.500" width="29.000" height="48.500" fill="none" stroke="#003399" stroke-width="0.35" stroke-dasharray="1.2,0.8"/>
   <rect id="esp32-usb" x="54.000" y="90.500" width="8.000" height="5.500" fill="#E6EEF8" stroke="#003399" stroke-width="0.35"/>
-  <text x="58.000" y="93.500" text-anchor="middle" font-family="monospace" font-size="2.1" fill="#003399">ESP32 USB (BORDE INFERIOR)</text>
-  <g id="assembly-pads-and-labels">
+  <g id="assembly-pads">
     <circle cx="45.300" cy="48.440" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="49.040" font-family="monospace" font-size="1.65" fill="#000000">ESP32_EN (EN)</text>
     <circle cx="45.300" cy="50.980" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="51.580" font-family="monospace" font-size="1.65" fill="#000000">ESP32_VP (VP)</text>
     <circle cx="45.300" cy="53.520" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="54.120" font-family="monospace" font-size="1.65" fill="#000000">ESP32_VN (VN)</text>
     <circle cx="45.300" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="56.660" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D34 (D34)</text>
     <circle cx="45.300" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="59.200" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D35 (D35)</text>
     <circle cx="45.300" cy="61.140" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="61.740" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D32 (D32)</text>
     <circle cx="45.300" cy="63.680" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="64.280" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D33 (D33)</text>
     <circle cx="45.300" cy="66.220" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="66.820" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D25 (D25)</text>
     <circle cx="45.300" cy="68.760" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="69.360" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D26 (D26)</text>
     <circle cx="45.300" cy="71.300" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="71.900" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D27 (D27)</text>
     <circle cx="45.300" cy="73.840" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="74.440" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D14 (D14)</text>
     <circle cx="45.300" cy="76.380" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="76.980" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D12 (D12)</text>
     <circle cx="45.300" cy="78.920" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="79.520" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D13 (D13)</text>
     <circle cx="45.300" cy="81.460" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="82.060" font-family="monospace" font-size="1.65" fill="#000000">ESP32_GND_L (GND_L)</text>
     <circle cx="45.300" cy="84.000" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="46.900" y="84.600" font-family="monospace" font-size="1.65" fill="#000000">ESP32_VIN (VIN)</text>
     <circle cx="70.700" cy="48.440" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="49.040" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D23 (D23)</text>
     <circle cx="70.700" cy="50.980" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="51.580" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D22 (D22)</text>
     <circle cx="70.700" cy="53.520" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="54.120" font-family="monospace" font-size="1.65" fill="#000000">ESP32_TX0 (TX0)</text>
     <circle cx="70.700" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="56.660" font-family="monospace" font-size="1.65" fill="#000000">ESP32_RX0 (RX0)</text>
     <circle cx="70.700" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="59.200" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D21 (D21)</text>
     <circle cx="70.700" cy="61.140" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="61.740" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D19 (D19)</text>
     <circle cx="70.700" cy="63.680" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="64.280" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D18 (D18)</text>
     <circle cx="70.700" cy="66.220" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="66.820" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D5 (D5)</text>
     <circle cx="70.700" cy="68.760" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="69.360" font-family="monospace" font-size="1.65" fill="#000000">ESP32_TX2 (TX2)</text>
     <circle cx="70.700" cy="71.300" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="71.900" font-family="monospace" font-size="1.65" fill="#000000">ESP32_RX2 (RX2)</text>
     <circle cx="70.700" cy="73.840" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="74.440" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D4 (D4)</text>
     <circle cx="70.700" cy="76.380" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="76.980" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D2 (D2)</text>
     <circle cx="70.700" cy="78.920" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="79.520" font-family="monospace" font-size="1.65" fill="#000000">ESP32_D15 (D15)</text>
     <circle cx="70.700" cy="81.460" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="82.060" font-family="monospace" font-size="1.65" fill="#000000">ESP32_GND_R (GND_R)</text>
     <circle cx="70.700" cy="84.000" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="72.300" y="84.600" font-family="monospace" font-size="1.65" fill="#000000">ESP32_3V3 (3V3)</text>
     <circle cx="22.500" cy="48.000" r="1.250" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="24.100" y="48.600" font-family="monospace" font-size="1.65" fill="#000000">ESC_L_VBAT (ESC_L +VBAT)</text>
     <circle cx="22.500" cy="60.000" r="1.250" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="24.100" y="60.600" font-family="monospace" font-size="1.65" fill="#000000">ESC_R_VBAT (ESC_R +VBAT)</text>
     <circle cx="22.500" cy="72.000" r="1.250" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="24.100" y="72.600" font-family="monospace" font-size="1.65" fill="#000000">BAT_VBAT_IN (+VBAT_SW IN)</text>
     <circle cx="30.000" cy="48.000" r="1.250" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="31.600" y="48.600" font-family="monospace" font-size="1.65" fill="#000000">ESC_L_GND_PWR (ESC_L GND PWR)</text>
     <circle cx="30.000" cy="60.000" r="1.250" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="31.600" y="60.600" font-family="monospace" font-size="1.65" fill="#000000">ESC_R_GND_PWR (ESC_R GND PWR)</text>
     <circle cx="30.000" cy="72.000" r="1.250" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="31.600" y="72.600" font-family="monospace" font-size="1.65" fill="#000000">BAT_GND_IN (BAT GND IN)</text>
     <circle cx="37.000" cy="54.000" r="0.950" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="38.600" y="54.600" font-family="monospace" font-size="1.65" fill="#000000">ESC_L_GND_SIG (ESC_L GND SIG)</text>
     <circle cx="37.000" cy="62.500" r="0.950" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="38.600" y="63.100" font-family="monospace" font-size="1.65" fill="#000000">ESC_L_SIG (ESC_L PWM)</text>
     <circle cx="37.000" cy="68.760" r="0.950" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="38.600" y="69.360" font-family="monospace" font-size="1.65" fill="#000000">ESC_R_SIG (ESC_R PWM)</text>
     <circle cx="37.000" cy="76.000" r="0.950" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="38.600" y="76.600" font-family="monospace" font-size="1.65" fill="#000000">ESC_R_GND_SIG (ESC_R GND SIG)</text>
     <circle cx="83.000" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="84.600" y="56.660" font-family="monospace" font-size="1.65" fill="#000000">J_TOF_SCL (SCL)</text>
     <circle cx="83.000" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="84.600" y="59.200" font-family="monospace" font-size="1.65" fill="#000000">J_TOF_SDA (SDA)</text>
     <circle cx="83.000" cy="61.140" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="84.600" y="61.740" font-family="monospace" font-size="1.65" fill="#000000">J_TOF_XSHUT (XSHUT)</text>
     <circle cx="83.000" cy="63.680" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="84.600" y="64.280" font-family="monospace" font-size="1.65" fill="#000000">J_TOF_GND (GND)</text>
     <circle cx="83.000" cy="66.220" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="84.600" y="66.820" font-family="monospace" font-size="1.65" fill="#000000">J_TOF_3V3 (3V3)</text>
     <circle cx="94.000" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="95.600" y="56.660" font-family="monospace" font-size="1.65" fill="#000000">J_IMU_SCL (SCL)</text>
     <circle cx="94.000" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="95.600" y="59.200" font-family="monospace" font-size="1.65" fill="#000000">J_IMU_SDA (SDA)</text>
     <circle cx="94.000" cy="61.140" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="95.600" y="61.740" font-family="monospace" font-size="1.65" fill="#000000">J_IMU_GND (GND)</text>
     <circle cx="94.000" cy="63.680" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <text x="95.600" y="64.280" font-family="monospace" font-size="1.65" fill="#000000">J_IMU_3V3 (3V3)</text>
   </g>
-  <g id="assembly-notes">
-    <text x="70.000" y="43.000" font-family="monospace" font-size="2.0" fill="#B00000">NOTA GY-BNO055: PUENTE ADD-GND OBLIGATORIO (ADDR 0x28)</text>
-    <text x="14.000" y="43.000" font-family="monospace" font-size="2.0" fill="#005500">SWITCH EXTERNO (30x20x20 mm) EN SERIE CON +VBAT -&gt; BAT_VBAT_IN | VIN AISLADO</text>
+  <g id="assembly-labels">
+    <text x="46.700" y="48.440" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">EN</text>
+    <text x="46.700" y="50.980" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">VP</text>
+    <text x="46.700" y="53.520" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">VN</text>
+    <text x="46.700" y="56.060" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D34</text>
+    <text x="46.700" y="58.600" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D35</text>
+    <text x="46.700" y="61.140" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D32</text>
+    <text x="46.700" y="63.680" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D33</text>
+    <text x="46.700" y="66.220" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D25</text>
+    <text x="46.700" y="68.760" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D26</text>
+    <text x="46.700" y="71.300" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D27</text>
+    <text x="46.700" y="73.840" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D14</text>
+    <text x="46.700" y="76.380" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D12</text>
+    <text x="46.700" y="78.920" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D13</text>
+    <text x="46.700" y="81.460" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">GND_L</text>
+    <text x="46.700" y="84.000" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">VIN</text>
+    <text x="69.300" y="48.440" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D23</text>
+    <text x="69.300" y="50.980" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D22</text>
+    <text x="69.300" y="53.520" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">TX0</text>
+    <text x="69.300" y="56.060" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">RX0</text>
+    <text x="69.300" y="58.600" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D21</text>
+    <text x="69.300" y="61.140" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D19</text>
+    <text x="69.300" y="63.680" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D18</text>
+    <text x="69.300" y="66.220" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D5</text>
+    <text x="69.300" y="68.760" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">TX2</text>
+    <text x="69.300" y="71.300" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">RX2</text>
+    <text x="69.300" y="73.840" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D4</text>
+    <text x="69.300" y="76.380" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D2</text>
+    <text x="69.300" y="78.920" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">D15</text>
+    <text x="69.300" y="81.460" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">GND_R</text>
+    <text x="69.300" y="84.000" text-anchor="end" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">3V3</text>
+    <line x1="22.500" y1="51.890" x2="22.500" y2="49.300" stroke="#555555" stroke-width="0.18"/>
+    <rect x="19.548" y="51.890" width="5.904" height="4.220" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="22.500" y="53.006" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">ESC_L</text>
+    <text x="22.500" y="54.994" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">+VBAT</text>
+    <line x1="22.500" y1="63.890" x2="22.500" y2="61.300" stroke="#555555" stroke-width="0.18"/>
+    <rect x="19.548" y="63.890" width="5.904" height="4.220" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="22.500" y="65.006" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">ESC_R</text>
+    <text x="22.500" y="66.994" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">+VBAT</text>
+    <line x1="22.500" y1="75.890" x2="22.500" y2="73.300" stroke="#555555" stroke-width="0.18"/>
+    <rect x="19.548" y="75.890" width="5.904" height="4.220" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="22.500" y="77.006" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">BAT</text>
+    <text x="22.500" y="78.994" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">+VBAT</text>
+    <line x1="30.000" y1="51.890" x2="30.000" y2="49.300" stroke="#555555" stroke-width="0.18"/>
+    <rect x="27.048" y="51.890" width="5.904" height="4.220" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="30.000" y="53.006" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">ESC_L</text>
+    <text x="30.000" y="54.994" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">GND P</text>
+    <line x1="30.000" y1="63.890" x2="30.000" y2="61.300" stroke="#555555" stroke-width="0.18"/>
+    <rect x="27.048" y="63.890" width="5.904" height="4.220" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="30.000" y="65.006" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">ESC_R</text>
+    <text x="30.000" y="66.994" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">GND P</text>
+    <line x1="30.000" y1="75.890" x2="30.000" y2="73.300" stroke="#555555" stroke-width="0.18"/>
+    <rect x="28.189" y="75.890" width="3.622" height="4.220" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="30.000" y="77.006" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">BAT</text>
+    <text x="30.000" y="78.994" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.729" fill="#000000">GND</text>
+    <line x1="38.200" y1="52.668" x2="37.000" y2="52.950" stroke="#555555" stroke-width="0.18"/>
+    <rect x="35.306" y="48.532" width="5.788" height="4.136" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="38.200" y="49.626" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">ESC_L</text>
+    <text x="38.200" y="51.574" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">GND S</text>
+    <line x1="38.200" y1="61.168" x2="37.000" y2="61.450" stroke="#555555" stroke-width="0.18"/>
+    <rect x="35.306" y="57.032" width="5.788" height="4.136" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="38.200" y="58.126" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">ESC_L</text>
+    <text x="38.200" y="60.074" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">PWM</text>
+    <line x1="38.200" y1="70.082" x2="37.000" y2="69.810" stroke="#555555" stroke-width="0.18"/>
+    <rect x="35.306" y="70.082" width="5.788" height="4.136" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="38.200" y="71.176" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">ESC_R</text>
+    <text x="38.200" y="73.124" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">PWM</text>
+    <line x1="38.200" y1="77.332" x2="37.000" y2="77.050" stroke="#555555" stroke-width="0.18"/>
+    <rect x="35.306" y="77.332" width="5.788" height="4.136" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="38.200" y="78.426" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">ESC_R</text>
+    <text x="38.200" y="80.374" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">GND S</text>
+    <text x="84.450" y="56.060" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SCL</text>
+    <text x="84.450" y="58.600" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SDA</text>
+    <text x="84.450" y="61.140" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">XSHUT</text>
+    <text x="84.450" y="63.680" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">GND</text>
+    <text x="84.450" y="66.220" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">3V3</text>
+    <text x="95.450" y="56.060" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SCL</text>
+    <text x="95.450" y="58.600" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SDA</text>
+    <text x="95.450" y="61.140" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">GND</text>
+    <text x="95.450" y="63.680" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">3V3</text>
+    <text x="83.000" y="52.047" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.834" fill="#003399">J_TOF</text>
+    <text x="94.000" y="52.047" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.834" fill="#003399">J_IMU</text>
+    <text x="58.000" y="94.650" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.764" fill="#003399">ESP32 USB (BORDE INFERIOR)</text>
+    <text x="58.000" y="42.200" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#990000">GY-BNO055: PUENTE ADD-GND (0x28) | SWITCH 30x20x20 mm +VBAT</text>
   </g>
 </svg>
