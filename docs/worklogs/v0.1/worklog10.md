@@ -1,0 +1,11 @@
+# Worklog 10 (v0.1) | Prev: [[worklog9]]
+- **Estado:** PASS
+- **Invariantes Cubiertos:** Cero dependencias de `Arduino.h`/`Wire.h`/`WiFi.h` en `firmware/lib/control_core/`; `Kalman1D` reduce varianza de ruido en `98.2 %` (`rms_vel = 0.226`); `synthesize_pid_gains` + `PidController` reproducen respuesta al escalón de 2.º orden (`UNDERDAMPED` os=`20.40 %`, `CRITICALLY_DAMPED` os=`0.33 %` `ts=1.012 s`, `OVERDAMPED` os=`0.00 %` `ts=1.966 s`), anti-windup por clamping y `reset()` determinista; `EscMixer` fuerza `1000 µs` en `DISARMED`/`ARMING`/`ESTOP`, recorte duro `MAX_THROTTLE_US = 1450` y disparo `ESTOP` ante $|\theta| > 60^\circ$ o $x \notin [0, 23]\text{ cm}$.
+- **Archivos Modificados:**
+  - `firmware/platformio.ini` — agregado `[env:native]` (`test_framework = custom`, `test_build_src = no`, `-std=c++17`)
+  - `firmware/lib/control_core/kalman_1d.h`, `kalman_1d.cpp` — filtro `Kalman1D` de 2 estados (`[pos, vel]`)
+  - `firmware/lib/control_core/pid_controller.h`, `pid_controller.cpp` — `DampingMode`, `PlantParams`, `PidGains`, `synthesize_pid_gains`, `PidController`
+  - `firmware/lib/control_core/esc_mixer.h`, `esc_mixer.cpp` — `ArmState`, `EscCommand`, `EscMixer`
+  - `firmware/test/test_control_core/test_main.cpp` — suite unitaria nativa con planta de 2.º orden
+- **Verificación Ejecutada:** `ziglang c++ -std=c++17 -Wall -Wextra -Werror ... test_main.cpp && test_control_core.exe` -> `PASS (0 failed)`; `xtensa-esp32-elf-g++ -std=gnu++11 -Wall -Wextra -fsyntax-only` -> `exit 0`; `pio run -d firmware -e esp32dev` -> `SUCCESS (0 errors)`
+- **Acción Usuario (Human Gate):** Si instalas MinGW en PATH, puedes ejecutar también `pio test -d firmware -e native -f test_control_core` y luego abrir PR desde `feature/control-core`.
