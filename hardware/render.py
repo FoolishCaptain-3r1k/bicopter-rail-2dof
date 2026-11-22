@@ -215,21 +215,22 @@ def get_top_assembly_label_boxes(board: PcbBoard) -> list[LabelBox]:
                     anchor_y_mm=pad.y_mm,
                     ha="left",
                     va="center",
-                    fontsize_pt=4.0,
-                    color="#000000",
+                    fontsize_pt=3.9,
+                    color="#666666" if pad.pin_label == "NC" else "#000000",
                     category="pin",
+                    draw_bg=True,
                 )
             )
 
-    # J_TOF and J_IMU headers cleanly positioned above pin 1
+    # J_TOF and J_IMU headers cleanly positioned above top 3V3 bus (y=48.00) and below top note (y=53.80)
     boxes.append(
         _make_label_box(
             text="J_TOF",
-            anchor_x_mm=71.00,
-            anchor_y_mm=42.80,
+            anchor_x_mm=69.50,
+            anchor_y_mm=49.40,
             ha="center",
             va="bottom",
-            fontsize_pt=5.2,
+            fontsize_pt=5.0,
             color="#003399",
             category="header",
         )
@@ -237,11 +238,11 @@ def get_top_assembly_label_boxes(board: PcbBoard) -> list[LabelBox]:
     boxes.append(
         _make_label_box(
             text="J_IMU",
-            anchor_x_mm=82.00,
-            anchor_y_mm=42.80,
+            anchor_x_mm=79.50,
+            anchor_y_mm=49.40,
             ha="center",
             va="bottom",
-            fontsize_pt=5.2,
+            fontsize_pt=5.0,
             color="#003399",
             category="header",
         )

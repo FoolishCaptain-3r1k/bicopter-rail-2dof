@@ -28,27 +28,29 @@
     <line x1="45.300" y1="66.220" x2="40.500" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="ESC_L_SIG"/>
     <line x1="40.500" y1="66.220" x2="37.000" y2="62.500" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="ESC_L_SIG"/>
     <line x1="45.300" y1="68.760" x2="37.000" y2="68.760" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="ESC_R_SIG"/>
-    <line x1="70.700" y1="50.980" x2="75.500" y2="50.980" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
-    <line x1="75.500" y1="50.980" x2="79.000" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
-    <line x1="79.000" y1="56.060" x2="83.000" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
-    <line x1="83.000" y1="56.060" x2="94.000" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
-    <line x1="70.700" y1="58.600" x2="83.000" y2="58.600" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SDA"/>
-    <line x1="83.000" y1="58.600" x2="94.000" y2="58.600" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SDA"/>
-    <line x1="70.700" y1="61.140" x2="83.000" y2="61.140" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="TOF_XSHUT"/>
-    <line x1="70.700" y1="81.460" x2="75.500" y2="81.460" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
-    <line x1="75.500" y1="81.460" x2="75.500" y2="66.500" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
-    <line x1="75.500" y1="66.500" x2="78.320" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
-    <line x1="78.320" y1="63.680" x2="83.000" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
-    <line x1="83.000" y1="63.680" x2="87.500" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
-    <line x1="87.500" y1="63.680" x2="90.000" y2="61.140" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
-    <line x1="90.000" y1="61.140" x2="94.000" y2="61.140" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="GND"/>
-    <line x1="70.700" y1="84.000" x2="78.500" y2="84.000" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
-    <line x1="78.500" y1="84.000" x2="78.500" y2="68.500" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
-    <line x1="78.500" y1="68.500" x2="80.780" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
-    <line x1="80.780" y1="66.220" x2="83.000" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
-    <line x1="83.000" y1="66.220" x2="89.500" y2="66.220" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
-    <line x1="89.500" y1="66.220" x2="92.000" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
-    <line x1="92.000" y1="63.680" x2="94.000" y2="63.680" stroke="#000000" stroke-width="1.200" stroke-linecap="round" data-net="3V3"/>
+    <line x1="70.700" y1="50.980" x2="74.800" y2="50.980" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="74.800" y1="50.980" x2="77.800" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="77.800" y1="56.060" x2="81.500" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="81.500" y1="56.060" x2="91.500" y2="56.060" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SCL"/>
+    <line x1="70.700" y1="58.600" x2="81.500" y2="58.600" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SDA"/>
+    <line x1="81.500" y1="58.600" x2="91.500" y2="58.600" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="I2C_SDA"/>
+    <line x1="70.700" y1="61.140" x2="74.800" y2="61.140" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="TOF_XSHUT"/>
+    <line x1="74.800" y1="61.140" x2="77.340" y2="63.680" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="TOF_XSHUT"/>
+    <line x1="77.340" y1="63.680" x2="81.500" y2="63.680" stroke="#000000" stroke-width="1.100" stroke-linecap="round" data-net="TOF_XSHUT"/>
+    <line x1="70.700" y1="81.460" x2="77.000" y2="81.460" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="GND"/>
+    <line x1="77.000" y1="81.460" x2="79.500" y2="79.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="GND"/>
+    <line x1="79.500" y1="79.000" x2="97.800" y2="79.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="GND"/>
+    <line x1="97.800" y1="79.000" x2="97.800" y2="53.520" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="GND"/>
+    <line x1="97.800" y1="53.520" x2="91.500" y2="53.520" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="GND"/>
+    <line x1="91.500" y1="53.520" x2="81.500" y2="53.520" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="GND"/>
+    <line x1="70.700" y1="84.000" x2="90.500" y2="84.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
+    <line x1="90.500" y1="84.000" x2="92.500" y2="82.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
+    <line x1="92.500" y1="82.000" x2="101.200" y2="82.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
+    <line x1="101.200" y1="82.000" x2="101.200" y2="48.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
+    <line x1="101.200" y1="48.000" x2="91.500" y2="48.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
+    <line x1="91.500" y1="48.000" x2="81.500" y2="48.000" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
+    <line x1="91.500" y1="48.000" x2="91.500" y2="50.980" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
+    <line x1="81.500" y1="48.000" x2="81.500" y2="50.980" stroke="#000000" stroke-width="1.150" stroke-linecap="round" data-net="3V3"/>
   </g>
   <g id="artistic-banner" data-mirrored="true">
     <line x1="86.500" y1="39.000" x2="29.500" y2="39.000" stroke="#000000" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="74.500" data-raw-x2="17.500"/>
@@ -365,24 +367,26 @@
     <circle cx="37.000" cy="68.760" r="0.500" fill="#FFFFFF" data-drill-guide="ESC_R_SIG"/>
     <circle id="pad-ESC_R_GND_SIG" cx="37.000" cy="76.000" r="1.300" fill="#000000" data-pad="ESC_R_GND_SIG" data-net="GND" data-x-mm="25.000" data-y-mm="20.000"/>
     <circle cx="37.000" cy="76.000" r="0.500" fill="#FFFFFF" data-drill-guide="ESC_R_GND_SIG"/>
-    <line id="pad-J_TOF_SCL" x1="82.680" y1="56.060" x2="83.320" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_SCL" data-net="I2C_SCL" data-x-mm="71.000" data-y-mm="39.940"/>
-    <circle cx="83.000" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_SCL"/>
-    <line id="pad-J_TOF_SDA" x1="82.680" y1="58.600" x2="83.320" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_SDA" data-net="I2C_SDA" data-x-mm="71.000" data-y-mm="37.400"/>
-    <circle cx="83.000" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_SDA"/>
-    <line id="pad-J_TOF_XSHUT" x1="82.680" y1="61.140" x2="83.320" y2="61.140" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_XSHUT" data-net="TOF_XSHUT" data-x-mm="71.000" data-y-mm="34.860"/>
-    <circle cx="83.000" cy="61.140" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_XSHUT"/>
-    <line id="pad-J_TOF_GND" x1="82.680" y1="63.680" x2="83.320" y2="63.680" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_GND" data-net="GND" data-x-mm="71.000" data-y-mm="32.320"/>
-    <circle cx="83.000" cy="63.680" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_GND"/>
-    <line id="pad-J_TOF_3V3" x1="82.680" y1="66.220" x2="83.320" y2="66.220" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_3V3" data-net="3V3" data-x-mm="71.000" data-y-mm="29.780"/>
-    <circle cx="83.000" cy="66.220" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_3V3"/>
-    <line id="pad-J_IMU_SCL" x1="93.680" y1="56.060" x2="94.320" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_SCL" data-net="I2C_SCL" data-x-mm="82.000" data-y-mm="39.940"/>
-    <circle cx="94.000" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_SCL"/>
-    <line id="pad-J_IMU_SDA" x1="93.680" y1="58.600" x2="94.320" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_SDA" data-net="I2C_SDA" data-x-mm="82.000" data-y-mm="37.400"/>
-    <circle cx="94.000" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_SDA"/>
-    <line id="pad-J_IMU_GND" x1="93.680" y1="61.140" x2="94.320" y2="61.140" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_GND" data-net="GND" data-x-mm="82.000" data-y-mm="34.860"/>
-    <circle cx="94.000" cy="61.140" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_GND"/>
-    <line id="pad-J_IMU_3V3" x1="93.680" y1="63.680" x2="94.320" y2="63.680" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_3V3" data-net="3V3" data-x-mm="82.000" data-y-mm="32.320"/>
-    <circle cx="94.000" cy="63.680" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_3V3"/>
+    <line id="pad-J_TOF_3V3" x1="81.180" y1="50.980" x2="81.820" y2="50.980" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_3V3" data-net="3V3" data-x-mm="69.500" data-y-mm="45.020"/>
+    <circle cx="81.500" cy="50.980" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_3V3"/>
+    <line id="pad-J_TOF_GND" x1="81.180" y1="53.520" x2="81.820" y2="53.520" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_GND" data-net="GND" data-x-mm="69.500" data-y-mm="42.480"/>
+    <circle cx="81.500" cy="53.520" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_GND"/>
+    <line id="pad-J_TOF_SCL" x1="81.180" y1="56.060" x2="81.820" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_SCL" data-net="I2C_SCL" data-x-mm="69.500" data-y-mm="39.940"/>
+    <circle cx="81.500" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_SCL"/>
+    <line id="pad-J_TOF_SDA" x1="81.180" y1="58.600" x2="81.820" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_SDA" data-net="I2C_SDA" data-x-mm="69.500" data-y-mm="37.400"/>
+    <circle cx="81.500" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_SDA"/>
+    <line id="pad-J_TOF_NC" x1="81.180" y1="61.140" x2="81.820" y2="61.140" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_NC" data-net="NC_J_TOF_NC" data-x-mm="69.500" data-y-mm="34.860"/>
+    <circle cx="81.500" cy="61.140" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_NC"/>
+    <line id="pad-J_TOF_XSHUT" x1="81.180" y1="63.680" x2="81.820" y2="63.680" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_TOF_XSHUT" data-net="TOF_XSHUT" data-x-mm="69.500" data-y-mm="32.320"/>
+    <circle cx="81.500" cy="63.680" r="0.450" fill="#FFFFFF" data-drill-guide="J_TOF_XSHUT"/>
+    <line id="pad-J_IMU_3V3" x1="91.180" y1="50.980" x2="91.820" y2="50.980" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_3V3" data-net="3V3" data-x-mm="79.500" data-y-mm="45.020"/>
+    <circle cx="91.500" cy="50.980" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_3V3"/>
+    <line id="pad-J_IMU_GND" x1="91.180" y1="53.520" x2="91.820" y2="53.520" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_GND" data-net="GND" data-x-mm="79.500" data-y-mm="42.480"/>
+    <circle cx="91.500" cy="53.520" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_GND"/>
+    <line id="pad-J_IMU_SCL" x1="91.180" y1="56.060" x2="91.820" y2="56.060" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_SCL" data-net="I2C_SCL" data-x-mm="79.500" data-y-mm="39.940"/>
+    <circle cx="91.500" cy="56.060" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_SCL"/>
+    <line id="pad-J_IMU_SDA" x1="91.180" y1="58.600" x2="91.820" y2="58.600" stroke="#000000" stroke-width="1.760" stroke-linecap="round" data-pad="J_IMU_SDA" data-net="I2C_SDA" data-x-mm="79.500" data-y-mm="37.400"/>
+    <circle cx="91.500" cy="58.600" r="0.450" fill="#FFFFFF" data-drill-guide="J_IMU_SDA"/>
   </g>
   <g id="mounting-holes">
     <circle id="M3_BL" cx="18.000" cy="90.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.25"/>

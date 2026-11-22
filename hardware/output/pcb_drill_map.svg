@@ -123,33 +123,36 @@
     <circle cx="37.000" cy="76.000" r="0.500" fill="none" stroke="#000000" stroke-width="0.22" data-hole="ESC_R_GND_SIG" data-drill-mm="1.00"/>
     <line x1="36.500" y1="76.000" x2="37.500" y2="76.000" stroke="#000000" stroke-width="0.15"/>
     <line x1="37.000" y1="75.500" x2="37.000" y2="76.500" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="83.000" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_SCL" data-drill-mm="0.90"/>
-    <line x1="82.550" y1="56.060" x2="83.450" y2="56.060" stroke="#000000" stroke-width="0.15"/>
-    <line x1="83.000" y1="55.610" x2="83.000" y2="56.510" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="83.000" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_SDA" data-drill-mm="0.90"/>
-    <line x1="82.550" y1="58.600" x2="83.450" y2="58.600" stroke="#000000" stroke-width="0.15"/>
-    <line x1="83.000" y1="58.150" x2="83.000" y2="59.050" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="83.000" cy="61.140" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_XSHUT" data-drill-mm="0.90"/>
-    <line x1="82.550" y1="61.140" x2="83.450" y2="61.140" stroke="#000000" stroke-width="0.15"/>
-    <line x1="83.000" y1="60.690" x2="83.000" y2="61.590" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="83.000" cy="63.680" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_GND" data-drill-mm="0.90"/>
-    <line x1="82.550" y1="63.680" x2="83.450" y2="63.680" stroke="#000000" stroke-width="0.15"/>
-    <line x1="83.000" y1="63.230" x2="83.000" y2="64.130" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="83.000" cy="66.220" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_3V3" data-drill-mm="0.90"/>
-    <line x1="82.550" y1="66.220" x2="83.450" y2="66.220" stroke="#000000" stroke-width="0.15"/>
-    <line x1="83.000" y1="65.770" x2="83.000" y2="66.670" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="94.000" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_SCL" data-drill-mm="0.90"/>
-    <line x1="93.550" y1="56.060" x2="94.450" y2="56.060" stroke="#000000" stroke-width="0.15"/>
-    <line x1="94.000" y1="55.610" x2="94.000" y2="56.510" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="94.000" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_SDA" data-drill-mm="0.90"/>
-    <line x1="93.550" y1="58.600" x2="94.450" y2="58.600" stroke="#000000" stroke-width="0.15"/>
-    <line x1="94.000" y1="58.150" x2="94.000" y2="59.050" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="94.000" cy="61.140" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_GND" data-drill-mm="0.90"/>
-    <line x1="93.550" y1="61.140" x2="94.450" y2="61.140" stroke="#000000" stroke-width="0.15"/>
-    <line x1="94.000" y1="60.690" x2="94.000" y2="61.590" stroke="#000000" stroke-width="0.15"/>
-    <circle cx="94.000" cy="63.680" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_3V3" data-drill-mm="0.90"/>
-    <line x1="93.550" y1="63.680" x2="94.450" y2="63.680" stroke="#000000" stroke-width="0.15"/>
-    <line x1="94.000" y1="63.230" x2="94.000" y2="64.130" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="81.500" cy="50.980" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_3V3" data-drill-mm="0.90"/>
+    <line x1="81.050" y1="50.980" x2="81.950" y2="50.980" stroke="#000000" stroke-width="0.15"/>
+    <line x1="81.500" y1="50.530" x2="81.500" y2="51.430" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="81.500" cy="53.520" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_GND" data-drill-mm="0.90"/>
+    <line x1="81.050" y1="53.520" x2="81.950" y2="53.520" stroke="#000000" stroke-width="0.15"/>
+    <line x1="81.500" y1="53.070" x2="81.500" y2="53.970" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="81.500" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_SCL" data-drill-mm="0.90"/>
+    <line x1="81.050" y1="56.060" x2="81.950" y2="56.060" stroke="#000000" stroke-width="0.15"/>
+    <line x1="81.500" y1="55.610" x2="81.500" y2="56.510" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="81.500" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_SDA" data-drill-mm="0.90"/>
+    <line x1="81.050" y1="58.600" x2="81.950" y2="58.600" stroke="#000000" stroke-width="0.15"/>
+    <line x1="81.500" y1="58.150" x2="81.500" y2="59.050" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="81.500" cy="61.140" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_NC" data-drill-mm="0.90"/>
+    <line x1="81.050" y1="61.140" x2="81.950" y2="61.140" stroke="#000000" stroke-width="0.15"/>
+    <line x1="81.500" y1="60.690" x2="81.500" y2="61.590" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="81.500" cy="63.680" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_TOF_XSHUT" data-drill-mm="0.90"/>
+    <line x1="81.050" y1="63.680" x2="81.950" y2="63.680" stroke="#000000" stroke-width="0.15"/>
+    <line x1="81.500" y1="63.230" x2="81.500" y2="64.130" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="91.500" cy="50.980" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_3V3" data-drill-mm="0.90"/>
+    <line x1="91.050" y1="50.980" x2="91.950" y2="50.980" stroke="#000000" stroke-width="0.15"/>
+    <line x1="91.500" y1="50.530" x2="91.500" y2="51.430" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="91.500" cy="53.520" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_GND" data-drill-mm="0.90"/>
+    <line x1="91.050" y1="53.520" x2="91.950" y2="53.520" stroke="#000000" stroke-width="0.15"/>
+    <line x1="91.500" y1="53.070" x2="91.500" y2="53.970" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="91.500" cy="56.060" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_SCL" data-drill-mm="0.90"/>
+    <line x1="91.050" y1="56.060" x2="91.950" y2="56.060" stroke="#000000" stroke-width="0.15"/>
+    <line x1="91.500" y1="55.610" x2="91.500" y2="56.510" stroke="#000000" stroke-width="0.15"/>
+    <circle cx="91.500" cy="58.600" r="0.450" fill="none" stroke="#000000" stroke-width="0.22" data-hole="J_IMU_SDA" data-drill-mm="0.90"/>
+    <line x1="91.050" y1="58.600" x2="91.950" y2="58.600" stroke="#000000" stroke-width="0.15"/>
+    <line x1="91.500" y1="58.150" x2="91.500" y2="59.050" stroke="#000000" stroke-width="0.15"/>
     <circle cx="18.000" cy="90.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.30" data-hole="M3_BL" data-drill-mm="3.20"/>
     <circle cx="98.000" cy="90.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.30" data-hole="M3_BR" data-drill-mm="3.20"/>
     <circle cx="18.000" cy="14.000" r="1.600" fill="none" stroke="#000000" stroke-width="0.30" data-hole="M3_TL" data-drill-mm="3.20"/>

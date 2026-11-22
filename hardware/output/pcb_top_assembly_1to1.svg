@@ -18,27 +18,29 @@
     <line x1="45.300" y1="66.220" x2="40.500" y2="66.220" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
     <line x1="40.500" y1="66.220" x2="37.000" y2="62.500" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
     <line x1="45.300" y1="68.760" x2="37.000" y2="68.760" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="70.700" y1="50.980" x2="75.500" y2="50.980" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
-    <line x1="75.500" y1="50.980" x2="79.000" y2="56.060" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
-    <line x1="79.000" y1="56.060" x2="83.000" y2="56.060" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
-    <line x1="83.000" y1="56.060" x2="94.000" y2="56.060" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
-    <line x1="70.700" y1="58.600" x2="83.000" y2="58.600" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
-    <line x1="83.000" y1="58.600" x2="94.000" y2="58.600" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
-    <line x1="70.700" y1="61.140" x2="83.000" y2="61.140" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
-    <line x1="70.700" y1="81.460" x2="75.500" y2="81.460" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="75.500" y1="81.460" x2="75.500" y2="66.500" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="75.500" y1="66.500" x2="78.320" y2="63.680" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="78.320" y1="63.680" x2="83.000" y2="63.680" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="83.000" y1="63.680" x2="87.500" y2="63.680" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="87.500" y1="63.680" x2="90.000" y2="61.140" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="90.000" y1="61.140" x2="94.000" y2="61.140" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="70.700" y1="84.000" x2="78.500" y2="84.000" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="78.500" y1="84.000" x2="78.500" y2="68.500" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="78.500" y1="68.500" x2="80.780" y2="66.220" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="80.780" y1="66.220" x2="83.000" y2="66.220" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="83.000" y1="66.220" x2="89.500" y2="66.220" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="89.500" y1="66.220" x2="92.000" y2="63.680" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
-    <line x1="92.000" y1="63.680" x2="94.000" y2="63.680" stroke="#666666" stroke-width="1.200" stroke-linecap="round"/>
+    <line x1="70.700" y1="50.980" x2="74.800" y2="50.980" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="74.800" y1="50.980" x2="77.800" y2="56.060" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="77.800" y1="56.060" x2="81.500" y2="56.060" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="81.500" y1="56.060" x2="91.500" y2="56.060" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="70.700" y1="58.600" x2="81.500" y2="58.600" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="81.500" y1="58.600" x2="91.500" y2="58.600" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="70.700" y1="61.140" x2="74.800" y2="61.140" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="74.800" y1="61.140" x2="77.340" y2="63.680" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="77.340" y1="63.680" x2="81.500" y2="63.680" stroke="#666666" stroke-width="1.100" stroke-linecap="round"/>
+    <line x1="70.700" y1="81.460" x2="77.000" y2="81.460" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="77.000" y1="81.460" x2="79.500" y2="79.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="79.500" y1="79.000" x2="97.800" y2="79.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="97.800" y1="79.000" x2="97.800" y2="53.520" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="97.800" y1="53.520" x2="91.500" y2="53.520" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="91.500" y1="53.520" x2="81.500" y2="53.520" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="70.700" y1="84.000" x2="90.500" y2="84.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="90.500" y1="84.000" x2="92.500" y2="82.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="92.500" y1="82.000" x2="101.200" y2="82.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="101.200" y1="82.000" x2="101.200" y2="48.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="101.200" y1="48.000" x2="91.500" y2="48.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="91.500" y1="48.000" x2="81.500" y2="48.000" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="91.500" y1="48.000" x2="91.500" y2="50.980" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
+    <line x1="81.500" y1="48.000" x2="81.500" y2="50.980" stroke="#666666" stroke-width="1.150" stroke-linecap="round"/>
   </g>
   <g id="artistic-banner" data-mirrored="false">
     <line x1="29.500" y1="39.000" x2="86.500" y2="39.000" stroke="#222222" stroke-width="0.600" stroke-linecap="round" data-label="Anáhuac México" data-raw-x1="17.500" data-raw-x2="74.500"/>
@@ -317,15 +319,16 @@
     <circle cx="37.000" cy="62.500" r="0.950" fill="none" stroke="#000000" stroke-width="0.25"/>
     <circle cx="37.000" cy="68.760" r="0.950" fill="none" stroke="#000000" stroke-width="0.25"/>
     <circle cx="37.000" cy="76.000" r="0.950" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="83.000" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="83.000" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="83.000" cy="61.140" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="83.000" cy="63.680" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="83.000" cy="66.220" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="94.000" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="94.000" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="94.000" cy="61.140" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
-    <circle cx="94.000" cy="63.680" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="81.500" cy="50.980" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="81.500" cy="53.520" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="81.500" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="81.500" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="81.500" cy="61.140" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="81.500" cy="63.680" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="91.500" cy="50.980" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="91.500" cy="53.520" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="91.500" cy="56.060" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
+    <circle cx="91.500" cy="58.600" r="0.900" fill="none" stroke="#000000" stroke-width="0.25"/>
   </g>
   <g id="assembly-labels">
     <text x="46.700" y="48.440" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">EN</text>
@@ -398,17 +401,28 @@
     <rect x="35.306" y="77.332" width="5.788" height="4.136" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
     <text x="38.200" y="78.426" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">ESC_R</text>
     <text x="38.200" y="80.374" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#000000">GND S</text>
-    <text x="84.450" y="56.060" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SCL</text>
-    <text x="84.450" y="58.600" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SDA</text>
-    <text x="84.450" y="61.140" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">XSHUT</text>
-    <text x="84.450" y="63.680" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">GND</text>
-    <text x="84.450" y="66.220" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">3V3</text>
-    <text x="95.450" y="56.060" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SCL</text>
-    <text x="95.450" y="58.600" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">SDA</text>
-    <text x="95.450" y="61.140" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">GND</text>
-    <text x="95.450" y="63.680" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.411" fill="#000000">3V3</text>
-    <text x="83.000" y="52.047" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.834" fill="#003399">J_TOF</text>
-    <text x="94.000" y="52.047" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.834" fill="#003399">J_IMU</text>
+    <rect x="82.950" y="50.098" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="82.950" y="50.980" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">3V3</text>
+    <rect x="82.950" y="52.638" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="82.950" y="53.520" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">GND</text>
+    <rect x="82.950" y="55.178" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="82.950" y="56.060" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">SCL</text>
+    <rect x="82.950" y="57.718" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="82.950" y="58.600" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">SDA</text>
+    <rect x="82.950" y="60.258" width="2.016" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="82.950" y="61.140" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#666666">NC</text>
+    <rect x="82.950" y="62.798" width="4.740" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="82.950" y="63.680" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">XSHUT</text>
+    <rect x="92.950" y="50.098" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="92.950" y="50.980" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">3V3</text>
+    <rect x="92.950" y="52.638" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="92.950" y="53.520" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">GND</text>
+    <rect x="92.950" y="55.178" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="92.950" y="56.060" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">SCL</text>
+    <rect x="92.950" y="57.718" width="2.924" height="1.764" fill="#FFFFFF" fill-opacity="0.92" stroke="none"/>
+    <text x="92.950" y="58.600" text-anchor="start" dominant-baseline="central" font-family="monospace" font-size="1.376" fill="#000000">SDA</text>
+    <text x="81.500" y="45.489" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.764" fill="#003399">J_TOF</text>
+    <text x="91.500" y="45.489" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.764" fill="#003399">J_IMU</text>
     <text x="58.000" y="94.650" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.764" fill="#003399">ESP32 USB (BORDE INFERIOR)</text>
     <text x="58.000" y="42.200" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="1.693" fill="#990000">GY-BNO055: PUENTE ADD-GND (0x28) | SWITCH 30x20x20 mm +VBAT</text>
   </g>

@@ -160,8 +160,8 @@ ESP32_RIGHT_PINS: tuple[str, ...] = (
     "3V3",
 )
 
-J_TOF_PINS: tuple[str, ...] = ("SCL", "SDA", "XSHUT", "GND", "3V3")
-J_IMU_PINS: tuple[str, ...] = ("SCL", "SDA", "GND", "3V3")
+J_TOF_PINS: tuple[str, ...] = ("3V3", "GND", "SCL", "SDA", "NC", "XSHUT")
+J_IMU_PINS: tuple[str, ...] = ("3V3", "GND", "SCL", "SDA")
 
 # Minimal vector stroke glyphs on normalized [0..1] x [0..1] grid for copper etching
 _GLYPH_STROKES: dict[str, list[tuple[float, float, float, float]]] = {
@@ -435,15 +435,16 @@ def build_default_board() -> PcbBoard:
             )
         )
 
-    # 4. Right Zone: J_TOF (1x5) and J_IMU (1x4) 2.54 mm headers
-    x_tof = 71.00
-    y_tof_pin1 = 39.94  # Aligned so SDA (37.40) and XSHUT (34.86) are straight horizontal!
+    # 4. Right Zone: J_TOF (1x6) and J_IMU (1x4) 2.54 mm headers matching physical sensor pinouts
+    x_tof = 69.50
+    y_tof_pin1 = 45.02  # Top-down: 3V3(45.02), GND(42.48), SCL(39.94), SDA(37.40), NC(34.86), XSHUT(32.32)
     tof_nets = {
+        "3V3": "3V3",
+        "GND": "GND",
         "SCL": "I2C_SCL",
         "SDA": "I2C_SDA",
+        "NC": "NC_J_TOF_NC",
         "XSHUT": "TOF_XSHUT",
-        "GND": "GND",
-        "3V3": "3V3",
     }
     for idx, pin_label in enumerate(J_TOF_PINS):
         y = round(y_tof_pin1 - idx * pitch, 2)
@@ -462,13 +463,13 @@ def build_default_board() -> PcbBoard:
             )
         )
 
-    x_imu = 82.00
-    y_imu_pin1 = 39.94  # Aligned so SCL (39.94) and SDA (37.40) continue straight across!
+    x_imu = 79.50
+    y_imu_pin1 = 45.02  # Top-down: 3V3(45.02), GND(42.48), SCL(39.94), SDA(37.40)
     imu_nets = {
+        "3V3": "3V3",
+        "GND": "GND",
         "SCL": "I2C_SCL",
         "SDA": "I2C_SDA",
-        "GND": "GND",
-        "3V3": "3V3",
     }
     for idx, pin_label in enumerate(J_IMU_PINS):
         y = round(y_imu_pin1 - idx * pitch, 2)
@@ -508,33 +509,35 @@ def build_default_board() -> PcbBoard:
         Trace("ESC_L_SIG", 33.30, 29.78, 28.50, 29.78, width_mm=1.20, is_power_bus=False),
         Trace("ESC_L_SIG", 28.50, 29.78, 25.00, 33.50, width_mm=1.20, is_power_bus=False),
         Trace("ESC_R_SIG", 33.30, 27.24, 25.00, 27.24, width_mm=1.20, is_power_bus=False),
-        # Right Zone I2C & ToF signals (>= 1.0 mm, planar horizontal without crossings)
-        # I2C_SCL: ESP32_D22 (58.70, 45.02) -> J_TOF_SCL (71.00, 39.94) -> J_IMU_SCL (82.00, 39.94)
-        Trace("I2C_SCL", 58.70, 45.02, 63.50, 45.02, width_mm=1.10, is_power_bus=False),
-        Trace("I2C_SCL", 63.50, 45.02, 67.00, 39.94, width_mm=1.10, is_power_bus=False),
-        Trace("I2C_SCL", 67.00, 39.94, 71.00, 39.94, width_mm=1.10, is_power_bus=False),
-        Trace("I2C_SCL", 71.00, 39.94, 82.00, 39.94, width_mm=1.10, is_power_bus=False),
-        # I2C_SDA: ESP32_D21 (58.70, 37.40) -> J_TOF_SDA (71.00, 37.40) -> J_IMU_SDA (82.00, 37.40)
-        Trace("I2C_SDA", 58.70, 37.40, 71.00, 37.40, width_mm=1.10, is_power_bus=False),
-        Trace("I2C_SDA", 71.00, 37.40, 82.00, 37.40, width_mm=1.10, is_power_bus=False),
-        # TOF_XSHUT: ESP32_D19 (58.70, 34.86) -> J_TOF_XSHUT (71.00, 34.86)
-        Trace("TOF_XSHUT", 58.70, 34.86, 71.00, 34.86, width_mm=1.10, is_power_bus=False),
-        # Sensor GND: ESP32_GND_R (58.70, 14.54) -> J_TOF_GND (71.00, 32.32) -> J_IMU_GND (82.00, 34.86)
-        Trace("GND", 58.70, 14.54, 63.50, 14.54, width_mm=1.20, is_power_bus=False),
-        Trace("GND", 63.50, 14.54, 63.50, 29.50, width_mm=1.20, is_power_bus=False),
-        Trace("GND", 63.50, 29.50, 66.32, 32.32, width_mm=1.20, is_power_bus=False),
-        Trace("GND", 66.32, 32.32, 71.00, 32.32, width_mm=1.20, is_power_bus=False),
-        Trace("GND", 71.00, 32.32, 75.50, 32.32, width_mm=1.20, is_power_bus=False),
-        Trace("GND", 75.50, 32.32, 78.00, 34.86, width_mm=1.20, is_power_bus=False),
-        Trace("GND", 78.00, 34.86, 82.00, 34.86, width_mm=1.20, is_power_bus=False),
-        # Sensor 3V3: ESP32_3V3 (58.70, 12.00) -> J_TOF_3V3 (71.00, 29.78) -> J_IMU_3V3 (82.00, 32.32)
-        Trace("3V3", 58.70, 12.00, 66.50, 12.00, width_mm=1.20, is_power_bus=False),
-        Trace("3V3", 66.50, 12.00, 66.50, 27.50, width_mm=1.20, is_power_bus=False),
-        Trace("3V3", 66.50, 27.50, 68.78, 29.78, width_mm=1.20, is_power_bus=False),
-        Trace("3V3", 68.78, 29.78, 71.00, 29.78, width_mm=1.20, is_power_bus=False),
-        Trace("3V3", 71.00, 29.78, 77.50, 29.78, width_mm=1.20, is_power_bus=False),
-        Trace("3V3", 77.50, 29.78, 80.00, 32.32, width_mm=1.20, is_power_bus=False),
-        Trace("3V3", 80.00, 32.32, 82.00, 32.32, width_mm=1.20, is_power_bus=False),
+        # Right Zone I2C & ToF signals (100% planar, 0 jumpers)
+        # I2C_SCL: ESP32_D22 (58.70, 45.02) -> J_TOF_SCL (69.50, 39.94) -> J_IMU_SCL (79.50, 39.94)
+        Trace("I2C_SCL", 58.70, 45.02, 62.80, 45.02, width_mm=1.10, is_power_bus=False),
+        Trace("I2C_SCL", 62.80, 45.02, 65.80, 39.94, width_mm=1.10, is_power_bus=False),
+        Trace("I2C_SCL", 65.80, 39.94, 69.50, 39.94, width_mm=1.10, is_power_bus=False),
+        Trace("I2C_SCL", 69.50, 39.94, 79.50, 39.94, width_mm=1.10, is_power_bus=False),
+        # I2C_SDA: ESP32_D21 (58.70, 37.40) -> J_TOF_SDA (69.50, 37.40) -> J_IMU_SDA (79.50, 37.40)
+        Trace("I2C_SDA", 58.70, 37.40, 69.50, 37.40, width_mm=1.10, is_power_bus=False),
+        Trace("I2C_SDA", 69.50, 37.40, 79.50, 37.40, width_mm=1.10, is_power_bus=False),
+        # TOF_XSHUT: ESP32_D19 (58.70, 34.86) -> passes below J_TOF_NC -> J_TOF_XSHUT (69.50, 32.32)
+        Trace("TOF_XSHUT", 58.70, 34.86, 62.80, 34.86, width_mm=1.10, is_power_bus=False),
+        Trace("TOF_XSHUT", 62.80, 34.86, 65.34, 32.32, width_mm=1.10, is_power_bus=False),
+        Trace("TOF_XSHUT", 65.34, 32.32, 69.50, 32.32, width_mm=1.10, is_power_bus=False),
+        # Sensor GND (inner loop): ESP32_GND_R -> below sensors -> right corridor -> J_IMU_GND -> J_TOF_GND
+        Trace("GND", 58.70, 14.54, 65.00, 14.54, width_mm=1.15, is_power_bus=False),
+        Trace("GND", 65.00, 14.54, 67.50, 17.00, width_mm=1.15, is_power_bus=False),
+        Trace("GND", 67.50, 17.00, 85.80, 17.00, width_mm=1.15, is_power_bus=False),
+        Trace("GND", 85.80, 17.00, 85.80, 42.48, width_mm=1.15, is_power_bus=False),
+        Trace("GND", 85.80, 42.48, 79.50, 42.48, width_mm=1.15, is_power_bus=False),
+        Trace("GND", 79.50, 42.48, 69.50, 42.48, width_mm=1.15, is_power_bus=False),
+        # Sensor 3V3 (outer loop): ESP32_3V3 -> below GND -> outer right corridor -> top -> J_IMU_3V3 & J_TOF_3V3
+        Trace("3V3", 58.70, 12.00, 78.50, 12.00, width_mm=1.15, is_power_bus=False),
+        Trace("3V3", 78.50, 12.00, 80.50, 14.00, width_mm=1.15, is_power_bus=False),
+        Trace("3V3", 80.50, 14.00, 89.20, 14.00, width_mm=1.15, is_power_bus=False),
+        Trace("3V3", 89.20, 14.00, 89.20, 48.00, width_mm=1.15, is_power_bus=False),
+        Trace("3V3", 89.20, 48.00, 79.50, 48.00, width_mm=1.15, is_power_bus=False),
+        Trace("3V3", 79.50, 48.00, 69.50, 48.00, width_mm=1.15, is_power_bus=False),
+        Trace("3V3", 79.50, 48.00, 79.50, 45.02, width_mm=1.15, is_power_bus=False),
+        Trace("3V3", 69.50, 48.00, 69.50, 45.02, width_mm=1.15, is_power_bus=False),
     ]
 
     # 6. Top Zone: Artistic copper banner (Anáhuac México emblem + 4 team names)

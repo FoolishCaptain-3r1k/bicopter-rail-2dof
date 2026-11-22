@@ -68,6 +68,11 @@ def test_net_connectivity_and_vin_isolation() -> None:
     assert vin_pad.net == "ESP32_VIN"
     assert all(tr.net != "ESP32_VIN" for tr in board.traces)
 
+    # Verify J_TOF.NC is strictly isolated (no traces on its net)
+    nc_pad = board.get_pad("J_TOF_NC")
+    assert nc_pad.net == "NC_J_TOF_NC"
+    assert all(tr.net != nc_pad.net for tr in board.traces)
+
 
 def test_esp32_and_headers_geometry() -> None:
     """Verify exact 25.40 mm ESP32 row spacing, pinout ordering, and board size <= 94x90 mm."""
@@ -87,8 +92,12 @@ def test_esp32_and_headers_geometry() -> None:
 
     tof_pads = [p for p in board.pads if p.component == "J_TOF"]
     imu_pads = [p for p in board.pads if p.component == "J_IMU"]
+    assert [p.pin_label for p in tof_pads] == ["3V3", "GND", "SCL", "SDA", "NC", "XSHUT"]
+    assert [p.pin_label for p in imu_pads] == ["3V3", "GND", "SCL", "SDA"]
     assert [p.pin_label for p in tof_pads] == list(J_TOF_PINS)
     assert [p.pin_label for p in imu_pads] == list(J_IMU_PINS)
+    assert all(tof_pads[i].y_mm > tof_pads[i + 1].y_mm for i in range(len(tof_pads) - 1))
+    assert all(imu_pads[i].y_mm > imu_pads[i + 1].y_mm for i in range(len(imu_pads) - 1))
 
 
 def test_1to1_exports_and_mirroring_invariant() -> None:
@@ -314,4 +323,15 @@ def test_top_assembly_labels_no_overlap() -> None:
     for lb in right_boxes:
         assert lb.ha == "right"
         assert lb.x_min_mm > esp_x1 and lb.x_max_mm < 58.70
+
+    # Verify J_TOF / J_IMU headers clear top 3V3 bus (y=48.00) and J_IMU labels clear vertical buses (x>=85.25)
+    header_boxes = [lb for lb in boxes if lb.category == "header"]
+    assert {lb.text for lb in header_boxes} == {"J_TOF", "J_IMU"}
+    for hb in header_boxes:
+        assert hb.y_min_mm > 48.60
+
+    imu_pin_boxes = [lb for lb in boxes if lb.category == "pin" and lb.anchor_x_mm > 79.50]
+    assert len(imu_pin_boxes) == 4
+    for ib in imu_pin_boxes:
+        assert ib.x_max_mm < 85.00
 
