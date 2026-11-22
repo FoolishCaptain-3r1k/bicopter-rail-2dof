@@ -49,9 +49,13 @@ Salida esperada: `DETECTED model=...`, `READY model=...` y líneas `DATA model=.
 - **PASS físico:** referencia exacta del módulo y niveles documentados; un único modelo identificado; al menos 10 líneas `DATA ... status=OK` consecutivas; con un blanco mate a 100 mm y 200 mm medidos desde el sensor, las medianas de 10 lecturas en cada posición difieren en el sentido correcto y quedan dentro de ±30 mm de cada referencia. Registrar modelo, módulo, alimentación, distancia de referencia, medianas y errores.
 - **FAIL:** modelo desconocido, `ERROR` persistente, lecturas ausentes, incoherentes o fuera del criterio anterior. Detener la prueba y revisar cableado, nivel I2C, alimentación y ficha del módulo antes de repetir. No inferir compatibilidad por compilación o ACK en `0x29`.
 
-## Evidencia de esta entrega
+## Decisión sobre filtrado digital
 
-- **PASS:** rama `feature/vl53-test` basada en `main` `0d15505`; `pio run -d sensor-tests/vl53` terminó en `SUCCESS` con PlatformIO Espressif32 `7.1.3`, Arduino y librerías Pololu `1.3.1` para ambos modelos.
-- **PASS:** `pio run -d firmware` terminó en `SUCCESS`; el proyecto principal no fue modificado.
-- **PARTIAL:** la detección por registro, el manejo de errores y las distancias se compilaron, pero no se ejecutaron en ESP32.
-- **BLOCKED:** modelo físico, esquema eléctrico del módulo, carga y criterios de banco pendientes de identificación del módulo y sesión física autorizada. No se conectó hardware ni se energizaron motores.
+El filtro de mediana + EMA se descartó tras probar físicamente el VL53L0X con ESP32: las mediciones directas del firmware original funcionaron mejor y el filtro no aportó una mejora observada. Esta prueba informa la lectura directa en milímetros cada **500 ms**, con el timing budget original de **50 ms**. No aplica mediana, EMA ni otros filtros. Los criterios físicos de esta guía evalúan las lecturas directas.
+
+## Evidencia de la reversión
+
+- **PASS:** `pio run -d sensor-tests/vl53` → `SUCCESS` tras revertir el filtro.
+- **PASS:** `sensor-tests/vl53/src/main.cpp` y `platformio.ini` recuperaron el contenido del commit original del PR #2, `e03f580`.
+- **PARTIAL:** esta compilación verifica el software; no se ejecutó en el ESP32 ni se repitió la prueba física.
+- **BLOCKED:** confirmar el módulo, cargar firmware y repetir la aceptación física requiere sesión de banco. No se conectaron ESC ni motores.
