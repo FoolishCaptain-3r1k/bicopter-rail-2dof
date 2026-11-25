@@ -1,6 +1,6 @@
 # Primera prueba: flechas y ambos motores
 
-Esta carpeta contiene un firmware ESP32 independiente y un [HTML local](index.html). Las flechas ↑/↓ cambian **ambos ESC a la vez** en pasos de 10 µs, entre 1000 y 1200 µs. `Esc`, **Detener**, perder el foco de la página o 250 ms sin mensajes USB devuelven la señal a 1000 µs y deshabilitan el control.
+Esta carpeta contiene un firmware ESP32 independiente y un [HTML local](index.html). **Habilitar** mantiene ambos ESC en 1000 µs. El primer ↑ sube a 1100 µs; las siguientes pulsaciones ↑/↓ cambian **ambos ESC a la vez** en pasos de 10 µs, con límite de 1350 µs. `Esc`, **Detener**, perder el foco de la página o 250 ms sin mensajes USB devuelven la señal a 1000 µs y deshabilitan el control.
 
 ## Uso
 

@@ -4,7 +4,8 @@
 constexpr int LEFT_PIN = 25;
 constexpr int RIGHT_PIN = 26;
 constexpr int MIN_US = 1000;
-constexpr int MAX_US = 1200;
+constexpr int START_US = 1100;
+constexpr int MAX_US = 1350;
 constexpr int STEP_US = 10;
 constexpr unsigned long TIMEOUT_MS = 250;
 
@@ -43,7 +44,7 @@ void loop() {
       armed = true;
       lastMessage = millis();
     } else if (armed) {
-      if (command == 'U') setPulse(pulseUs + STEP_US);
+      if (command == 'U') setPulse(pulseUs == MIN_US ? START_US : pulseUs + STEP_US);
       if (command == 'D') setPulse(pulseUs - STEP_US);
       if (command == 'K' || command == 'U' || command == 'D') lastMessage = millis();
     }

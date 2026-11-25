@@ -10,13 +10,13 @@
   .note { color: #555; }
 </style>
 <h1>Control de ambos motores</h1>
-<p>↑ aumenta 10 µs · ↓ disminuye 10 µs · Esc detiene.</p>
+<p>El primer ↑ pasa de 1000 a 1100 µs; después cambia en pasos de 10 µs. ↓ disminuye · Esc detiene.</p>
 <p id="value">Orden: 1000 µs</p>
 <p id="status" role="status">Desconectado</p>
 <button id="connect">Conectar ESP32</button>
 <button id="arm" disabled>Habilitar motores</button>
 <button id="stop" disabled>Detener</button>
-<p class="note">Prueba sin hélices. Rango limitado a 1000–1200 µs; ambos motores reciben la misma señal. Mantén esta página activa para usar las flechas.</p>
+<p class="note">Prueba sin hélices. Rango limitado a 1000–1350 µs; ambos motores reciben la misma señal. Mantén esta página activa para usar las flechas.</p>
 <script>
   const connectButton = document.getElementById('connect');
   const armButton = document.getElementById('arm');
@@ -88,7 +88,7 @@
     if (event.key === 'Escape') { await stop(); return; }
     if (!armed || !['ArrowUp', 'ArrowDown'].includes(event.key)) return;
     event.preventDefault();
-    pulse = Math.max(1000, Math.min(1200, pulse + (event.key === 'ArrowUp' ? 10 : -10)));
+    pulse = Math.max(1000, Math.min(1350, event.key === 'ArrowUp' && pulse === 1000 ? 1100 : pulse + (event.key === 'ArrowUp' ? 10 : -10)));
     show();
     await send(event.key === 'ArrowUp' ? 'U' : 'D');
   });
