@@ -15,11 +15,13 @@
 <p id="status" role="status">Desconectado</p>
 <button id="connect">Conectar ESP32</button>
 <button id="arm" disabled>Habilitar motores</button>
+<button id="max" disabled>Máximo seguro: 1350 µs</button>
 <button id="stop" disabled>Detener</button>
 <p class="note">Prueba sin hélices. Rango limitado a 1000–1350 µs; ambos motores reciben la misma señal. Mantén esta página activa para usar las flechas.</p>
 <script>
   const connectButton = document.getElementById('connect');
   const armButton = document.getElementById('arm');
+  const maxButton = document.getElementById('max');
   const stopButton = document.getElementById('stop');
   const status = document.getElementById('status');
   const value = document.getElementById('value');
@@ -30,6 +32,7 @@
     status.textContent = !port ? 'Desconectado' : armed ? 'Motores habilitados' : 'Conectado · motores detenidos';
     connectButton.disabled = !!port;
     armButton.disabled = !port || armed;
+    maxButton.disabled = !port || !armed;
     stopButton.disabled = !port || !armed;
   }
 
@@ -83,6 +86,12 @@
     show();
   };
   stopButton.onclick = stop;
+  maxButton.onclick = async () => {
+    if (!armed) return;
+    pulse = 1350;
+    show();
+    await send('M');
+  };
 
   document.addEventListener('keydown', async event => {
     if (event.key === 'Escape') { await stop(); return; }

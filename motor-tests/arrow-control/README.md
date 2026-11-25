@@ -2,6 +2,8 @@
 
 Esta carpeta contiene un firmware ESP32 independiente y un [HTML local](index.html). **Habilitar** mantiene ambos ESC en 1000 µs. El primer ↑ sube a 1100 µs; las siguientes pulsaciones ↑/↓ cambian **ambos ESC a la vez** en pasos de 10 µs, con límite de 1350 µs. `Esc`, **Detener**, perder el foco de la página o 250 ms sin mensajes USB devuelven la señal a 1000 µs y deshabilitan el control.
 
+El botón **Máximo seguro: 1350 µs** lleva ambos ESC directamente al límite seguro documentado para este proyecto. No representa la potencia máxima nominal del motor o ESC; esa cifra requiere sus modelos y especificaciones.
+
 ## Uso
 
 1. Retira las hélices. Verifica GND común entre ESP32 y ESC, y que la LiPo alimente solo los ESC. Consulta [cableado y seguridad](../../docs/WIRING_AND_SAFETY.md).

@@ -46,7 +46,8 @@ void loop() {
     } else if (armed) {
       if (command == 'U') setPulse(pulseUs == MIN_US ? START_US : pulseUs + STEP_US);
       if (command == 'D') setPulse(pulseUs - STEP_US);
-      if (command == 'K' || command == 'U' || command == 'D') lastMessage = millis();
+      if (command == 'M') setPulse(MAX_US);
+      if (command == 'K' || command == 'U' || command == 'D' || command == 'M') lastMessage = millis();
     }
   }
 
