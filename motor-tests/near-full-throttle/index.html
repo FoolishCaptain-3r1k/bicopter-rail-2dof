@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prueba de acelerador al 99 %</title>
+<style>
+  body { font: 18px system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 20px; }
+  button { font: inherit; padding: 10px 16px; margin: 4px 4px 4px 0; }
+  #value { font-size: 2rem; font-weight: bold; }
+  .note { color: #555; }
+</style>
+<h1>Control de ambos motores</h1>
+<p>El primer ↑ pasa de 1000 a 1100 µs; después cambia en pasos de 10 µs. ↓ disminuye · Esc detiene.</p>
+<p id="value">Orden: 1000 µs</p>
+<p id="status" role="status">Desconectado</p>
+<button id="connect">Conectar ESP32</button>
+<button id="arm" disabled>Habilitar motores</button>
+<button id="max" disabled>99 %: 1990 µs</button>
+<button id="stop" disabled>Detener</button>
+<p class="note">Solo sin hélices. 1990 µs es 99 % del recorrido nominal 1000–2000 µs de un ESC PWM; verifica que tus ESC acepten ese rango. Ambos reciben la misma señal.</p>
+<script>
+  const connectButton = document.getElementById('connect');
+  const armButton = document.getElementById('arm');
+  const maxButton = document.getElementById('max');
+  const stopButton = document.getElementById('stop');
+  const status = document.getElementById('status');
+  const value = document.getElementById('value');
+  let port, writer, timer, armed = false, pulse = 1000;
+
+  function show() {
+    value.textContent = `Orden: ${pulse} µs`;
+    status.textContent = !port ? 'Desconectado' : armed ? 'Motores habilitados' : 'Conectado · motores detenidos';
+    connectButton.disabled = !!port;
+    armButton.disabled = !port || armed;
+    maxButton.disabled = !port || !armed;
+    stopButton.disabled = !port || !armed;
+  }
+
+  async function send(command) {
+    if (!writer) return;
+    try { await writer.write(new TextEncoder().encode(command)); }
+    catch { await disconnect(); }
+  }
+
+  async function stop() {
+    clearInterval(timer);
+    armed = false;
+    pulse = 1000;
+    show();
+    await send('X');
+  }
+
+  async function disconnect() {
+    clearInterval(timer);
+    armed = false;
+    pulse = 1000;
+    if (writer) { writer.releaseLock(); writer = null; }
+    if (port) { try { await port.close(); } catch {} port = null; }
+    show();
+  }
+
+  connectButton.onclick = async () => {
+    if (!('serial' in navigator)) {
+      status.textContent = 'Abre esta página en Chrome o Edge de escritorio.';
+      return;
+    }
+    try {
+      port = await navigator.serial.requestPort();
+      await port.open({ baudRate: 115200 });
+      writer = port.writable.getWriter();
+      // Abrir el puerto reinicia algunas placas ESP32.
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      show();
+    } catch (error) {
+      await disconnect();
+      status.textContent = `No se pudo conectar: ${error.message}`;
+    }
+  };
+
+  armButton.onclick = async () => {
+    pulse = 1000;
+    await send('A');
+    if (!port) return;
+    armed = true;
+    timer = setInterval(() => send('K'), 100);
+    show();
+  };
+  stopButton.onclick = stop;
+  maxButton.onclick = async () => {
+    if (!armed) return;
+    pulse = 1990;
+    show();
+    await send('M');
+  };
+
+  document.addEventListener('keydown', async event => {
+    if (event.key === 'Escape') { await stop(); return; }
+    if (!armed || !['ArrowUp', 'ArrowDown'].includes(event.key)) return;
+    event.preventDefault();
+    pulse = Math.max(1000, Math.min(1990, event.key === 'ArrowUp' && pulse === 1000 ? 1100 : pulse + (event.key === 'ArrowUp' ? 10 : -10)));
+    show();
+    await send(event.key === 'ArrowUp' ? 'U' : 'D');
+  });
+  window.addEventListener('blur', stop);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
+  navigator.serial?.addEventListener('disconnect', disconnect);
+  show();
+</script>
+</html>
