@@ -16,6 +16,29 @@ constexpr float START_PERCENT = 45; // 1450 us
 constexpr float START_RATE = 45; // percentage points/s, 1000 -> 1450 us in 1 s
 constexpr float CONTROL_RATE = 20; // 200 us/s for each motor
 constexpr float BASE_PERCENT = 58;
+constexpr float TOF_LPF_ALPHA = 0.30f;
+constexpr float ANGLE_LPF_ALPHA = 0.70f;
+constexpr float HEIGHT_DEADBAND_MM = 2.0f;
+
+// Selectable ToF low-pass filter bank (applied after median3 on deltaMm = mmMed - origin):
+// 0 = EMA (alpha=0.30), 1 = SMA (N=5), 2 = Butter2 (1.5 Hz, WINNER), 3 = Bessel2 (2.0 Hz), 4 = Cheby1-2 (1.8 Hz, unity DC)
+#ifndef DSP_FILTER_MODE
+#define DSP_FILTER_MODE 2
+#endif
+
+struct Biquad {
+    float b0, b1, b2, a1, a2;
+    float z1 = 0.0f, z2 = 0.0f;
+    Biquad(float b0_, float b1_, float b2_, float a1_, float a2_)
+        : b0(b0_), b1(b1_), b2(b2_), a1(a1_), a2(a2_) {}
+    void reset() { z1 = 0.0f; z2 = 0.0f; }
+    float step(float x) {
+        const float y = b0 * x + z1;
+        z1 = b1 * x - a1 * y + z2;
+        z2 = b2 * x - a2 * y;
+        return y;
+    }
+};
 struct PID {
     float kp=0,ki=0,kd=0,integral=0;
     float step(float error,float rate,float dt) {
@@ -38,10 +61,46 @@ enum class Power { Off, Ramp, Standby, PID, Down };
 Power power = Power::Off;
 float angleOrigin=0;
 bool angleOriginReady=false;
+float angleFiltered=0;
+bool angleFilterReady=false;
+float tofWindow[3]={0,0,0};
+unsigned tofWindowCount=0,tofWindowIdx=0;
+float tofFilteredDeltaMm=0;
+bool tofFilterReady=false;
+int filterMode = DSP_FILTER_MODE;
+float smaBuf[5]={0,0,0,0,0};
+unsigned smaCount=0,smaIdx=0;
+Biquad biquadButter2{0.04125354f, 0.08250707f, 0.04125354f, -1.34896775f, 0.51398189f}; // Butter2 fc=1.5Hz @ 20Hz
+Biquad biquadBessel2{0.06327976f, 0.12655953f, 0.06327976f, -1.07222953f, 0.32534858f}; // Bessel2 fc=2.0Hz @ 20Hz
+Biquad biquadCheby2{0.08298522f, 0.16597045f, 0.08298522f, -1.13091303f, 0.46285393f};  // Cheby1-2 fc=1.8Hz 0.5dB (unity DC) @ 20Hz
+void resetTofFilters() {
+    tofFilteredDeltaMm = 0.0f;
+    smaCount = 0; smaIdx = 0;
+    biquadButter2.reset();
+    biquadBessel2.reset();
+    biquadCheby2.reset();
+}
 unsigned originCount=0;
 char line[160];size_t length=0;bool overflow=false;
+float median3(float a, float b, float c) {
+    if (a > b) { const float t = a; a = b; b = t; }
+    if (b > c) { const float t = b; b = c; c = t; }
+    if (a > b) { const float t = a; a = b; b = t; }
+    return b;
+}
 float rawAngle(){return ANGLE_SIGN*(USE_ROLL?imu.roll:imu.pitch);}
-float angle(){return rawAngle() - (angleOriginReady ? angleOrigin : 0);}
+float angle(){return (angleFilterReady ? angleFiltered : rawAngle()) - (angleOriginReady ? angleOrigin : 0);}
+void updateImu(const ImuSample& s) {
+    imu = s;
+    imuTime = millis();
+    const float raw = rawAngle();
+    if (!angleFilterReady) {
+        angleFiltered = raw;
+        angleFilterReady = true;
+    } else {
+        angleFiltered = ANGLE_LPF_ALPHA * raw + (1.0f - ANGLE_LPF_ALPHA) * angleFiltered;
+    }
+}
 const char* powerName() {
     switch (power) {
         case Power::Ramp: return "RAMP";
@@ -78,13 +137,53 @@ void setup(){
 }
 void distance(float mm){
     tofValid=true;tofTime=millis();
+    tofWindow[tofWindowIdx]=mm;
+    tofWindowIdx=(tofWindowIdx+1)%3;
+    if(tofWindowCount<3)++tofWindowCount;
+    const float mmMed=tofWindowCount<3?mm:median3(tofWindow[0],tofWindow[1],tofWindow[2]);
     if(!originReady){
-        originMin=fminf(originMin,mm);originMax=fmaxf(originMax,mm);
-        if(originMax-originMin>10){originCount=0;originSum=0;originMin=originMax=mm;}
-        originSum+=mm;
-        if(++originCount>=30){origin=originSum/originCount;originReady=true;Serial.println("STATE,READY");}
+        originMin=fminf(originMin,mmMed);originMax=fmaxf(originMax,mmMed);
+        if(originMax-originMin>10){originCount=0;originSum=0;originMin=originMax=mmMed;}
+        originSum+=mmMed;
+        if(++originCount>=30){
+            origin=originSum/originCount;
+            resetTofFilters();
+            tofFilterReady=true;
+            originReady=true;
+            Serial.println("STATE,READY");
+        }
+    } else {
+        const float deltaMm = mmMed - origin;
+        if(!tofFilterReady){
+            tofFilteredDeltaMm=deltaMm;
+            tofFilterReady=true;
+        } else {
+            switch (filterMode) {
+                case 1: {
+                    smaBuf[smaIdx]=deltaMm;
+                    smaIdx=(smaIdx+1)%5;
+                    if(smaCount<5)++smaCount;
+                    float sum=0.0f;
+                    for(unsigned i=0;i<smaCount;++i)sum+=smaBuf[i];
+                    tofFilteredDeltaMm=sum/smaCount;
+                    break;
+                }
+                case 2:
+                    tofFilteredDeltaMm=biquadButter2.step(deltaMm);
+                    break;
+                case 3:
+                    tofFilteredDeltaMm=biquadBessel2.step(deltaMm);
+                    break;
+                case 4:
+                    tofFilteredDeltaMm=biquadCheby2.step(deltaMm);
+                    break;
+                default:
+                    tofFilteredDeltaMm=TOF_LPF_ALPHA*deltaMm+(1.0f-TOF_LPF_ALPHA)*tofFilteredDeltaMm;
+                    break;
+            }
+        }
     }
-    if(originReady)height=HEIGHT_SIGN*HEIGHT_SCALE*(mm-origin);
+    if(originReady)height=HEIGHT_SIGN*HEIGHT_SCALE*tofFilteredDeltaMm;
 }
 bool fresh(){return originReady&&imuValid&&tofValid&&millis()-imuTime<200&&millis()-tofTime<200;}
 bool checkRunningLimits(uint32_t now) {
@@ -124,7 +223,7 @@ void start(Mode requested, float h, float a, const PID& hGains, const PID& aGain
     mode = requested;
     target = h;
     angleTarget = a;
-    angleOrigin = rawAngle();
+    angleOrigin = angleFilterReady ? angleFiltered : rawAngle();
     angleOriginReady = true;
     previousHeight = height;
     previousAngle = angle();
@@ -184,6 +283,13 @@ void command(){
        (axis=='H'||axis=='A')&&std::isfinite(p)&&std::isfinite(i)&&std::isfinite(d)&&p>=0&&i>=0&&d>=0&&p<=100&&i<=100&&d<=100){
         PID& pid=axis=='H'?heightPid:anglePid;pid.kp=p;pid.ki=i;pid.kd=d;pid.integral=0;Serial.println("ACK,PID");return;
     }
+    int fmode = -1;
+    if(sscanf(line,"FILTER,%d %c",&fmode,&extra)==1 && !armed && fmode>=0 && fmode<=4){
+        filterMode=fmode;
+        resetTofFilters();
+        Serial.printf("ACK,FILTER,%d\n",filterMode);
+        return;
+    }
     Serial.println("ERR,COMMAND");
 }
 void commands(){
@@ -220,7 +326,11 @@ void tick(){
         if (left == 0 && right == 0) power = Power::Off;
     } else if(armed&&power == Power::PID){
         const float oldH=heightPid.integral,oldA=anglePid.integral;
-        const float common=BASE_PERCENT+heightPid.step(target-height,velocity,dt);
+        const float deadbandUnits=HEIGHT_DEADBAND_MM*HEIGHT_SCALE;
+        float heightErr=target-height;
+        if (fabsf(heightErr)<=deadbandUnits) heightErr=0.0f;
+        else heightErr-=copysignf(deadbandUnits,heightErr);
+        const float common=BASE_PERCENT+heightPid.step(heightErr,velocity,dt);
         const float diff=MIX_SIGN*anglePid.step(angleTarget-angle(),angularVelocity,dt);
         const float l=common-diff,r=common+diff;
         gradualOutputs(l,r,CONTROL_RATE,outputDt);

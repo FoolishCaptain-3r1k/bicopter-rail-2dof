@@ -64,7 +64,7 @@ void sampleImu() {
         if(result==diagnostic::SampleResult::CommunicationFailure){imuReady=false;imuAttempt=millis();}
     }
     control::imuValid=s.valid;
-    if(s.valid){control::imu=s;control::imuTime=millis();}
+    if(s.valid){control::updateImu(s);}
     // One record per acquisition, with its own status. No cached sample is republished.
     s.ts_ms=millis();char line[220];csvLine(line,sizeof(line),s,s.valid);
     Serial.print("IMU,");Serial.print(line);

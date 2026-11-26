@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MotorLab V9 · Visualizador DSP en Vivo</title>
+  <style>
+    :root {
+      --bg: #08131c;
+      --panel: #0f202e;
+      --panel2: #142a3b;
+      --line: #213c4f;
+      --text: #eef6f8;
+      --muted: #8ea7b5;
+      --cyan: #2ee6d6;
+      --raw: rgba(248, 113, 113, 0.55);
+      --amber: #f5b942;
+      --green: #3ddc97;
+      --violet: #b197fc;
+      --blue: #5aa9ff;
+      --red: #ff6b7a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 12% 0%, rgba(46,230,214,.09), transparent 32rem),
+                  radial-gradient(circle at 90% 10%, rgba(90,169,255,.08), transparent 28rem),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .shell { max-width: 1520px; margin: 0 auto; padding: 18px 22px 26px; }
+    .banner {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 14px 20px; padding: 16px 20px; border-radius: 16px;
+      background: linear-gradient(145deg, rgba(20,42,59,.96), rgba(13,29,42,.96));
+      border: 1px solid var(--line); margin-bottom: 14px;
+    }
+    .banner-left { display: flex; flex-direction: column; gap: 4px; }
+    .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .filter-title { margin: 0; font-size: clamp(20px, 2.4vw, 28px); letter-spacing: -.03em; }
+    .stage-note { margin: 0; font-size: 13px; color: var(--muted); }
+    .banner-right { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .badge {
+      padding: 6px 12px; border-radius: 99px; font: 700 11px/1 ui-monospace, monospace;
+      letter-spacing: .06em; border: 1px solid var(--line); background: #0a1824; color: var(--cyan);
+    }
+    .badge.phase-CAPTURANDO { color: #2ee6d6; border-color: rgba(46,230,214,.5); background: rgba(46,230,214,.12); }
+    .badge.phase-ANALIZANDO { color: #f5b942; border-color: rgba(245,185,66,.5); background: rgba(245,185,66,.12); }
+    .badge.phase-FLASHEANDO { color: #b197fc; border-color: rgba(177,151,252,.5); background: rgba(177,151,252,.12); }
+    .badge.phase-COMPLETADO { color: #3ddc97; border-color: rgba(61,220,151,.5); background: rgba(61,220,151,.12); }
+    .badge.phase-DEMO { color: #5aa9ff; border-color: rgba(90,169,255,.5); background: rgba(90,169,255,.12); }
+    .stat-pill {
+      padding: 6px 11px; border-radius: 10px; background: #0a1824; border: 1px solid var(--line);
+      font: 600 12px/1 ui-monospace, monospace; color: var(--muted);
+    }
+    .stat-pill strong { color: var(--text); }
+    .btn {
+      padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line);
+      background: #132838; color: var(--text); font: 600 12px/1 inherit; cursor: pointer;
+    }
+    .btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px;
+    }
+    .kpi {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 15px;
+    }
+    .kpi label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .kpi strong { display: block; margin-top: 6px; font: 700 22px/1.1 ui-monospace, monospace; }
+    .kpi small { display: block; margin-top: 4px; font-size: 11px; color: var(--muted); }
+    .charts { display: grid; grid-template-columns: 1.45fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
+    }
+    .card-head {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px;
+    }
+    .card-head h2 { margin: 0; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; color: #cde1ea; }
+    .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11px; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .swatch { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
+    .swatch.dashed { border-top: 2px dashed var(--amber); height: 0; background: transparent !important; }
+    .canvas-box {
+      position: relative; width: 100%; height: 340px; border-radius: 12px;
+      background: #07121b; border: 1px solid #1b3446; overflow: hidden;
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+    table { width: 100%; border-collapse: collapse; font: 12px/1.4 ui-monospace, monospace; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid #1a3142; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+    tr.winner { background: rgba(61, 220, 151, 0.14); }
+    tr.winner td:first-child { color: var(--green); font-weight: 700; }
+    .empty-row { text-align: center !important; color: var(--muted); padding: 18px; }
+    @media (max-width: 1100px) {
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .charts { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header class="banner">
+    <div class="banner-left">
+      <span class="eyebrow">MotorLab V9 · Telemetría DSP en Tiempo Real (SSE · 127.0.0.1:8090)</span>
+      <h1 class="filter-title" id="filterTitle">En espera de telemetría</h1>
+      <p class="stage-note" id="stageNote">Conectando al stream SSE…</p>
+    </div>
+    <div class="banner-right">
+      <span class="badge" id="phaseBadge">ESPERA</span>
+      <span class="stat-pill">SSE: <strong id="sseStatus">Conectando</strong></span>
+      <span class="stat-pill">Muestras: <strong id="sampleCount">0</strong></span>
+      <span class="stat-pill">Tasa: <strong id="sampleRate">0.0 Hz</strong></span>
+      <button class="btn" id="btnDemo">Ejecutar Demo 6 s</button>
+      <button class="btn" id="btnReset">Limpiar Gráficas</button>
+    </div>
+  </header>
+
+  <section class="kpi-grid">
+    <article class="kpi"><label>STD Ruido (ToF Crudo)</label><strong id="kpiRawStd">—</strong><small id="kpiRawP2p">p2p: —</small></article>
+    <article class="kpi"><label>STD Altura Filtrada</label><strong id="kpiFiltStd" style="color:var(--cyan)">—</strong><small id="kpiFiltP2p">p2p: —</small></article>
+    <article class="kpi"><label>Error Actual (Ref − Filt)</label><strong id="kpiErr" style="color:var(--amber)">—</strong><small id="kpiHeightVal">h: — / ref: —</small></article>
+    <article class="kpi"><label>Ángulo (Filt / Crudo)</label><strong id="kpiAngle" style="color:var(--green)">—</strong><small id="kpiAngleRaw">crudo: —</small></article>
+    <article class="kpi"><label>PWM ESC (GPIO25 / 26)</label><strong id="kpiPwm" style="color:var(--violet)">—</strong><small id="kpiPwmDiff">diff: —</small></article>
+  </section>
+
+  <section class="charts">
+    <article class="card">
+      <div class="card-head">
+        <h2>Altura · Ventana deslizante 15 s</h2>
+        <div class="legend">
+          <span><i class="swatch" style="background:var(--raw)"></i>ToF Crudo</span>
+          <span><i class="swatch" style="background:var(--cyan)"></i>Altura Filtrada</span>
+          <span><i class="swatch dashed"></i>Referencia Senoidal</span>
+        </div>
+      </div>
+      <div class="canvas-box"><canvas id="heightCanvas"></canvas></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h2>Ángulo (°) y Esfuerzo PWM (%)</h2>
+        <div class="legend">
+          <span><i class="swatch" style="background:rgba(248,113,113,.55)"></i>Ángulo Crudo</span>
+          <span><i class="swatch" style="background:var(--green)"></i>Ángulo Filt</span>
+          <span><i class="swatch" style="background:var(--blue)"></i>PWM 25</span>
+          <span><i class="swatch" style="background:var(--violet)"></i>PWM 26</span>
+        </div>
+      </div>
+      <div class="canvas-box"><canvas id="auxCanvas"></canvas></div>
+    </article>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Tabla Comparativa de Filtros (Acumulada en Vivo)</h2>
+      <span class="eyebrow">Resaltado en verde = filtro ganador</span>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Filtro</th>
+            <th>Orden</th>
+            <th>fc (Hz)</th>
+            <th>STD (mm)</th>
+            <th>P2P (mm)</th>
+            <th>Lag (ms)</th>
+            <th>RMSE (mm)</th>
+            <th>Smoothness</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody">
+          <tr><td colspan="9" class="empty-row">Sin resultados registrados todavía.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script>
+'use strict';
+(() => {
+  const byId = id => document.getElementById(id);
+  const WINDOW_S = 15.0;
+  const samples = [];
+  let totalCount = 0;
+  let dirty = true;
+
+  function setStage(stage) {
+    if (!stage) return;
+    byId('filterTitle').textContent = stage.filter_name || 'Sin nombre';
+    byId('stageNote').textContent = stage.note || '';
+    const phase = String(stage.phase || 'ESPERA').toUpperCase();
+    const badge = byId('phaseBadge');
+    badge.textContent = phase;
+    badge.className = 'badge phase-' + phase;
+  }
+
+  function renderResults(results) {
+    const tbody = byId('resultsBody');
+    tbody.innerHTML = '';
+    if (!results || !results.length) {
+      tbody.innerHTML = '<tr><td colspan="9" class="empty-row">Sin resultados registrados todavía.</td></tr>';
+      return;
+    }
+    for (const r of results) {
+      const tr = document.createElement('tr');
+      if (r.winner) tr.className = 'winner';
+      const fmt = (v, d = 2) => Number.isFinite(Number(v)) ? Number(v).toFixed(d) : '—';
+      const cells = [
+        r.filter_name ?? '—',
+        r.order ?? '—',
+        fmt(r.fc_hz, 2),
+        fmt(r.std_mm, 3),
+        fmt(r.p2p_mm, 3),
+        fmt(r.lag_ms, 1),
+        fmt(r.rmse_mm, 3),
+        fmt(r.smoothness_score, 1),
+        r.winner ? 'GANADOR' : 'Evaluado'
+      ];
+      for (const text of cells) {
+        const td = document.createElement('td');
+        td.textContent = String(text);
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+  }
+
+  function pushSample(s) {
+    if (!s || !Number.isFinite(Number(s.t))) return;
+    const item = {
+      t: Number(s.t),
+      raw_h: Number(s.raw_h ?? 0),
+      filt_h: Number(s.filt_h ?? 0),
+      ref_h: Number(s.ref_h ?? 0),
+      raw_a: Number(s.raw_a ?? 0),
+      filt_a: Number(s.filt_a ?? 0),
+      pwm_l: Number(s.pwm_l ?? 0),
+      pwm_r: Number(s.pwm_r ?? 0)
+    };
+    if (samples.length && item.t < samples[samples.length - 1].t - 1.0) {
+      samples.length = 0;
+    }
+    samples.push(item);
+    totalCount++;
+    const cutoff = item.t - WINDOW_S;
+    while (samples.length > 1 && samples[0].t < cutoff) samples.shift();
+    dirty = true;
+  }
+
+  function stats(arr) {
+    if (!arr.length) return {std: 0, p2p: 0};
+    let sum = 0, lo = Infinity, hi = -Infinity;
+    for (const v of arr) {
+      sum += v;
+      if (v < lo) lo = v;
+      if (v > hi) hi = v;
+    }
+    const mean = sum / arr.length;
+    let acc = 0;
+    for (const v of arr) acc += (v - mean) * (v - mean);
+    return {std: Math.sqrt(acc / arr.length), p2p: hi - lo};
+  }
+
+  function updateKpis() {
+    byId('sampleCount').textContent = String(totalCount);
+    if (!samples.length) {
+      byId('sampleRate').textContent = '0.0 Hz';
+      return;
+    }
+    if (samples.length >= 2) {
+      const span = samples[samples.length - 1].t - samples[0].t;
+      const hz = span > 0 ? (samples.length - 1) / span : 0;
+      byId('sampleRate').textContent = hz.toFixed(1) + ' Hz';
+    }
+    const tail = samples.slice(-60);
+    const rawResidual = tail.map(s => s.raw_h - s.filt_h);
+    const filtResidual = tail.map(s => s.filt_h - s.ref_h);
+    const rawSt = stats(rawResidual);
+    const filtSt = stats(filtResidual);
+    const last = samples[samples.length - 1];
+    byId('kpiRawStd').textContent = rawSt.std.toFixed(2);
+    byId('kpiRawP2p').textContent = 'p2p residual: ' + rawSt.p2p.toFixed(2);
+    byId('kpiFiltStd').textContent = filtSt.std.toFixed(2);
+    byId('kpiFiltP2p').textContent = 'p2p vs ref: ' + filtSt.p2p.toFixed(2);
+    byId('kpiErr').textContent = (last.ref_h - last.filt_h).toFixed(2);
+    byId('kpiHeightVal').textContent = 'h: ' + last.filt_h.toFixed(1) + ' / ref: ' + last.ref_h.toFixed(1);
+    byId('kpiAngle').textContent = last.filt_a.toFixed(2) + '°';
+    byId('kpiAngleRaw').textContent = 'crudo: ' + last.raw_a.toFixed(2) + '°';
+    byId('kpiPwm').textContent = last.pwm_l.toFixed(1) + '% / ' + last.pwm_r.toFixed(1) + '%';
+    byId('kpiPwmDiff').textContent = 'diff: ' + (last.pwm_r - last.pwm_l).toFixed(2) + '%';
+  }
+
+  function setupCanvas(canvas) {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return null;
+    const dpr = window.devicePixelRatio || 1;
+    const rw = Math.round(w * dpr), rh = Math.round(h * dpr);
+    if (canvas.width !== rw || canvas.height !== rh) {
+      canvas.width = rw;
+      canvas.height = rh;
+    }
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    return {ctx, w, h};
+  }
+
+  function drawGrid(ctx, x0, y0, pw, ph, minY, maxY, unitL, minR, maxR, unitR) {
+    ctx.strokeStyle = '#152b3b';
+    ctx.fillStyle = '#7e99a8';
+    ctx.font = '10px ui-monospace, monospace';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = 0; i <= 4; i++) {
+      const y = y0 + (ph * i) / 4;
+      ctx.moveTo(x0, y);
+      ctx.lineTo(x0 + pw, y);
+      const vL = maxY - ((maxY - minY) * i) / 4;
+      ctx.textAlign = 'right';
+      ctx.fillText(vL.toFixed(0) + unitL, x0 - 6, y + 3);
+      if (unitR !== null) {
+        const vR = maxR - ((maxR - minR) * i) / 4;
+        ctx.textAlign = 'left';
+        ctx.fillText(vR.toFixed(0) + unitR, x0 + pw + 6, y + 3);
+      }
+    }
+    for (let i = 0; i <= 5; i++) {
+      const x = x0 + (pw * i) / 5;
+      ctx.moveTo(x, y0);
+      ctx.lineTo(x, y0 + ph);
+    }
+    ctx.stroke();
+  }
+
+  function drawSeries(ctx, x0, y0, pw, ph, tEnd, minY, maxY, key, color, width, dashed) {
+    if (samples.length < 2) return;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x0, y0, pw, ph);
+    ctx.clip();
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    if (dashed) ctx.setLineDash([6, 5]);
+    const span = Math.max(1e-3, maxY - minY);
+    let first = true;
+    for (const s of samples) {
+      const x = x0 + pw * (1 - (tEnd - s.t) / WINDOW_S);
+      const y = y0 + ph * (1 - (s[key] - minY) / span);
+      if (first) { ctx.moveTo(x, y); first = false; }
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawHeightChart() {
+    const res = setupCanvas(byId('heightCanvas'));
+    if (!res) return;
+    const {ctx, w, h} = res;
+    const x0 = 48, y0 = 18, pw = w - 64, ph = h - 42;
+    let lo = 0, hi = 200;
+    if (samples.length) {
+      lo = Infinity; hi = -Infinity;
+      for (const s of samples) {
+        lo = Math.min(lo, s.raw_h, s.filt_h, s.ref_h);
+        hi = Math.max(hi, s.raw_h, s.filt_h, s.ref_h);
+      }
+      const pad = Math.max(15, (hi - lo) * 0.15);
+      lo = Math.floor((lo - pad) / 10) * 10;
+      hi = Math.ceil((hi + pad) / 10) * 10;
+    }
+    drawGrid(ctx, x0, y0, pw, ph, lo, hi, '', 0, 0, null);
+    if (samples.length) {
+      const tEnd = samples[samples.length - 1].t;
+      drawSeries(ctx, x0, y0, pw, ph, tEnd, lo, hi, 'raw_h', 'rgba(248,113,113,0.55)', 1.5, false);
+      drawSeries(ctx, x0, y0, pw, ph, tEnd, lo, hi, 'ref_h', '#f5b942', 1.8, true);
+      drawSeries(ctx, x0, y0, pw, ph, tEnd, lo, hi, 'filt_h', '#2ee6d6', 2.8, false);
+    }
+  }
+
+  function drawAuxChart() {
+    const res = setupCanvas(byId('auxCanvas'));
+    if (!res) return;
+    const {ctx, w, h} = res;
+    const x0 = 44, y0 = 18, pw = w - 92, ph = h - 42;
+    let aPeak = 20;
+    for (const s of samples) aPeak = Math.max(aPeak, Math.abs(s.raw_a), Math.abs(s.filt_a));
+    const aSpan = Math.ceil(aPeak / 10) * 10;
+    drawGrid(ctx, x0, y0, pw, ph, -aSpan, aSpan, '°', 0, 100, '%');
+    if (samples.length) {
+      const tEnd = samples[samples.length - 1].t;
+      drawSeries(ctx, x0, y0, pw, ph, tEnd, -aSpan, aSpan, 'raw_a', 'rgba(248,113,113,0.55)', 1.4, false);
+      drawSeries(ctx, x0, y0, pw, ph, tEnd, -aSpan, aSpan, 'filt_a', '#3ddc97', 2.4, false);
+      drawSeries(ctx, x0, y0, pw, ph, tEnd, 0, 100, 'pwm_l', '#5aa9ff', 1.7, false);
+      drawSeries(ctx, x0, y0, pw, ph, tEnd, 0, 100, 'pwm_r', '#b197fc', 1.7, false);
+    }
+  }
+
+  function frameLoop() {
+    if (dirty) {
+      updateKpis();
+      drawHeightChart();
+      drawAuxChart();
+      dirty = false;
+    }
+    requestAnimationFrame(frameLoop);
+  }
+  requestAnimationFrame(frameLoop);
+  window.addEventListener('resize', () => { dirty = true; });
+
+  function connectSse() {
+    const es = new EventSource('/events');
+    es.onopen = () => { byId('sseStatus').textContent = 'En vivo'; };
+    es.onerror = () => { byId('sseStatus').textContent = 'Reconectando…'; };
+    es.addEventListener('snapshot', e => {
+      const data = JSON.parse(e.data);
+      setStage(data.stage);
+      samples.length = 0;
+      totalCount = 0;
+      for (const s of (data.samples || [])) pushSample(s);
+      renderResults(data.results || []);
+      dirty = true;
+    });
+    es.addEventListener('sample', e => pushSample(JSON.parse(e.data)));
+    es.addEventListener('stage', e => setStage(JSON.parse(e.data)));
+    es.addEventListener('result', e => renderResults(JSON.parse(e.data).results || []));
+    es.addEventListener('reset', e => {
+      const d = JSON.parse(e.data);
+      samples.length = 0;
+      totalCount = 0;
+      if (d.clear_results) renderResults([]);
+      dirty = true;
+    });
+  }
+  connectSse();
+
+  byId('btnDemo').onclick = () => fetch('/api/demo', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{}'});
+  byId('btnReset').onclick = () => fetch('/api/reset', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{}'});
+})();
+</script>
+</body>
+</html>

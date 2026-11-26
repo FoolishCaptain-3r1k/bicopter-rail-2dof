@@ -6,6 +6,7 @@ const armErrors = {
   ARM_SENSORS: 'El armado requiere el cero de altura y lecturas vigentes de ambos sensores.',
   AUTO_ZERO: 'Introduce una altura distinta de 0 mm para arrancar en automático.'
 };
+const defaultGains = {HKp: '0.05', HKi: '0', HKd: '0.02', AKp: '0.30', AKi: '0', AKd: '0.05'};
 const gainIds = [];
 for (const [axis, title] of [['H', 'PID de altura · mm'], ['A', 'PID de rotación · grados']]) {
   const fieldset = document.createElement('fieldset');
@@ -18,8 +19,9 @@ for (const [axis, title] of [['H', 'PID de altura · mm'], ['A', 'PID de rotaci�
     const label = document.createElement('label');
     label.textContent = gain;
     const input = document.createElement('input');
-    Object.assign(input, {type: 'number', id: axis + gain, min: '0', max: '100',
-      step: 'any', required: true, value: '0'});
+    const id = axis + gain;
+    Object.assign(input, {type: 'number', id, min: '0', max: '100',
+      step: 'any', required: true, value: defaultGains[id]});
     gainIds.push(input.id);
     label.append(input);
     group.append(label);
@@ -31,6 +33,48 @@ for (const [axis, title] of [['H', 'PID de altura · mm'], ['A', 'PID de rotaci�
 let session = null;
 let connecting = false;
 let selectedMode = null;
+let activeRoutine = null;
+const ANGLE_LEVEL_GAINS = {AKp: 0.35, AKi: 0.02, AKd: 0.08};
+const AUTO_ROUTINES = {
+  undamped:    {label: 'No amortiguado (Senoidal)', hKp: 0.24, hKi: 0.01,  hKd: 0.00, sine: true},
+  underdamped: {label: 'Subamortiguado',            hKp: 0.28, hKi: 0.06,  hKd: 0.02, sine: false},
+  critical:    {label: 'Críticamente amortiguado',  hKp: 0.18, hKi: 0.025, hKd: 0.10, sine: false},
+  overdamped:  {label: 'Sobreamortiguado',          hKp: 0.10, hKi: 0.008, hKd: 0.18, sine: false}
+};
+const clampNum = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const clearActiveRoutine = () => { activeRoutine = null; };
+function getRailGeometry() {
+  const rawTop = Number(byId('railTop')?.value);
+  const top = Number.isFinite(rawTop) && rawTop >= 20 ? rawTop : 200;
+  const rawFreq = Number(byId('sineFreq')?.value);
+  const freq = clampNum(Number.isFinite(rawFreq) ? rawFreq : 0.35, 0.15, 0.80);
+  const mid = top / 2;
+  const safeMin = Math.max(1, 0.15 * top);
+  const safeMax = 0.85 * top;
+  const amp = 0.30 * top;
+  return {
+    top, freq, mid, amp, safeMin, safeMax,
+    sineMin: clampNum(mid - amp, safeMin, safeMax),
+    sineMax: clampNum(mid + amp, safeMin, safeMax)
+  };
+}
+function computeRoutineGains(id, top) {
+  const profile = AUTO_ROUTINES[id];
+  const scale = 200 / top;
+  const r4 = x => Number(x.toFixed(4));
+  return {
+    HKp: r4(clampNum(profile.hKp * scale, 0.001, 100)),
+    HKi: r4(clampNum(profile.hKi * scale, 0, 100)),
+    HKd: r4(clampNum(profile.hKd * scale, 0, 100)),
+    ...ANGLE_LEVEL_GAINS
+  };
+}
+function setInputWithSync(id, val) {
+  const input = byId(id);
+  if (!input) return;
+  input.value = String(val);
+  input.dispatchEvent(new Event('input', {bubbles: true}));
+}
 const notify = text => { byId('notice').textContent = text; };
 const activeTab = () => !document.hidden && document.hasFocus();
 const fresh = s => !!s?.sample && performance.now() - s.received < 300;
@@ -57,12 +101,43 @@ function render() {
   byId('backToMenu').disabled = connecting || !!session?.closing || !!session?.requested || !!session?.sample?.armed;
   byId('visionPanel').hidden = !gestureMode();
   byId('manualPanel').hidden = selectedMode !== 'MANUAL';
+  byId('autoPanel').hidden = !auto();
   byId('directionPad').disabled = !manualReady();
   byId('targets').hidden = !auto();
   for (const field of byId('loops').children) field.disabled = busy;
   byId('start').disabled = !row?.valid || busy || !!session?.closing ||
     (gestureMode() && !HandControl.current()?.height);
   byId('start').textContent = gestureMode() ? 'Armar con gestos' : auto() ? 'Iniciar automático' : 'Armar manual';
+  byId('manualArm').disabled = byId('start').disabled;
+  byId('manualStatus').textContent = !session ? 'Conecta el ESP32 por USB para iniciar.' :
+    !live ? 'Esperando telemetría del ESP32…' :
+    !row.origin ? 'Tomando cero de altura (mantén el riel abajo e inmóvil)…' :
+    !row.valid ? 'Esperando lecturas válidas de IMU y ToF…' :
+    row.armed ? 'Armado en manual · usa ↑ ↓ ← → en pantalla o teclado.' :
+    'Sensores y cero listos · pulsa Armar manual.';
+  const geo = getRailGeometry();
+  byId('autoCalSummary').textContent =
+    'Mitad objetivo (H_mid): ' + geo.mid.toFixed(1) +
+    ' · Rango senoidal: [' + geo.sineMin.toFixed(1) + ', ' + geo.sineMax.toFixed(1) + ']' +
+    ' · Margen seguro [15%, 85%]: [' + geo.safeMin.toFixed(1) + ', ' + geo.safeMax.toFixed(1) + ']';
+  byId('railTop').disabled = busy;
+  byId('sineFreq').disabled = busy;
+  byId('captureTop').disabled = busy || !!session?.closing || !row?.origin || !row?.valid;
+  const routineCanStart = auto() && !!row?.origin && !!row?.valid && !busy && !session?.closing;
+  for (const btn of byId('routineButtons').querySelectorAll('[data-routine]')) {
+    btn.disabled = !routineCanStart;
+    btn.classList.toggle('active', activeRoutine?.id === btn.dataset.routine);
+  }
+  byId('autoRoutineStatus').textContent = !session ? 'Conecta el ESP32 por USB para iniciar.' :
+    !live ? 'Esperando telemetría del ESP32…' :
+    !row.origin ? 'Tomando cero de altura (mantén el riel abajo e inmóvil)…' :
+    !row.valid ? 'Esperando lecturas válidas de IMU y ToF…' :
+    activeRoutine ? ('Rutina activa: ' + AUTO_ROUTINES[activeRoutine.id].label +
+      ' · ' + (row.power === 'RAMP' ? 'Arranque gradual (1450 µs)…' :
+      AUTO_ROUTINES[activeRoutine.id].sine ? ('Senoidal ' + activeRoutine.freq.toFixed(2) + ' Hz · objetivo ' + activeRoutine.lastSentH.toFixed(1)) :
+      ('Escalón fijo en H_mid=' + activeRoutine.mid.toFixed(1) + ' · 0°'))) :
+    row.armed ? 'Control automático activo (manual). Pulsa PARO para cambiar de rutina.' :
+    'Listo · calibra el tope de 20 cm o haz clic en cualquiera de las 4 rutinas.';
   byId('apply').disabled = !row?.armed || row.mode !== 'AUTO' || !session?.requested;
   byId('stop').disabled = !session || session.closing;
   for (const id of ['height', 'angle', 'heightRef', 'angleRef', 'left', 'right']) {
@@ -90,6 +165,7 @@ function receive(s, line) {
   } else if (line.startsWith('STATE,STOP,')) {
     s.requested = false;
     s.manualSteps.length = 0;
+    clearActiveRoutine();
     const reason = line.slice(11);
     const reasons = {USER:'Parada confirmada.',
       SENSOR_INVALID_OR_STALE:'Parada: lectura de sensor inválida o sin actualizar durante 200 ms.',
@@ -97,7 +173,7 @@ function receive(s, line) {
     notify(reasons[reason] || 'Parada del firmware · ' + reason);
     render();
   } else if (line.startsWith('ERR,')) {
-    if (!s.sample?.armed) s.requested = false;
+    if (!s.sample?.armed) { s.requested = false; clearActiveRoutine(); }
     notify(armErrors[line.slice(4)] || 'Orden rechazada por el firmware · ' + line.slice(4));
     render();
   } else if (line === 'STATE,ARMED') {
@@ -127,7 +203,8 @@ async function send(s, command) {
 }
 
 function stop() {
-  if (!session || session.closing) return;
+  clearActiveRoutine();
+  if (!session || session.closing) { render(); return; }
   session.requested = false;
   session.manualSteps.length = 0;
   void send(session, 'STOP');
@@ -139,6 +216,7 @@ async function closePort(s) {
   s.closing = true;
   s.requested = false;
   s.manualSteps.length = 0;
+  clearActiveRoutine();
   render();
   try { await s.writer?.write(encoder.encode('STOP\n')); } catch {}
   try { await s.reader?.cancel(); } catch {}
@@ -205,6 +283,7 @@ for (const button of byId('modeMenu').querySelectorAll('[data-mode]')) {
 byId('backToMenu').onclick = () => {
   const previous = selectedMode;
   if (gestureMode()) HandControl.release();
+  clearActiveRoutine();
   selectedMode = null;
   byId('controller').hidden = true;
   byId('modeMenu').hidden = false;
@@ -235,6 +314,53 @@ byId('start').onclick = async () => {
     render();
   } catch (error) { notify(error.message); }
 };
+byId('manualArm').onclick = () => byId('start').click();
+byId('railTop').addEventListener('input', render);
+byId('sineFreq').addEventListener('input', render);
+byId('captureTop').onclick = () => {
+  const s = session;
+  if (!fresh(s) || !s.sample.origin || !s.sample.valid || s.sample.armed || s.requested) return;
+  const captured = Math.abs(s.sample.height);
+  if (!Number.isFinite(captured) || captured < 10) {
+    notify('Levanta el carro manualmente hasta el tope superior (20 cm) antes de capturar.');
+    return;
+  }
+  byId('railTop').value = captured.toFixed(1);
+  notify('Tope de 20 cm capturado: ' + captured.toFixed(1) + ' unidades · H_mid = ' + (captured / 2).toFixed(1) + '.');
+  render();
+};
+async function launchRoutine(id) {
+  const s = session;
+  if (!auto() || !fresh(s) || !s.sample.origin || !s.sample.valid || s.sample.armed || s.requested || !activeTab()) return;
+  const profile = AUTO_ROUTINES[id];
+  if (!profile) return;
+  const geo = getRailGeometry();
+  const hMid = Number(geo.mid.toFixed(2));
+  if (!Number.isFinite(hMid) || hMid <= 0) {
+    notify('Tope medido inválido. Ajusta el valor de tope (> 20).');
+    return;
+  }
+  const gains = computeRoutineGains(id, geo.top);
+  for (const [k, v] of Object.entries(gains)) setInputWithSync(k, v);
+  setInputWithSync('h', hMid);
+  setInputWithSync('a', 0);
+  const command = ['START', 'AUTO', hMid, 0,
+    gains.HKp, gains.HKi, gains.HKd, gains.AKp, gains.AKi, gains.AKd].join(',');
+  activeRoutine = {id, ...geo, sineT0: null, lastSentH: hMid};
+  s.requested = true;
+  render();
+  if (!await send(s, command)) {
+    s.requested = false;
+    clearActiveRoutine();
+    render();
+    return;
+  }
+  notify('Rutina iniciada: ' + profile.label + ' · H_mid=' + hMid + ', 0°.');
+  render();
+}
+for (const btn of byId('routineButtons').querySelectorAll('[data-routine]')) {
+  btn.onclick = () => void launchRoutine(btn.dataset.routine);
+}
 byId('apply').onclick = async () => {
   if (!auto() || !fresh(session) || !session.requested || session.sample.mode !== 'AUTO') return;
   try {
@@ -288,10 +414,21 @@ setInterval(async () => {
   if (s?.requested) {
     if (!fresh(s) || !activeTab() || !s.sample.valid || (gestureMode() && !HandControl.current())) stop();
     else if (s.sample.armed && await send(s, 'HB') && s === session && s.requested &&
-        gestureMode() && activeTab() && fresh(s) && s.sample.valid && s.sample.mode === 'AUTO') {
-      const pose = HandControl.current();
-      if (pose && (pose.height !== s.sample.heightRef || pose.angle !== s.sample.angleRef))
-        await send(s, ['TARGET', pose.height, pose.angle].join(','));
+        activeTab() && fresh(s) && s.sample.valid && s.sample.mode === 'AUTO') {
+      if (gestureMode()) {
+        const pose = HandControl.current();
+        if (pose && (pose.height !== s.sample.heightRef || pose.angle !== s.sample.angleRef))
+          await send(s, ['TARGET', pose.height, pose.angle].join(','));
+      } else if (auto() && activeRoutine && AUTO_ROUTINES[activeRoutine.id].sine && s.sample.power === 'PID') {
+        if (activeRoutine.sineT0 === null) activeRoutine.sineT0 = performance.now();
+        const t = (performance.now() - activeRoutine.sineT0) / 1000;
+        const rawH = activeRoutine.mid + activeRoutine.amp * Math.sin(2 * Math.PI * activeRoutine.freq * t);
+        const nextH = Number(clampNum(rawH, activeRoutine.safeMin, activeRoutine.safeMax).toFixed(2));
+        if (nextH > 0 && nextH !== activeRoutine.lastSentH) {
+          activeRoutine.lastSentH = nextH;
+          await send(s, 'TARGET,' + nextH + ',0');
+        }
+      }
     }
   }
   render();
