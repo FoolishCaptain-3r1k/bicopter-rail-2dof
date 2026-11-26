@@ -1,0 +1,85 @@
+#modeMenu {
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  padding:clamp(18px,5vw,72px);
+  background:
+    radial-gradient(ellipse at 12% 75%,#97c8c1 0,transparent 46%),
+    radial-gradient(ellipse at 92% 11%,#b3cadc 0,transparent 48%),
+    radial-gradient(ellipse at 83% 96%,#efdab4 0,transparent 46%),#e6eeed;
+}
+.menu-pane {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  width:min(100%,1000px);
+  padding:clamp(26px,5.5vw,80px);
+  border:1px solid #ffffffe0;
+  border-radius:32px;
+  background:linear-gradient(118deg,#ffffffae,#ffffff38);
+  backdrop-filter:blur(22px);
+  box-shadow:0 24px 90px #29465c28,inset 0 1px 1px white;
+}
+.menu-pane::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:65%; aspect-ratio:1; right:-24%; top:-65%;
+  border:1px solid #ffffffa8;
+  border-radius:50%;
+  box-shadow:0 0 0 30px #ffffff26,0 0 0 31px #ffffff73,0 0 0 68px #ffffff1c,0 0 0 69px #ffffff6b;
+  pointer-events:none;
+}
+.menu-brand span { color:#4d6670 }
+#menuTitle { max-width:16ch; font-size:clamp(38px,5.3vw,68px); font-weight:600; line-height:1.04; letter-spacing:-.055em; margin:clamp(30px,5vw,64px) 0 32px }
+.mode-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px }
+.mode-card {
+  --ink:#277464; --tint:#d3ede3;
+  position:relative;
+  display:flex; flex-direction:column; align-items:flex-start; text-align:left;
+  padding:22px; gap:9px;
+  border:1px solid #ffffffe6; border-radius:21px;
+  background:linear-gradient(145deg,#ffffffbb,#ffffff69); backdrop-filter:blur(12px);
+  color:#1e333b; box-shadow:0 8px 22px #29465510;
+  cursor:pointer; transition:transform .18s,background-color .18s;
+}
+.mode-card[data-mode="MANUAL"] { --ink:#956323; --tint:#f4e4c8 }
+.mode-card[data-mode="AUTO"] { --ink:#426b8e; --tint:#dce7f2 }
+.mode-card::after { content:"↗"; position:absolute; right:20px; top:18px; color:var(--ink); font-size:19px }
+.mode-card:hover,.mode-card:focus-visible { transform:translateY(-3px); background-color:#ffffffa3 }
+.mode-icon { display:grid; place-items:center; width:54px; height:54px; margin-bottom:16px; border-radius:17px; color:var(--ink); background:var(--tint) }
+.mode-icon svg { width:29px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round }
+.mode-card strong { font-size:clamp(20px,2vw,26px); letter-spacing:-.035em }
+.mode-detail { color:#425a64; font-size:14px; line-height:1.5 }
+#controllerTitle { margin:0 0 18px; font-size:28px; letter-spacing:-.04em }
+#controllerTitle:focus { outline:0 }
+.manual-panel { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; padding:18px 28px; margin-bottom:16px }
+.manual-panel h2 { margin:0; font-size:17px }
+.direction-pad {
+  display:grid; grid-template-columns:repeat(3,46px); grid-template-rows:repeat(3,44px); gap:4px;
+  padding:8px; border:1px solid #d6e3e6; border-radius:20px; margin:0;
+  background:radial-gradient(circle at center,#cbdcdf 0 5px,#edf4f5 6px);
+}
+.direction-pad button {
+  display:grid; place-items:center; padding:0; border-radius:12px; border:1px solid #c7d7da;
+  background:linear-gradient(#fff,#eff5f6); box-shadow:0 2px 3px #213e4a15,inset 0 1px white;
+  touch-action:manipulation; cursor:pointer; color:#274957; font-size:25px; line-height:1;
+}
+.direction-pad button:enabled:hover { background:#fff3da; border-color:#c79b50 }
+.direction-pad button:enabled:active { transform:translateY(1px); background:#f6dfb1 }
+.direction-pad [data-key="ArrowUp"] { grid-area:1/2 }
+.direction-pad [data-key="ArrowLeft"] { grid-area:2/1 }
+.direction-pad [data-key="ArrowRight"] { grid-area:2/3 }
+.direction-pad [data-key="ArrowDown"] { grid-area:3/2 }
+@media(max-width:700px) {
+  .mode-cards { grid-template-columns:1fr; gap:10px }
+  .mode-card { display:grid; grid-template-columns:48px 1fr; align-items:center; gap:2px 14px; padding:16px 32px 16px 15px }
+  .mode-icon { grid-row:span 2; width:46px; height:46px; margin:0 }
+  .mode-card::after { top:15px; right:13px }
+  .menu-brand span { display:block; letter-spacing:.05em }
+  .manual-panel { justify-content:center; padding:18px }
+}
+@media(prefers-reduced-motion:reduce) {
+  .mode-card { transition:none }
+  .mode-card:hover,.mode-card:focus-visible { transform:none }
+}

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#e7f0f2">
+  <title>MotorLab V9 · Control del riel</title>
+  <link rel="stylesheet" href="motorlab.css">
+  <link rel="stylesheet" href="mode-menu.css">
+  <style>
+    [hidden] { display: none !important }
+    button:disabled, fieldset:disabled { opacity: .55 }
+    button:disabled { cursor: default }
+    :focus-visible { outline: 2px solid #bc8120; outline-offset: 3px }
+    #connect::before { content:""; display:inline-block; width:7px; height:7px; margin-right:7px; border-radius:50%; background:var(--amber) }
+    .controls fieldset { min-width:0; border:0; margin:0; padding:0 }
+    .controls legend { color:#71848c; font-size:10px; text-transform:uppercase; letter-spacing:.09em; padding:0 }
+    #loops fieldset { border-top:1px solid #e6edef; margin-top:15px; padding-top:10px }
+    #loops legend { padding-right:8px }
+    .gains { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px }
+    .gain { grid-template-columns:24px minmax(30px,1fr) 74px }
+    .rail-top { display:flex; align-items:end; flex-wrap:wrap; gap:12px 18px }
+    #targets .setpoint-box { grid-template-columns:minmax(40px,1fr) 72px }
+    .target-grid { display:grid; grid-template-columns:repeat(2,minmax(100px,1fr)); gap:12px }
+    .target-grid label { display:block; font-size:11px; color:#71848c; margin-bottom:6px }
+    .rail-tip { color:var(--muted); font-size:12px; line-height:1.55; margin:10px 0 0 }
+    .dial-center strong::after, #angleRef::after { content:"°" }
+    #heightRef::after { content:" mm"; font-size:.65em }
+    .live-pill { top:8px }
+    .vision { display:flex; align-items:center; flex-wrap:wrap; gap:18px 28px; padding:20px; margin-bottom:16px }
+    .vision h2 { margin:0; font-size:18px }
+    .vision .camera-copy { flex:1 1 260px }
+    .camera-stage { position:relative; width:min(100%,380px); overflow:hidden; border-radius:14px; background:#193440 }
+    .camera-stage video { display:block; width:100%; transform:scaleX(-1) }
+    .camera-stage canvas { position:absolute; inset:0; width:100%; height:100%; transform:scaleX(-1) }
+    .camera-stage::after { content:""; position:absolute; inset:42% 0; border-block:1px dashed #fff9; pointer-events:none }
+    #previewScale { display:block; margin-top:3px }
+    #gestureGoal { display:block; margin:10px 0; font-weight:600 }
+    .rail-preview { margin:0; text-align:center; font-size:12px; color:var(--muted) }
+    .rail-guide { position:relative; width:146px; height:110px; margin:20px auto; border-block:1px solid #b9cdd1;
+      background:linear-gradient(90deg,transparent 48%,#bfd0d4 48% 52%,transparent 52%) }
+    #railPose { position:absolute; left:50%; bottom:var(--position); width:74px; height:8px; border-radius:5px;
+      background:#347c72; transform:translate(-50%,50%) rotate(var(--tilt)) }
+    #railPose::before, #railPose::after { content:""; position:absolute; top:-4px; width:20px; height:4px; background:#235366; border-radius:4px }
+    #railPose::before { left:-7px } #railPose::after { right:-7px }
+    @media(max-width:720px){.gains{grid-template-columns:1fr}.rail-top{align-items:stretch}.rail-top .control-group{margin:0}.scope-head h2{min-width:0}}
+  </style>
+</head>
+<body>
+<main id="modeMenu" aria-labelledby="menuTitle">
+  <div class="menu-pane">
+    <div class="brand menu-brand"><div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15h3l2-7 4 11 2-7h5"/></svg></div><div><strong>MotorLab</strong><span>Riel de dos grados de libertad · V9</span></div></div>
+    <h1 id="menuTitle">Selecciona el modo de control</h1>
+    <div class="mode-cards">
+      <button class="mode-card" data-mode="GESTURE">
+        <span class="mode-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M10 18V9a2 2 0 0 1 4 0v7-11a2 2 0 0 1 4 0v11-9a2 2 0 0 1 4 0v10-6a2 2 0 0 1 4 0v9c0 6-3 9-8 9-3 0-5-1-7-4l-6-8c-1.5-2.5 1-4 3-2z"/></svg></span>
+        <strong>Con gestos</strong><span class="mode-detail">Mueve el riel con la palma de tu mano.</span>
+      </button>
+      <button class="mode-card" data-mode="MANUAL">
+        <span class="mode-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3v26M3 16h26M12 7l4-4 4 4M12 25l4 4 4-4M7 12l-4 4 4 4M25 12l4 4-4 4"/></svg></span>
+        <strong>Manual</strong><span class="mode-detail">Controla ambos ejes con las flechas.</span>
+      </button>
+      <button class="mode-card" data-mode="AUTO">
+        <span class="mode-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 7h8m6 0h8M5 16h14m6 0h2M5 25h3m6 0h13"/><circle cx="16" cy="7" r="3"/><circle cx="22" cy="16" r="3"/><circle cx="11" cy="25" r="3"/></svg></span>
+        <strong>Automático</strong><span class="mode-detail">Introduce las consignas de altura y ángulo.</span>
+      </button>
+    </div>
+  </div>
+</main>
+<main class="shell" id="controller" hidden>
+  <header class="topbar">
+    <div class="brand"><div class="logo"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15h3l2-7 4 11 2-7h5"/></svg></div><div><strong>MotorLab</strong><span>ESP32 Control Console · Riel 2 GDL</span></div></div>
+    <button class="ghost" id="backToMenu">‹ Menú</button>
+    <div class="connection" aria-label="Conexión"><button class="conn-btn active" id="connect">Conectar por USB</button></div>
+    <button class="danger" id="stop" title="Parar · Esc" disabled>■ PARO</button>
+  </header>
+  <h1 id="controllerTitle" tabindex="-1"></h1>
+  <section class="card manual-panel" id="manualPanel" aria-labelledby="padTitle" hidden>
+    <div><h2 id="padTitle">Flechas de control</h2>
+      <p class="rail-tip">Pulsa ↑ o ↓ para cambiar la altura en 10 mm y ← o → para cambiar la inclinación en 1°. También puedes usar el teclado.</p></div>
+    <fieldset class="direction-pad" id="directionPad" aria-label="Mover el riel" disabled>
+      <button data-key="ArrowUp" aria-label="Subir 10 mm">↑</button>
+      <button data-key="ArrowLeft" aria-label="Inclinar a la izquierda 1 grado">←</button>
+      <button data-key="ArrowRight" aria-label="Inclinar a la derecha 1 grado">→</button>
+      <button data-key="ArrowDown" aria-label="Bajar 10 mm">↓</button>
+    </fieldset>
+  </section>
+  <section class="card vision" id="visionPanel" aria-labelledby="visionTitle">
+    <div class="camera-copy"><h2 id="visionTitle">Control por palma · V9</h2>
+      <p class="rail-tip">Muestra la palma de frente. Mantén el centro de la palma por encima de la franja para sumar 10 mm repetidamente o por debajo para restarlos. Dentro de la franja se conserva la altura. Inclina los dedos para girar hasta 20° por lado.</p>
+      <output id="gestureGoal">Consigna de la mano · —</output>
+      <button id="cameraToggle" class="ghost">Activar cámara</button>
+      <p id="cameraStatus" class="rail-tip" role="status">Puedes probar los gestos antes de conectar el riel.</p>
+    </div>
+    <div class="camera-stage" id="cameraStage" hidden>
+      <video id="handVideo" muted autoplay playsinline></video>
+      <canvas id="handOverlay" aria-label="Puntos de la mano sobre la imagen en espejo"></canvas>
+    </div>
+    <figure class="rail-preview" id="railPreview" hidden>
+      <div class="rail-guide" aria-hidden="true"><span id="railPose" hidden></span></div>
+      <figcaption>Vista previa del riel <span id="previewScale"></span></figcaption>
+    </figure>
+  </section>
+  <section class="layout">
+    <article class="card measurements">
+      <div class="card-title"><h2>Mediciones</h2><span class="tag">20 Hz</span></div>
+      <div class="speed-readout"><div class="metric-label">Altura del riel</div><span class="metric-value" id="height">—</span><span class="metric-unit">mm</span></div>
+      <div class="speed-bar" aria-hidden="true"><div class="speed-fill" id="heightFill" style="width:0%"></div></div>
+      <div class="scale"><span id="heightScaleMin">−250</span><span id="heightScaleMid">0</span><span id="heightScaleMax">250 mm</span></div>
+      <div class="angle-dial" aria-label="Posición angular en grados"><div id="dialTicks" aria-hidden="true"></div><span class="dial-zero-label" aria-hidden="true">0</span><div class="dial-center"><strong id="angle">—</strong><small>POSICIÓN ANGULAR</small></div></div>
+      <div class="card-grid">
+        <div class="mini"><label>Altura objetivo</label><strong id="heightRef">—</strong></div>
+        <div class="mini"><label>Ángulo objetivo</label><strong id="angleRef">—</strong></div>
+        <div class="mini"><label>ESC izquierdo</label><strong id="left">—</strong><small id="leftUs">—</small></div>
+        <div class="mini"><label>ESC derecho</label><strong id="right">—</strong><small id="rightUs">—</small></div>
+      </div>
+    </article>
+    <article class="card scope">
+      <div class="scope-head"><h2>Respuesta temporal</h2><div id="legend" class="legend" aria-label="Curvas visibles"></div></div>
+      <div class="canvas-wrap"><canvas id="scope" aria-label="Últimos 15 segundos de altura y rotación medidas con sus consignas"></canvas><div class="live-pill" id="livePill">SIN TELEMETRÍA</div></div>
+    </article>
+    <aside class="side">
+      <section class="card action-card"><h3>Conexión</h3>
+        <div class="status-line"><div class="status-icon" aria-hidden="true">⌁</div><div><strong>ESP32 por USB</strong><small id="link">Desconectado</small></div></div>
+        <div class="separator"></div>
+        <p class="rail-tip" id="powerState">—</p>
+        <p class="rail-tip">Al armar, ambos ESC suben de 1000 a 1450 µs en 1 s. En manual esperan la flecha ↑; en automático continúan hacia la consigna con PID. Después, el PWM cambia hasta 200 µs/s. Paro detiene inmediatamente.</p>
+        <p class="rail-tip">La posición al armar se toma como 0°. Lectura angular directa <strong id="rawAngle">—</strong>.</p>
+      </section>
+      <section class="card action-card"><h3>Registro de pruebas</h3>
+        <label for="trialLabel" class="rail-tip">Tramo de la prueba</label>
+        <select id="trialLabel" class="number-input">
+          <option value="BASELINE">Referencia estable</option>
+          <option value="HEIGHT">Cambio de altura</option>
+          <option value="ANGLE">Cambio de inclinación</option>
+          <option value="RECOVERY">Regreso a referencia</option>
+        </select>
+        <div class="data-actions"><button id="recordCapture" class="ghost">Iniciar registro</button>
+          <button id="exportCapture" class="ghost" disabled>Descargar CSV</button></div>
+        <p id="captureStatus" class="rail-tip" role="status">Sin muestras registradas.</p>
+      </section>
+      <section class="card action-card"><h3>Eventos</h3><div class="event-log" role="status" id="notice">Coloca el riel abajo e inmóvil para tomar el cero al encender.</div></section>
+    </aside>
+    <article class="card controls">
+      <div class="rail-top">
+        <fieldset id="targets" hidden><legend>Consignas automáticas</legend><div class="target-grid">
+          <div><label for="h">Altura (mm)</label><div class="setpoint-box"><input type="range" data-mirror="h" aria-label="Deslizar altura" min="-250" max="250" value="0"><input class="number-input" id="h" type="number" step="any" value="0" required></div></div>
+          <div><label for="a">Rotación desde el armado (°)</label><div class="setpoint-box"><input type="range" data-mirror="a" aria-label="Deslizar rotación" min="-90" max="90" value="0"><input class="number-input" id="a" type="number" step="any" value="0" required></div></div>
+        </div></fieldset>
+        <div class="control-group"><label>Acciones</label><div class="apply-wrap"><button class="primary" id="start" disabled>Armar manual</button><button class="ghost" id="apply" disabled>Aplicar consignas</button></div></div>
+      </div>
+      <div id="loops"></div>
+    </article>
+  </section>
+  <footer class="footer"><span>Riel de dos grados de libertad · USB 115200</span><span><span class="kbd">Esc</span> paro de emergencia</span></footer>
+</main>
+<script src="capture.js"></script>
+<script src="hand-control.js"></script>
+<script src="dashboard.js"></script>
+<script src="dashboard-view.js"></script>
+</body>
+</html>
